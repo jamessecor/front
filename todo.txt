@@ -1,0 +1,5 @@
+TODO:
+- processing on newartwork // Finished?
+- Fix query to insert new artwork (make sure names link up: there will be no username in the end)
+- Create password page
+- Add change contact capability

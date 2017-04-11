@@ -1,0 +1,150 @@
+html, body, div, span, h1, h2, h3, h4, h5, h6, footer, header {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+
+* {
+	font-family:"Courier New", Courier, monospace;
+}
+
+.headings {
+	position:relative;
+	font-size:1.25em;
+	font-weight:bold;
+	text-align:center;
+	margin-top:2em;
+	color: rgba(100,100,200,.9);
+}
+
+a {
+	text-decoration:none;
+	color:#339;
+}
+
+a:hover {
+	background-color: #339;
+	color: #aef;
+}
+
+/* navbar */
+ul {
+	position:fixed;
+	list-style-type:none;
+	margin:0;
+	padding: 3.4em 0 0 0;
+	width:100%;
+	height:100%;
+	overflow:auto;
+}
+
+ul li {
+	float:left;
+}
+
+ul li a {
+	text-align:center;
+	display: block;
+	color:#333;
+	padding: 8px 16px;
+	text-decoration:none;
+	font-weight:bold;
+}
+
+ul li a.active {
+	background-color: #66d;
+	color: #caa;
+}
+
+ul li a:hover:not(.active) {
+	background-color: #337;
+	color: #cce;
+}
+
+body {
+	/*background-color:#99c;*/
+	background-color:#eee;
+	width:100%;
+	height:100%;
+	font-family:"Courier New", Courier, monospace;
+}
+
+#right_col {
+	float:right;	
+		
+	margin-top:5em;	
+	width: 100%;
+	overflow:auto;
+}
+
+.center {
+	position:relative;
+	width:50%;
+	margin:.2em auto auto auto;
+	padding:3em;
+	border: .4em solid rgba(100,100,200,.9);
+	border-radius:.5em;
+	background-color: #ccc;
+	color: rgba(100,100,200,.9);
+}
+
+input, select, button { 
+	background-color: #ccc;
+	color: rgba(100,100,200,.9);
+	border:.15em solid #aaa;
+	border-radius:.5em;
+	font-weight:bold;
+}
+
+input[type="submit"]:hover, button:hover {
+	background-color: #8f8;
+	color: #22a;
+}
+
+th {
+	background-color: #888;
+	padding: .1em 1em .1em 1em;
+	color: #ccf;
+}
+
+td {
+	letter-spacing:.1em;
+	font-weight:bold;
+}
+
+
+
+#top {
+	position: fixed;
+	z-index:2;
+	vertical-align:middle;
+	width:100%;
+	background-color: #ccc;
+	text-align:center;
+	font-size: 3em;
+	padding: 1em, 0, 1em, 0;
+	color: rgba(100,100,150,.9);
+	top: 0;
+}
+
+#logo {
+	position: fixed;
+	height: 8%;
+	right: 1em;
+	bottom: 1em;
+	z-index:2;
+}
+
+.errorText {
+	font-size:.75em;
+	color:#c55;
+}
+
+footer {
+	position: fixed;
+	bottom:1em;
+	right:6em;
+	color:#66d;
+}
