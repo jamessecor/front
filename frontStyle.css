@@ -10,6 +10,10 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, footer, header {
 	font-family:"Courier New", Courier, monospace;
 }
 
+p {
+	text-align:center;
+}
+
 .headings {
 	position:relative;
 	font-size:1.25em;
@@ -99,7 +103,7 @@ input, select, button {
 }
 
 input[type="submit"]:hover, button:hover {
-	background-color: #8f8;
+	background-color: #aad;
 	color: #22a;
 }
 
@@ -138,7 +142,7 @@ td {
 }
 
 .errorText {
-	font-size:.75em;
+	font-size:.9em;
 	color:#c55;
 }
 

@@ -38,6 +38,9 @@ if(isset($_POST['changepasswd'])) {
 		$newpasswd1=addslashes($_POST['newpasswd1']);	
 		if(strlen(trim($newpasswd1))==0)
 			$errors['newpasswd1']="Password cannot be blank";
+		$pattern = "/^[a-zA-Z0-9*&^%$#@!]{4,25}$/";
+		if(!preg_match($pattern, $newpasswd1))
+			$errors['newpasswd1'] = "Passwords must be 4-25 characters.";
 	} else {
 		$errors['newpasswd1']="This field is required.";
 	}	
@@ -72,37 +75,35 @@ if(isset($_POST['changepasswd'])) {
 		$query1="SELECT password FROM users WHERE username = '$username';";
 		$result1 = mysqli_query($db, $query1);
 		if(!$result1) {
-			$errors['passwd1']="Your password doesn't match our current records. Contact administrator.";
+			$errors['passwd1']="Error in SQL Statement";
 		} else {
-			$newpasswd_hashed=password_hash($passwd2, PASSWORD_DEFAULT);
-			$query2 = "ALTER TABLE users SET password = '$newpasswd_hashed';";
-			$result2 = mysqli_query($db, $query2);
-			
-			if(!$result2)
-				$errors['username'] = "Error in setting new password." . mysqli_error($db);
-			else {
-				if($row) {
-					if(password_verify($passwd, $row['password'])) {
-						//header('Location: login.php');
-						$_SESSION['username'] = $username;					
-					} else {
-						$errors['passwd'] = "Your login credentials could not be verified. Please check username and re-enter password";
-					}
+			// Check current password
+			$row = mysqli_fetch_assoc($result1);
+			if($row) {
+				if(!password_verify($currentpasswd, $row['password'])) {
+					$errors['currentpasswd'] = "Your Current Password Does Not Match Our Records.";
 				} else {
-					$errors['passwd'] = "Username does not match. Please create an account.";
+					$newpasswd_hashed=password_hash($newpasswd2, PASSWORD_DEFAULT);
+					$query2 = "UPDATE users SET password = '$newpasswd_hashed' WHERE username = '$username';";
+					$result2 = mysqli_query($db, $query2);
+					
+					if(!$result2) {
+						$errors['username'] = "Error in setting new password." . mysqli_error($db);
+					}
 				}
 			}
+			
 		}
-		$validation=true;
+		if(count($errors)==0)
+			$validation=true;
 	}
 }
 
 if($validation) {
 		// Successful Password Set-up
-		header('Location: login.php');
 		print "<div class='center'>";
-		print "<p>Your password has been changed. You may now use that password to log in as $_SESSION[username].";
-		print "<br><a href='./logout.php'>Click here to log out.</a></p>";
+		print "<p>Your password has been changed.<br>You may now use that password to log in as $username.</p>";
+		print "<p><a href='./login.php'>Click here to log in.</a></p>";
 		print "</div>";
 
 } else {
