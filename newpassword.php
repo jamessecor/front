@@ -84,7 +84,7 @@ if(isset($_POST['changepasswd'])) {
 					$errors['currentpasswd'] = "Your Current Password Does Not Match Our Records.";
 				} else {
 					$newpasswd_hashed=password_hash($newpasswd2, PASSWORD_DEFAULT);
-					$query2 = "UPDATE users SET password = '$newpasswd_hashed' WHERE username = '$username';";
+					$query2 = "UPDATE people SET passwordHash = '$newpasswd_hashed' WHERE CONCAT(firstname,' ',lastname) = '$username';";
 					$result2 = mysqli_query($db, $query2);
 					
 					if(!$result2) {
@@ -121,8 +121,8 @@ if($validation) {
 				// Get artists to populate username drop-down
 				
 				// TODO: Select members from correct db as below
-				//$query = "SELECT CONCAT(firstname, ' ', lastname) FROM artists ORDER BY firstname;";
-				$query = "SELECT username FROM users ORDER BY username;";
+				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY firstname;";
+				//$query = "SELECT  FROM users ORDER BY username;";
 				$result = mysqli_query($db, $query);
 				if(!$result) {
 					$errors['username'] = "Error in SQL statement." . mysqli_error($db);

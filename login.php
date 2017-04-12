@@ -40,7 +40,7 @@ if(isset($_POST['login'])) {
 		// enter info and close
 		
 		// TODO: Change query to following
-		// "SELECT username, password FROM artists WHERE username = '$username';"
+		// $query = "SELECT CONCAT(firstname,' ',lastname) AS 'username', passwordHash FROM people WHERE username = '$username';"
 		$query = "SELECT username, password FROM users WHERE username = '$username';";
 		
 		$result = mysqli_query($db, $query);
@@ -86,7 +86,7 @@ if(isLoggedIn()) {
 				
 				// TODO: Select members from correct db as below
 				//$query = "SELECT CONCAT(firstname, ' ', lastname) FROM artists ORDER BY firstname;";
-				$query = "SELECT username FROM users ORDER BY username;";
+				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY username;";
 				$result = mysqli_query($db, $query);
 				if(!$result) {
 					$errors['username'] = "Error in SQL statement." . mysqli_error($db);
