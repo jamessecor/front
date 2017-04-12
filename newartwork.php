@@ -1,5 +1,6 @@
 <?php
 include "frontHeader.php";
+include "checkAdmin.php";
 require "../includes/frontConfig.php";
 require "../includes/frontConnect.php";
 ?>
@@ -79,9 +80,13 @@ if(isLoggedIn()) {
 	} 
 
 	if($validInputs) {
-		// TODO: subquery is something like: SELECT artistID FROM artists WHERE CONCAT(firstname,' ',lastname) = '$name'));";
-		$query = "INSERT INTO artwork (artworkID, title, yearMade, medium, price, artistID) VALUES (NULL, '$title', '$year', '$media', $price, (SELECT ID FROM users WHERE username = '$name'));";
+		// Query to insert data
+		$query = "INSERT INTO artwork (artistID, artworkID, title, yearMade, medium, price) 
+				  VALUES ((SELECT ID FROM users WHERE username = '$name'), NULL, '$title', '$year', '$media', $price);";
+				  
+		// Send query to database
 		$result = mysqli_query($db, $query);
+		
 		if(!$result)
 			echo "<div>Data Entry Error. <a href=''>Please try again.</a></div>";
 		else
@@ -94,13 +99,12 @@ if(isLoggedIn()) {
 		<table>
 			<tr>
 				<td>Name</td>
-				<td><select name='name' value="<?php echo isset($_POST['name']) ? $_POST['name'] : '';  ?>">
+				<?php 
+				if(adminIsUser()) { ?>
+					<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
+					<option value=''>Choose Name</option>
 					<?php
-					// Get artists to populate username drop-down
-					print "<option value=''>Choose Name</option>";
-					// TODO: Select members from correct db as below
-					//$query = "SELECT CONCAT(firstname, ' ', lastname) FROM Artists ORDER BY firstname;";
-					$query = "SELECT username FROM users ORDER BY username;";
+					$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY username;";
 					$result = mysqli_query($db, $query);
 					if(!$result) {
 						$errors['username'] = "Error in SQL statement." . mysqli_error($db);
@@ -119,7 +123,12 @@ if(isLoggedIn()) {
 					}
 					?>
 				</select></td>
-				<td><small class='errorText'><?php echo array_key_exists('name',$errors) ? $errors['name'] : ''; ?></small></td>
+				<td><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
+				<?php
+				} else {
+					print "<td>$username</td>";
+				}?>
+				
 			</tr>
 			<tr>
 				<td>Title</td>

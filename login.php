@@ -33,15 +33,14 @@ if(isset($_POST['login'])) {
 	// NO ERRORS
 	if(count($errors)==0) {
 		// Database setup
-		// TODO: Change config/connect
 		require("../includes/frontConfig.php");
 		require("../includes/frontConnect.php");
 		
 		// enter info and close
 		
 		// TODO: Change query to following
-		// $query = "SELECT CONCAT(firstname,' ',lastname) AS 'username', passwordHash FROM people WHERE username = '$username';"
-		$query = "SELECT username, password FROM users WHERE username = '$username';";
+		$query = "SELECT CONCAT(firstname,' ',lastname) AS 'username', passwdHash FROM people WHERE CONCAT(firstname, ' ',lastname) = '$username';";
+		//$query = "SELECT username, password FROM users WHERE username = '$username';";
 		
 		$result = mysqli_query($db, $query);
 		
@@ -50,7 +49,7 @@ if(isset($_POST['login'])) {
 		else {
 			$row = mysqli_fetch_assoc($result);
 			if($row) {
-				if(password_verify($passwd, $row['password'])) {
+				if(password_verify($passwd, $row['passwdHash'])) {
 					header('Location: login.php');
 					$_SESSION['username'] = $username;					
 				} else {
@@ -77,7 +76,7 @@ if(isLoggedIn()) {
 <form class="center" id="login" method="post" action="">
 	<table>
 		<tr>
-			<td>Username</td>
+			<td>Name</td>
 			<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
 				<option value=''>Choose Name</option>
 				<?php

@@ -37,7 +37,6 @@ if (isset ($_POST['submit']))
 	}		
    
 	if (count($errors) > 0) {
-		print "<small class='errorText'>There are errors. Please make corrections and try again</small>";
 		$validInputs = false;
 	} else { 
 		// HASH the password
@@ -54,7 +53,7 @@ if (isset ($_POST['submit']))
 			echo "INSERT error:" . mysqli_error($db);
 	
 	
-		echo "<p class='center'>Thank you for registering. Please <a href=\"login.php?username=$username\">login.</a></p>";
+		echo "<p class='center'>Password set for $username.</p>";
 		   
 	}
     

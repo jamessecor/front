@@ -14,7 +14,7 @@
 		<?php 
 		session_start();
 		include "checkLogin.php";
-		$admin = 'James Secor';
+		include "checkAdmin.php";
 		if(isLoggedIn()) { 
 		?>
 		
@@ -30,21 +30,19 @@
 		<li>
 			<a <?php if(strpos($_SERVER['PHP_SELF'], '/contacts.php')) echo "class='active'";?> href="./contacts.php">Contacts</a>
 		</li>
-		
-		
-		
-		<li>
-			<a <?php if(strpos($_SERVER['PHP_SELF'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
-		</li>
-		
-		<?php 
-			if($_SESSION['username'] == $admin) {
+		<?php // Only admin sees this link
+			if(adminIsUser()) {
 				?>
 				<li>
 					<a <?php if(strpos($_SERVER['PHP_SELF'], '/register.php')) echo "class='active'";?> href="./register.php">Set Member Password</a>
 				</li>
 				<?php
-			}
+			} ?>		
+		<li>
+			<a <?php if(strpos($_SERVER['PHP_SELF'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
+		</li>
+		
+		<?php
 		} else { 
 		?>
 		
