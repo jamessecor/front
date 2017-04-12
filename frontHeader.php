@@ -10,10 +10,11 @@
 
 <header id="top">The Front</header>
 <img id='logo' src="./logo.gif" alt="">
-<ul>
+	<ul>
 		<?php 
 		session_start();
 		include "checkLogin.php";
+		$admin = 'James Secor';
 		if(isLoggedIn()) { 
 		?>
 		
@@ -37,6 +38,13 @@
 		</li>
 		
 		<?php 
+			if($_SESSION['username'] == $admin) {
+				?>
+				<li>
+					<a <?php if(strpos($_SERVER['PHP_SELF'], '/register.php')) echo "class='active'";?> href="./register.php">Set Member Password</a>
+				</li>
+				<?php
+			}
 		} else { 
 		?>
 		
