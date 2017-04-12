@@ -1,6 +1,5 @@
 <?php
 include "frontHeader.php";
-include "checkAdmin.php";
 require "../includes/frontConfig.php";
 require "../includes/frontConnect.php";
 ?>
@@ -10,7 +9,6 @@ require "../includes/frontConnect.php";
 <div class='center'>
 <?php
 if(isLoggedIn()) {
-
 	$errors = array();
 	$validInputs = false;
 
@@ -93,7 +91,6 @@ if(isLoggedIn()) {
 			print "<div>Your artwork has been submitted.</div>";
 	} else {
 	?>
-
 	<form id="login" method="post" action="" autocomplete='off'>
 		<p class='small'>Please Double Check Before Submitting</p>
 		<table>
@@ -126,7 +123,7 @@ if(isLoggedIn()) {
 				<td><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
 				<?php
 				} else {
-					print "<td>$username</td>";
+					print "<td>$_SESSION[username]</td>";
 				}?>
 				
 			</tr>
