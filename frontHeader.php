@@ -14,7 +14,6 @@
 		<?php 
 		session_start();
 		include "checkLogin.php";
-		include "checkAdmin.php";
 		if(isLoggedIn()) { 
 		?>
 		
