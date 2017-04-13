@@ -12,7 +12,7 @@ if(isLoggedIn()) {
 	$errors = array();
 	$validInputs = false;
 
-	$name = '';
+	$username = '';
 	$title = '';
 	$year = 0;
 	$media = '';
@@ -21,16 +21,18 @@ if(isLoggedIn()) {
 	if(isset($_POST['newart'])) {
 		// TODO: finish processing
 		
+		// Set username to artist's name
+		if(!adminIsUser()) $_POST['username'] = $_SESSION['username'];
+		
 		// Name	
-		if(!empty($_POST['name'])) {
-			$name = trim($_POST['name']);
-			if(strlen($name) == 0)
-				$errors['name'] = "Please Enter a Name";		
+		if(!empty($_POST['username'])) {
+			$username = trim($_POST['username']);
+			if(strlen($username) == 0)
+				$errors['username'] = "Please Enter a Name";		
 		} else {
-			$errors['name'] = "Please Enter a Name";
+			$errors['username'] = "Please Enter a Name";
 		}
 
-		
 		// Title
 		if(!empty($_POST['title'])) {
 			$title = trim($_POST['title']);
@@ -40,7 +42,6 @@ if(isLoggedIn()) {
 			$errors['title'] = "Please Enter a Title.";
 		}
 		
-		
 		// Date complete (Year)	
 		if(!empty($_POST['year'])) {
 			$year = trim($_POST['year']);
@@ -49,8 +50,6 @@ if(isLoggedIn()) {
 		} else {
 			$errors['year'] = "Please Enter a Year";
 		}
-
-
 		
 		// Medium/Media
 		if(!empty($_POST['media'])) {
@@ -74,19 +73,33 @@ if(isLoggedIn()) {
 		// Check for errors on form
 		if(count($errors) == 0) {
 			$validInputs = true;
+		} else {
+			print "errors";
 		}
 	} 
 
 	if($validInputs) {
+		// Query to select personID
+		$selectArtistID = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$username';";
+		// Send query to database
+		$result = mysqli_query($db, $selectArtistID);
+		if(!$result)	// This should not happen
+			die("Artist not found");
+		else {
+			$data = mysqli_fetch_assoc($result);
+			$artistID = $data['personID'];
+		}
+		
 		// Query to insert data
-		$query = "INSERT INTO artwork (artistID, artworkID, title, yearMade, medium, price) 
-				  VALUES ((SELECT ID FROM users WHERE username = '$name'), NULL, '$title', '$year', '$media', $price);";
+		// TODO: buyerID should not be hard-coded to 1
+		$query = "INSERT INTO artwork (artistID, buyerID, artworkID, title, yearMade, medium, price) 
+				  VALUES ($artistID, 1, NULL, '$title', '$year', '$media', $price);";
 				  
 		// Send query to database
 		$result = mysqli_query($db, $query);
 		
 		if(!$result)
-			echo "<div>Data Entry Error. <a href=''>Please try again.</a></div>";
+			die("<div>Data Entry Error. <a href=''>Please try again.</a></div>");
 		else
 			print "<div>Your artwork has been submitted.</div>";
 	} else {
