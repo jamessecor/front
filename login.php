@@ -64,7 +64,7 @@ if(isset($_POST['login'])) {
 
 if(isLoggedIn()) {
 	// Successful Login
-	//header('Location: login.php');
+	header('Location: memberinfo.php');
 	print "<div class='center'>";
 	print "<p>You are currently logged in as $_SESSION[username].";
 	print "<br><a href='./logout.php'>Click here to log out.</a></p>";

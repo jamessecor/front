@@ -10,6 +10,7 @@
 
 <header id="top">The Front</header>
 <img id='logo' src="./logo.gif" alt="">
+<div id='nav'>
 	<ul>
 		<?php 
 		session_start();
@@ -52,3 +53,4 @@
 		<?php } ?>
 		
 	</ul>
+</div>

@@ -93,7 +93,7 @@ if(isLoggedIn()) {
 		// Query to insert data
 		// TODO: buyerID should not be hard-coded to 1
 		$query = "INSERT INTO artwork (artistID, buyerID, artworkID, title, yearMade, medium, price) 
-				  VALUES ($artistID, 1, NULL, '$title', '$year', '$media', $price);";
+				  VALUES ($artistID, NULL, NULL, '$title', '$year', '$media', $price);";
 				  
 		// Send query to database
 		$result = mysqli_query($db, $query);
@@ -105,7 +105,6 @@ if(isLoggedIn()) {
 	} else {
 	?>
 	<form id="login" method="post" action="" autocomplete='off'>
-		<p class='small'>Please Double Check Before Submitting</p>
 		<table>
 			<tr>
 				<td>Name</td>
@@ -177,6 +176,9 @@ if(isLoggedIn()) {
 				<td>Price</td>
 				<td><input type='number' name='price' value="<?php echo isset($_POST['price']) ? $_POST['price'] : '';  ?>"></td>
 				<td><small class='errorText'><?php echo array_key_exists('price',$errors) ? $errors['price'] : ''; ?></small></td>
+			</tr>
+			<tr>
+				<td class='errorText' colspan=2>Please Double Check Before Submitting</td>
 			</tr>
 			<tr>
 				<td></td><td><input type="submit" name="newart" value="Submit Artwork" formnovalidate></td>

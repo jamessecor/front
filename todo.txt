@@ -1,8 +1,7 @@
 TODO:
-- processing on newartwork // Finished?
-- Fix query to insert new artwork (make sure names link up: there will be no username in the end)
 - Add change contact capability
 - Make update password and register users pages that only admin can see
 - register user should just need to redo password. Other info can be entered manually
 - username will have to be first . last
-- fix newartwork
+- add image upload capability to newartwork
+- create a make labels button for the admin.
