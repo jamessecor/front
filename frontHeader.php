@@ -34,6 +34,9 @@
 			if(adminIsUser()) {
 				?>
 				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/createLabels.php')) echo "class='active'";?> href="./createLabels.php">Labels</a>
+				</li>
+				<li>
 					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/register.php')) echo "class='active'";?> href="./register.php">Set Member Password</a>
 				</li>
 				<?php

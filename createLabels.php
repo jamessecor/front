@@ -19,7 +19,8 @@ function createLabels($showNumber) {
 		die("Data could not be reached.");
 	else {
 		// Create or open file
-		$fileptr = fopen("labels.txt", "w") or die("Unable to open file.");
+		$filename = "labels" . $showNumber . ".txt";
+		$fileptr = fopen($filename, "w") or die("Unable to open file.");
 		
 		// Get number of rows for loop
 		$numrows = mysqli_num_rows($works);
@@ -33,6 +34,8 @@ function createLabels($showNumber) {
 			}
 		}
 		fclose($fileptr);
+		print "<h1>Labels created and saved as \"$filename\". ";
+		print "<a href='./$filename' target='_blank'>Preview Labels</a></h1>";
 	}
 }
 
@@ -51,7 +54,6 @@ if(adminIsUser()) {
 		
 		if(count($errors) == 0) {
 			createLabels($show);
-			print "Labels created and saved as \"labels.doc\"";
 		}
 	} else {
 ?>
