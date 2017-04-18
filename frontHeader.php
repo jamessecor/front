@@ -19,27 +19,30 @@
 		?>
 		
 		<li>
-			<a <?php if(strpos($_SERVER['PHP_SELF'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Member Info</a>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Member Info</a>
 		</li>
 		<li>
-			<a <?php if(strpos($_SERVER['PHP_SELF'], '/artwork.php')) echo "class='active'";?> href="./artwork.php">Artwork</a>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/artwork.php')) echo "class='active'";?> href="./artwork.php">Artwork</a>
 		</li>
 		<li>
-			<a <?php if(strpos($_SERVER['PHP_SELF'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
 		</li>
 		<li>
-			<a <?php if(strpos($_SERVER['PHP_SELF'], '/contacts.php')) echo "class='active'";?> href="./contacts.php">Contacts</a>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/contacts.php')) echo "class='active'";?> href="./contacts.php">Member Contacts</a>
 		</li>
 		<?php // Only admin sees this link
 			if(adminIsUser()) {
 				?>
 				<li>
-					<a <?php if(strpos($_SERVER['PHP_SELF'], '/register.php')) echo "class='active'";?> href="./register.php">Set Member Password</a>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/register.php')) echo "class='active'";?> href="./register.php">Set Member Password</a>
 				</li>
 				<?php
-			} ?>		
+			} ?>	
 		<li>
-			<a <?php if(strpos($_SERVER['PHP_SELF'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
+		</li>
+		<li>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
 		</li>
 		
 		<?php
@@ -47,7 +50,7 @@
 		?>
 		
 		<li>
-			<a <?php if(strpos($_SERVER['PHP_SELF'], '/login.php')) echo "class='active'";?> href="./login.php">Log In</a>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/login.php')) echo "class='active'";?> href="./login.php">Log In</a>
 		</li>
 		
 		<?php } ?>

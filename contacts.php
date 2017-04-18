@@ -17,27 +17,33 @@ if(isLoggedIn()) {
 				ORDER BY p.firstname;";
 	TODO: use this query			
 				*/
-	$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'Name', email FROM contacts ORDER BY firstname;";
+	$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'Name', phone, email, website FROM people ORDER BY firstname;";
 	$result = mysqli_query($db, $query);
 	if(!$result)
 		echo "<h2>Database Error. Please try again later.</h2>";
 	else {
 		
 		print "<table id='membercontacts'>";
-		print "<tr><th>Name</th><th>Phone</th><th>Email</th></tr>";
+		print "<tr><th>Name (link to website)</th><th>Phone</th><th>Email</th></tr>";
 		$numrows = mysqli_num_rows($result);
 		for($i = 0; $i < $numrows; $i++) {
 			$row = mysqli_fetch_assoc($result);
-			//$memberName = $row['firstname'] . $row['lastname'];
-			// The following works because of the {AS 'Name'} in the query
-			$memberName = $row['Name'];
-			//$phone = $row['phone'];
-			$email = $row['email'];
-			// TODO: add something like the following
-			//if(!$sold)
-				//$sold = 'n/a';
-			//print "<tr><td>$memberName</td><td>$phone</td><td>$email</td></tr>";
-			print "<tr><td>$memberName</td><td>$email</td></tr>";
+			if($row) {				
+				$memberName = $row['Name'];
+				$phone = $row['phone'];
+				$email = $row['email'];
+				$website = $row['website'];
+				if($phone == NULL)
+					$phone = 'unknown';
+				if($email == NULL)
+					$email = 'unknown';
+				
+				// Print row with or without link to website
+				if($website == NULL)
+					print "<tr><td>$memberName</td><td>$phone</td><td>$email</td></tr>";
+				else 
+					print "<tr><td><a href='http://$website' target='_blank'>$memberName</a></td><td>$phone</td><td>$email</td></tr>";
+			}
 		}
 		print "</table>";
 		

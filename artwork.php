@@ -1,5 +1,7 @@
 <?php
 include "frontHeader.php";
+require "../includes/frontConfig.php";
+require "../includes/frontConnect.php";
 ?>
 
 <div id="right_col">
@@ -9,42 +11,46 @@ include "frontHeader.php";
 <?php 
 // TODO: take away "!"
 if(isLoggedIn()) {
-	// Get member's artwork info from database
-	/*
-	$query = "SELECT a.title, a.price, CONCAT(p.firstname, ' ', p.lastname)
-			  FROM Artwork a 
-			  JOIN Buyers b ON a.buyerID = b.buyerID
-			  JOIN People p ON b.buyerID = p.personID;";
-	$result = mysqli_query($db, $query);
+	// Get artistID
+	$artist = $_SESSION['username'];
+	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
+	$person = mysqli_query($db, $query);
 	
-	if(!$result) {
-		print "<h2>Database Error. Please try again later.</h2>";
+	if($person) {
+		$id = mysqli_fetch_array($person);
 		
-	} else {
-		// TODO: fill in with loop
-	}
-	*/
-	
-	$artwork = array(
-		array('title',55.2, 'Peter'),
-		array('othertitle',150,FALSE),
-		array('yet', 250,'Glen')
-	);
-	$numrows = 3;
-	// $numrows = mysqli_num_rows($result);
-	
-	print "<table id='memberart'>";
+		// Get member's artwork info from database
+		$query = "SELECT a.title, a.price, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
+				  FROM artwork a 
+				  LEFT OUTER JOIN people p ON a.buyerID = p.personID
+				  WHERE a.artistID = ${id[0]};";
+		$result = mysqli_query($db, $query);
+		
+		if(!$result) {
+			print "<h2>Database Error. Please try again later.</h2>";
+		} else {
+			$numrows = mysqli_num_rows($result);
+			
+			print "<table id='memberart'>";
 
-		print "<tr><th>Title</th><th>Price</th><th>Sold To</th></tr>";
-		for($i = 0; $i < $numrows; $i++) {
-			$title = $artwork[$i][0];
-			$price = $artwork[$i][1];
-			$sold = $artwork[$i][2];
-			if(!$sold)
-				$sold = 'n/a';
-			print "<tr><td>$title</td><td>$price</td><td>$sold</td></tr>";
+				print "<tr><th>Title</th><th>Price</th><th>Sold To</th></tr>";
+				for($i = 0; $i < $numrows; $i++) {
+					$row = mysqli_fetch_assoc($result);
+					if($row) {
+						$title = $row['title'];
+						$price = $row['price'];
+						$buyer = $row['buyer'];
+						if(!$buyer)
+							$buyer = 'n/a';
+						print "<tr><td>$title</td><td>$$price</td><td>$buyer</td></tr>";
+					}
+				}
+			print "</table>";
 		}
-	print "</table>";
+	}
+	
+	
+	
 	
 	// TODO: get from db
 	$totalSales = 50;

@@ -73,8 +73,6 @@ if(isLoggedIn()) {
 		// Check for errors on form
 		if(count($errors) == 0) {
 			$validInputs = true;
-		} else {
-			print "errors";
 		}
 	} 
 
@@ -102,6 +100,7 @@ if(isLoggedIn()) {
 			die("<div>Data Entry Error. <a href=''>Please try again.</a></div>");
 		else
 			print "<div>Your artwork has been submitted.</div>";
+		print "<a href='./artwork.php'>Back to Artwork</a>";
 	} else {
 	?>
 	<form id="login" method="post" action="" autocomplete='off'>
