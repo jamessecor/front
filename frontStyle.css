@@ -69,6 +69,8 @@ ul li a:hover:not(.active) {
 	color: #337;
 }
 
+/* End navbar */
+
 body {
 	background-color:#eee;
 	width:100%;
@@ -115,7 +117,7 @@ th {
 }
 
 td {
-	letter-spacing:.1em;
+	letter-spacing:.01em;
 	font-weight:bold;
 	padding-right: .5em;
 }
@@ -131,6 +133,14 @@ td {
 	padding: 1em, 0, 1em, 0;
 	color: rgba(100,100,150,.9);
 	top: 0;
+}
+
+#membername {
+	position: fixed;
+	z-index:3;
+	color: rgba(100,100,150,.9);
+	bottom:0;
+	padding: 0 0 1em 1em;
 }
 
 #logo {

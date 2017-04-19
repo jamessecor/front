@@ -21,7 +21,7 @@ if(isLoggedIn()) {
 		$id = $id_array[0];
 		
 		// Get member's artwork info from database
-		$query = "SELECT a.title, a.medium, a.yearMade, a.price, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
+		$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
 				  FROM artwork a 
 				  LEFT OUTER JOIN people p ON a.buyerID = p.personID
 				  WHERE a.artistID = $id;";
@@ -34,7 +34,7 @@ if(isLoggedIn()) {
 			
 			print "<table id='memberart'>";
 
-				print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Sold To</th></tr>";
+				print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
 				for($i = 0; $i < $numrows; $i++) {
 					$row = mysqli_fetch_assoc($result);
 					if($row) {
@@ -42,10 +42,11 @@ if(isLoggedIn()) {
 						$media = $row['medium'];
 						$y     = $row['yearMade'];
 						$price = $row['price'];
+						$show  = $row['showNumber'];
 						$buyer = $row['buyer'];
 						if(!$buyer)
 							$buyer = 'n/a';
-						print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$buyer</td></tr>";
+						print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$show</td><td>$buyer</td></tr>";
 					}
 				}
 			print "</table>";

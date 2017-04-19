@@ -9,12 +9,19 @@
 <div id="wrapper">
 
 <header id="top">The Front</header>
+
+<?php
+session_start();
+include "checkLogin.php";
+if(isLoggedIn()) {
+	print "<h1 id='membername'>[ Logged in as $_SESSION[username] ]</h1>";
+}
+?>
+
 <img id='logo' src="./logo.gif" alt="">
 <div id='nav'>
 	<ul>
 		<?php 
-		session_start();
-		include "checkLogin.php";
 		if(isLoggedIn()) { 
 		?>
 		
@@ -24,9 +31,11 @@
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/artwork.php')) echo "class='active'";?> href="./artwork.php">Artwork</a>
 		</li>
+		<!--  REMOVE COMMITTEES ???
 		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
+			<a <?php // if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
 		</li>
+		-->
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/contacts.php')) echo "class='active'";?> href="./contacts.php">Member Contacts</a>
 		</li>

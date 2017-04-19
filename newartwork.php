@@ -70,6 +70,17 @@ require "../includes/frontConnect.php";
 				$errors['price'] = "Please Enter a Dollar Amount";
 			}
 			
+			
+			// showNumber	
+			if(!empty($_POST['showNumber'])) {
+				$showNumber = trim($_POST['showNumber']);
+				if(strlen($showNumber) == 0) {
+					$errors['showNumber'] = "Please Enter a Dollar Amount";
+				} 
+			} else {
+				$errors['showNumber'] = "Please Enter a Dollar Amount";
+			}
+			
 			// Check for errors on form
 			if(count($errors) == 0) {
 				$validInputs = true;
@@ -90,8 +101,8 @@ require "../includes/frontConnect.php";
 			
 			// Query to insert data
 			// TODO: buyerID should not be hard-coded to 1
-			$query = "INSERT INTO artwork (artistID, buyerID, artworkID, title, yearMade, medium, price) 
-					  VALUES ($artistID, NULL, NULL, '$title', '$year', '$media', $price);";
+			$query = "INSERT INTO artwork (artistID, buyerID, artworkID, title, yearMade, medium, price, showNumber) 
+					  VALUES ($artistID, NULL, NULL, '$title', '$year', '$media', $price, $showNumber);";
 					  
 			// Send query to database
 			$result = mysqli_query($db, $query);

@@ -18,10 +18,14 @@ print "<div class='headings'>Create New Password</div>";
 // Verify inputs
 if(isset($_POST['changepasswd'])) {
 	// Username
-	if(!empty($_POST['username'])) {
-		$username=addslashes($_POST['username']);
+	if(adminIsUser()) {		
+		if(!empty($_POST['username'])) {
+			$username=addslashes($_POST['username']);
+		} else {
+			$errors['username']="This field is required.";
+		}
 	} else {
-		$errors['username']="This field is required.";
+		$username = $_SESSION['username'];
 	}
 	
 	// Current Password
@@ -58,8 +62,7 @@ if(isset($_POST['changepasswd'])) {
 	} else {
 		$errors['newpasswd2']="This field is required.";
 	}
-
-
+	
 	// =============================================================	
 	// NO ERRORS
 	// =============================================================
@@ -72,7 +75,7 @@ if(isset($_POST['changepasswd'])) {
 		
 		// Check current password before proceding
 		// Select password hash from db, check, then change password in db
-		$query1="SELECT password FROM users WHERE username = '$username';";
+		$query1="SELECT passwdHash FROM people WHERE CONCAT(firstname, ' ', lastname) = '$username';";
 		$result1 = mysqli_query($db, $query1);
 		if(!$result1) {
 			$errors['passwd1']="Error in SQL Statement";
@@ -80,26 +83,26 @@ if(isset($_POST['changepasswd'])) {
 			// Check current password
 			$row = mysqli_fetch_assoc($result1);
 			if($row) {
-				if(!password_verify($currentpasswd, $row['password'])) {
+				if(!password_verify($currentpasswd, $row['passwdHash'])) {
 					$errors['currentpasswd'] = "Your Current Password Does Not Match Our Records.";
 				} else {
 					$newpasswd_hashed=password_hash($newpasswd2, PASSWORD_DEFAULT);
-					$query2 = "UPDATE people SET passwordHash = '$newpasswd_hashed' WHERE CONCAT(firstname,' ',lastname) = '$username';";
+					$query2 = "UPDATE people SET passwdHash = '$newpasswd_hashed' WHERE CONCAT(firstname,' ',lastname) = '$username';";
 					$result2 = mysqli_query($db, $query2);
 					
 					if(!$result2) {
 						$errors['username'] = "Error in setting new password." . mysqli_error($db);
 					}
 				}
-			}
-			
+			}	
 		}
 		if(count($errors)==0)
 			$validation=true;
-	}
+	}	
 }
 
-if($validation) {
+// Print message on successful entry / form if errors
+if($validation==true) {
 		// Successful Password Set-up
 		print "<div class='center'>";
 		print "<p>Your password has been changed.<br>You may now use that password to log in as $username.</p>";
@@ -113,16 +116,13 @@ if($validation) {
 <form class="center" method="post" action="">
 	<table>
 		<tr>
-			<td>Username</td>
-			<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
+			<td>Name</td>
+			<?php 
+			if(adminIsUser()) { ?>
+				<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
 				<option value=''>Choose Name</option>
 				<?php
-				
-				// Get artists to populate username drop-down
-				
-				// TODO: Select members from correct db as below
-				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY firstname;";
-				//$query = "SELECT  FROM users ORDER BY username;";
+				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY username;";
 				$result = mysqli_query($db, $query);
 				if(!$result) {
 					$errors['username'] = "Error in SQL statement." . mysqli_error($db);
@@ -142,6 +142,10 @@ if($validation) {
 				?>
 			</select></td>
 			<td><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
+			<?php
+			} else {
+				print "<td>$_SESSION[username]</td>";
+			}?>
 		</tr>
 		<tr>
 			<td>Current Password</td>
