@@ -25,17 +25,22 @@ function createLabels($showNumber) {
 		// Get number of rows for loop
 		$numrows = mysqli_num_rows($works);
 		
-		// Loop through and print labels
-		for($i = 0; $i < $numrows; $i++) {
-			$piece = mysqli_fetch_assoc($works);
-			if($piece) {
-				$label = "$piece[title]\n$piece[artist]\t$piece[yearMade]\n$piece[medium]\n$$piece[price]\n\n";
-				fwrite($fileptr, $label);
+		// If no artwork
+		if($numrows == 0) {
+			print "<h1>No Artwork in show $showNumber. <a href='./createLabels.php'>Back to Create Labels</a></h1>";
+		} else {
+			// Loop through and print labels
+			for($i = 0; $i < $numrows; $i++) {
+				$piece = mysqli_fetch_assoc($works);
+				if($piece) {
+					$label = "$piece[title]\n$piece[artist]\t$piece[yearMade]\n$piece[medium]\n$$piece[price]\n\n";
+					fwrite($fileptr, $label);
+				}
 			}
+			fclose($fileptr);
+			print "<h1>Labels created and saved as \"$filename\". ";
+			print "<a href='./$filename' target='_blank'>Preview Labels</a></h1>";
 		}
-		fclose($fileptr);
-		print "<h1>Labels created and saved as \"$filename\". ";
-		print "<a href='./$filename' target='_blank'>Preview Labels</a></h1>";
 	}
 }
 
@@ -50,11 +55,14 @@ if(adminIsUser()) {
 					$errors['showNumber'] = "Please Enter a show number.";
 		} else {
 			$errors['showNumber'] = "Enter a valid show number.";
-		}
-		
+		}	
+	
 		if(count($errors) == 0) {
 			createLabels($show);
 		}
+	
+	// If no show clicked, error
+	
 	} else {
 ?>
 	<form method="post" action="" autocomplete='off'>
@@ -62,6 +70,7 @@ if(adminIsUser()) {
 			<tr>
 				<td>Show Number</td>
 				<td><input type='text' name='showNumber' value="<?php isset($_POST['showNumber']) ? $_POST['showNumber'] : '';?>"></td>
+				<!-- TODO: Show showNumbers where there is artwork? -->
 			</tr>
 			<tr>
 				<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>

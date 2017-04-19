@@ -105,8 +105,7 @@ if(isset($_POST['changepasswd'])) {
 if($validation==true) {
 		// Successful Password Set-up
 		print "<div class='center'>";
-		print "<p>Your password has been changed.<br>You may now use that password to log in as $username.</p>";
-		print "<p><a href='./login.php'>Click here to log in.</a></p>";
+		print "<p>Your password has been changed.<br>You must now use that password to log in as $username.</p>";
 		print "</div>";
 
 } else {

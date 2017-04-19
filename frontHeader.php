@@ -15,7 +15,7 @@ session_start();
 include "checkLogin.php";
 if(isLoggedIn()) {
 	print "<h1 id='membername'>[ Logged in as $_SESSION[username] ]</h1>";
-}
+} 
 ?>
 
 <img id='logo' src="./logo.gif" alt="">

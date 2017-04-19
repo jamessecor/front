@@ -17,7 +17,10 @@ require "../includes/frontConnect.php";
 		$year = 0;
 		$media = '';
 		$price = 0;
-
+		
+		// TODO: Change this when new show rolls around
+		$currentShow = '12';
+		
 		if(isset($_POST['newart'])) {
 			// TODO: finish processing
 			
@@ -71,14 +74,16 @@ require "../includes/frontConnect.php";
 			}
 			
 			
-			// showNumber	
+			// showNumber
+			if(!adminIsUser()) $_POST['showNumber'] = $currentShow;
+				
 			if(!empty($_POST['showNumber'])) {
 				$showNumber = trim($_POST['showNumber']);
 				if(strlen($showNumber) == 0) {
-					$errors['showNumber'] = "Please Enter a Dollar Amount";
+					$errors['showNumber'] = "Please Enter Show Number";
 				} 
 			} else {
-				$errors['showNumber'] = "Please Enter a Dollar Amount";
+				$errors['showNumber'] = "Please Enter Show Number";
 			}
 			
 			// Check for errors on form
@@ -189,7 +194,14 @@ require "../includes/frontConnect.php";
 					</tr>
 					<tr>
 						<td>Show Number</td>
-						<td><input type='text' name='showNumber' value="<?php echo isset($_POST['showNumber']) ? $_POST['showNumber'] : '';  ?>" placeholder='ex: 12'></td>
+						<td><?php
+							if(adminIsUser()) { ?>
+								<input type='text' name='showNumber' value="<?php echo isset($_POST['showNumber']) ? $_POST['showNumber'] : '';  ?>" placeholder='ex: 12'>
+							<?php
+							} else {
+								print "$currentShow";
+							} ?>
+						</td>
 						<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
 					<tr>
 						<td class='errorText' colspan=2>Please Double Check Before Submitting</td>
@@ -198,7 +210,7 @@ require "../includes/frontConnect.php";
 						<td></td><td><input type="submit" name="newart" value="Submit Artwork" formnovalidate></td>
 					</tr>
 					<tr>
-						<td></td><td><a href='./artwork.php'>Back to Artwork</a></td>
+						<td></td><td></td><td><a href='./artwork.php'>Back to Artwork</a></td>
 					</tr>
 				</table>
 			</form>

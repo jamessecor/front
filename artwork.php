@@ -24,14 +24,15 @@ if(isLoggedIn()) {
 		$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
 				  FROM artwork a 
 				  LEFT OUTER JOIN people p ON a.buyerID = p.personID
-				  WHERE a.artistID = $id;";
+				  WHERE a.artistID = $id
+				  ORDER BY a.showNumber DESC;";
 		$result = mysqli_query($db, $query);
 		
 		if(!$result) {
 			print "<h2>Database Error. Please try again later.</h2>";
 		} else {
 			$numrows = mysqli_num_rows($result);
-			
+			//$total = 0;
 			print "<table id='memberart'>";
 
 				print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
@@ -46,6 +47,8 @@ if(isLoggedIn()) {
 						$buyer = $row['buyer'];
 						if(!$buyer)
 							$buyer = 'n/a';
+						//else
+							//$total += $price;
 						print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$show</td><td>$buyer</td></tr>";
 					}
 				}
@@ -68,14 +71,6 @@ if(isLoggedIn()) {
 		}
 	}
 		
-	// TODO: get from db
-	
-	$totalSales = 50;
-	if($totalSales > 0) {
-		$lessCommission = .85 * $totalSales;
-		//print "<p><strong>Total Sales = \$$totalSales</strong>";
-		//print "<br>Your cut = \$$lessCommission</p>";
-	}
 	print "<button id='newart'>Submit New Artwork</button>";
 	print "	<script language='JavaScript'>
 				document.getElementById('newart').addEventListener('click', function() { window.location.href='./newartwork.php'; });
