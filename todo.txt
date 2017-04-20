@@ -1,4 +1,4 @@
 TODO:
 - ? Add change contact capability
 - add image upload capability to newartwork
-- Show Who is logged in in heading
+- allow for uploading images, create image page where users can search by artist (checkboxes)

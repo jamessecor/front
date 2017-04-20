@@ -88,7 +88,7 @@ body {
 
 .center {
 	position:relative;
-	width:60%;
+	width:80%;
 	margin:.2em auto auto auto;
 	padding:3em;
 	border: .4em solid rgba(100,100,200,.9);
@@ -97,7 +97,11 @@ body {
 	color: rgba(100,100,200,.9);
 }
 
-input, select, button { 
+table {
+	margin:0 auto;
+}
+
+input, select, button, input[type="file"] { 
 	background-color: #ccc;
 	color: rgba(100,100,200,.9);
 	border:.15em solid #aaa;
@@ -105,7 +109,7 @@ input, select, button {
 	font-weight:bold;
 }
 
-input[type="submit"]:hover, button:hover {
+input[type="submit"]:hover, button:hover, input[type="file"]:hover {
 	background-color: #aad;
 	color: #22a;
 }

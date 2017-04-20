@@ -35,7 +35,7 @@ if(isLoggedIn()) {
 			//$total = 0;
 			print "<table id='memberart'>";
 
-				print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
+				print "<tr><th>View Image</th><th>Title (Click to Upload Image)</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
 				for($i = 0; $i < $numrows; $i++) {
 					$row = mysqli_fetch_assoc($result);
 					if($row) {
@@ -45,11 +45,17 @@ if(isLoggedIn()) {
 						$price = $row['price'];
 						$show  = $row['showNumber'];
 						$buyer = $row['buyer'];
+						
+						// TODO: fix these lines (get from db)
+						//$filename = $row['filename'];
+						$filename = 'Mobile2016.jpg';
+						
 						if(!$buyer)
 							$buyer = 'n/a';
 						//else
 							//$total += $price;
-						print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$show</td><td>$buyer</td></tr>";
+						// TODO: add link to upload on title
+						print "<tr><td><a href='../img/$filename' target='_blank'>open</a></td><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$show</td><td>$buyer</td></tr>";
 					}
 				}
 			print "</table>";
@@ -70,11 +76,18 @@ if(isLoggedIn()) {
 			print "<br>Your cut = \$$mcut</p>";
 		}
 	}
-		
+	print  "<table>
+				<tr>
+					<td><a href='./newartwork.php'>Submit New Artwork</a></td>
+					<td><a href='./imageupload.php'>Upload Image(s)</a></td>
+				</tr>
+			</table>";
+	/*	
 	print "<button id='newart'>Submit New Artwork</button>";
 	print "	<script language='JavaScript'>
 				document.getElementById('newart').addEventListener('click', function() { window.location.href='./newartwork.php'; });
 			</script> ";
+			*/
 } else {
 	print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>";
 }

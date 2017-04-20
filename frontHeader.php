@@ -24,12 +24,11 @@ if(isLoggedIn()) {
 		<?php 
 		if(isLoggedIn()) { 
 		?>
-		
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Member Info</a>
-		</li>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/artwork.php')) echo "class='active'";?> href="./artwork.php">Artwork</a>
+		</li>
+		<li>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/imageupload.php')) echo "class='active'";?> href="./imageupload.php">Upload Image</a>
 		</li>
 		<!--  REMOVE COMMITTEES ???
 		<li>
@@ -49,10 +48,17 @@ if(isLoggedIn()) {
 					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/register.php')) echo "class='active'";?> href="./register.php">Set Member Password</a>
 				</li>
 				<?php
-			} ?>	
+			} ?>
+		<li>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Info</a>
+		</li>
+		<?php
+		if(!adminIsUser()) {?>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
 		</li>
+		<?php
+		}?>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
 		</li>

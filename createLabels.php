@@ -65,6 +65,7 @@ if(adminIsUser()) {
 	
 	} else {
 ?>
+	<div class='form'>
 	<form method="post" action="" autocomplete='off'>
 		<table>
 			<tr>
@@ -80,7 +81,7 @@ if(adminIsUser()) {
 			</tr>
 		</table>
 	</form>
-	
+	</div>
 <?php
 	}
 } else {
