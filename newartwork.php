@@ -113,10 +113,10 @@ require "../includes/frontConnect.php";
 			$result = mysqli_query($db, $query);
 			
 			if(!$result)
-				die("<div>Data Entry Error. <a href=''>Please try again.</a></div>");
+				die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
 			else
-				print "<div>Your artwork has been submitted.</div>";
-			print "<a href='./artwork.php'>Back to Artwork</a>";
+				print "<table><tr><td>Your artwork has been submitted.</td></tr>";
+			print "<tr><td><a href='./artwork.php'>Back to Artwork</a></td></tr></table>";
 		} else {
 			?>
 			<form id="login" method="post" action="" autocomplete='off'>
@@ -210,7 +210,7 @@ require "../includes/frontConnect.php";
 						<td></td><td><input type="submit" name="newart" value="Submit Artwork" formnovalidate></td>
 					</tr>
 					<tr>
-						<td></td><td></td><td><a href='./artwork.php'>Back to Artwork</a></td>
+						<td></td><td>| <a href='./artwork.php'>Back to Artwork</a> |</td>
 					</tr>
 				</table>
 			</form>

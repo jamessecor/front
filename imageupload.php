@@ -8,8 +8,85 @@ print "<div class='headings'>Image Upload</div>";
 print "<div class='center'>";
 
 if(isLoggedIn()) {
-// Create dropdown with images for the user
+	$errors = array();
+	$validation = false;
+	
 	if(isset($_POST['upload'])) {
+		if(!empty($_POST['title'])) {
+			$title = $_POST['title'];
+		} else {
+			$errors['title'] = 'Title not recognized.';
+		}
+		if(count($errors) == 0) {
+			$validation = true;
+		}
+	} 
+	
+	if($validation) {
+		// ======================
+		// Begin Image Processing
+		// Code from https://www.w3schools.com/php/php_file_upload.asp
+		// ======================
+		
+		$target_dir = "uploads/";
+		$target_file = $target_dir . basename($_FILES["filename"]["name"]);
+		$uploadOk = 1;
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		// Check if image file is a actual image or fake image		
+		$check = getimagesize($_FILES["filename"]["tmp_name"]);
+		if($check !== false) {
+			$uploadOk = 1;
+		} else {
+			echo "File is not an image.";
+			$uploadOk = 0;
+		}
+		
+		// Check if file already exists
+		if (file_exists($target_file)) {
+			echo "Sorry, file already exists.";
+			$uploadOk = 0;
+		}
+		
+		// Check file size
+		if ($_FILES["filename"]["size"] > 1000000) {
+			echo "Sorry, your file is too large.";
+			$uploadOk = 0;
+		}
+
+		// Allow certain file formats
+		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+		&& $imageFileType != "gif" ) {
+			echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+			$uploadOk = 0;
+		}
+		
+		// Check if $uploadOk is set to 0 by an error
+		if ($uploadOk == 0) {
+			echo "Sorry, your file was not uploaded.";
+		// if everything is ok, try to upload file
+		} else {
+			if (move_uploaded_file($_FILES["filename"]["tmp_name"], $target_file)) {
+				$filename = basename($_FILES["filename"]["name"]);
+				$imgLocation = "uploads/" . $filename;
+				
+				// Send to the database
+				$query = "UPDATE artwork SET filename = '$filename' WHERE title = '$title';";
+				$result = mysqli_query($db, $query);
+				if(!$result) {
+					die("Connection error" . mysqli_error($db));
+				} else {
+					// Print success message
+					echo "<table><tr><td>The file $filename has been uploaded.</td></tr>";
+					echo "<tr><td><a href='$imgLocation' target='_blank'>Preview Image</a> | <a href='./artwork.php'>Back to Artwork</a></td></tr></table>";
+				}
+			} else {
+				echo "Sorry, there was an error uploading your file.";
+			}
+		}
+		
+		// ====================
+		// End image processing
+		// ====================
 	} else {
 
 ?>
@@ -21,7 +98,7 @@ if(isLoggedIn()) {
 			<td><?php print "$_SESSION[username]";?></td>
 		<tr>
 			<td>Select Work:</td>
-			<td><select name="artwork" value="<?php echo isset($_POST['artwork']) ? $_POST['artwork'] : '';  ?>">
+			<td><select name="title" value="<?php echo isset($_POST['title']) ? $_POST['title'] : '';  ?>">
 				<option value=''>select work</option>
 				<?php
 				$query =   "SELECT a.title 
@@ -46,12 +123,18 @@ if(isLoggedIn()) {
 				}
 				?>
 			</select></td>
+			<td><small class='errorText'><?php echo array_key_exists('title',$errors) ? $errors['title'] : ''; ?></small></td>
 		</tr>
 		<tr>
+			<td>Find File:</td>
 			<td colspan=2><input type='file' name='filename'></td>
+			<td><small class='errorText'><?php echo array_key_exists('filename',$errors) ? $errors['filename'] : ''; ?></small></td>
 		</tr>
 		<tr>
-			<td><input type='submit' name='upload' value='Upload'></td>
+			<td></td><td><input type='submit' name='upload' value='Upload'></td>
+		</tr>
+		<tr></tr><tr>
+			<td></td><td colspan=2>| <a href='./artwork.php'>Back to Artwork</a> |</td>
 		</tr>
 	</table>
 </form>

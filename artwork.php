@@ -14,14 +14,14 @@ if(isLoggedIn()) {
 	// Get artistID
 	$artist = $_SESSION['username'];
 	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
-	$person = mysqli_query($db, $query);
+	$personID = mysqli_query($db, $query);
 	
-	if($person) {
-		$id_array = mysqli_fetch_array($person);
+	if($personID) {
+		$id_array = mysqli_fetch_array($personID);
 		$id = $id_array[0];
 		
 		// Get member's artwork info from database
-		$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
+		$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
 				  FROM artwork a 
 				  LEFT OUTER JOIN people p ON a.buyerID = p.personID
 				  WHERE a.artistID = $id
@@ -35,7 +35,7 @@ if(isLoggedIn()) {
 			//$total = 0;
 			print "<table id='memberart'>";
 
-				print "<tr><th>View Image</th><th>Title (Click to Upload Image)</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
+				print "<tr><th>View Image</th><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
 				for($i = 0; $i < $numrows; $i++) {
 					$row = mysqli_fetch_assoc($result);
 					if($row) {
@@ -47,39 +47,28 @@ if(isLoggedIn()) {
 						$buyer = $row['buyer'];
 						
 						// TODO: fix these lines (get from db)
-						//$filename = $row['filename'];
-						$filename = 'Mobile2016.jpg';
+						$filename = $row['filename'];
+						//$filename = 'Mobile2016.jpg';
 						
 						if(!$buyer)
 							$buyer = 'n/a';
 						//else
 							//$total += $price;
 						// TODO: add link to upload on title
-						print "<tr><td><a href='../img/$filename' target='_blank'>open</a></td><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$show</td><td>$buyer</td></tr>";
+						if($filename)
+							$link = "<a href='./uploads/$filename' target='_blank'>open</a>";
+						else
+							$link = "n/a";
+						print "<tr><td>$link</td><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$show</td><td>$buyer</td></tr>";
 					}
 				}
 			print "</table>";
 		}
-		
-		// Select totals using $id
-		$query = "SELECT sum(price) FROM artwork
-				  WHERE buyerID IS NOT NULL
-				  AND artistID = '$id'";
-		$result = mysqli_query($db, $query);
-		if($result) {
-			$sum_array = mysqli_fetch_array($result);
-			$sum = $sum_array[0];
-			if(!$sum) 
-				$sum = 0;
-			$mcut = $sum * .85;
-			print "<p><strong>Total Sales = \$$sum</strong>";
-			print "<br>Your cut = \$$mcut</p>";
-		}
 	}
 	print  "<table>
 				<tr>
-					<td><a href='./newartwork.php'>Submit New Artwork</a></td>
-					<td><a href='./imageupload.php'>Upload Image(s)</a></td>
+					<td>| <a href='./newartwork.php'>Submit New Artwork</a> |</td>
+					<td><a href='./imageupload.php'>Upload Image(s)</a> |</td>
 				</tr>
 			</table>";
 	/*	
