@@ -34,6 +34,11 @@ a:hover {
 }
 
 /* navbar */
+#nav {
+	position:fixed;
+	z-index:1;
+}
+
 ul {
 	position:fixed;
 	list-style-type:none;
@@ -41,7 +46,6 @@ ul {
 	padding: 3.4em 0 0 0;
 	width:100%;
 	overflow:auto;
-	
 	display:inline-block;
 	background-color: #337;
 }
@@ -80,7 +84,7 @@ body {
 
 #right_col {
 	float:right;	
-		
+	z-index:1;
 	margin-top:5em;	
 	width: 100%;
 	overflow:auto;
