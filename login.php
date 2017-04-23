@@ -64,7 +64,7 @@ if(isset($_POST['login'])) {
 
 if(isLoggedIn()) {
 	// Successful Login
-	header('Location: memberinfo.php');
+	header('Location: artwork.php');
 	print "<div class='center'>";
 	print "<p>You are currently logged in as $_SESSION[username].";
 	print "<br><a href='./logout.php'>Click here to log out.</a></p>";
@@ -104,18 +104,19 @@ if(isLoggedIn()) {
 				}
 				?>
 			</select></td>
-			<td><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
+		</tr>
+		<tr>
+			<td colspan=2><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
 		</tr>
 		<tr>
 			<td>Password</td>
 			<td><input type="password" name="passwd"></td>
-			<td><small class='errorText'><?php echo array_key_exists('passwd',$errors) ? $errors['passwd'] : ''; ?></small></td>
+		</tr>
+		<tr>
+			<td colspan=2><small class='errorText'><?php echo array_key_exists('passwd',$errors) ? $errors['passwd'] : ''; ?></small></td>
 		</tr>
 		<tr>
 			<td></td><td><input type="submit" name="login" value="Log In"></td>
-		</tr>
-		<tr>
-			<td></td><td><a href="./newpassword.php">Create New Password</a></td>
 		</tr>
 	</table>
 </form>
