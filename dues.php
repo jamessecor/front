@@ -67,11 +67,11 @@ if(adminIsUser()) {
 		// Payment Amount
 		if(!empty($_POST['payamount'])) {			
 			$payamount = $_POST['payamount'];
-			if(!$payamount) {
-				$errors['payamount'] = "Enter an payamount";
+			if(!is_numeric($payamount)) {
+				$errors['payamount'] = "Enter a dollar amount";
 			}
 		} else {
-			$errors['payamount'] = "Enter an payamount";
+			$errors['payamount'] = "Enter an payment amount";
 		}
 		
 		// Dues Period
@@ -116,7 +116,52 @@ if(adminIsUser()) {
 	// No Errors: Form 2
 	// ==========================================	
 	else if($validDuesInput) {
-	
+		foreach($members as $m) {
+			// ===========================
+			// Create payment in memberdues
+			// ===========================
+			// select personID
+			$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$m';";
+			$id = mysqli_query($db, $query);
+			
+			// select periodID
+			$query = "SELECT periodID FROM dues WHERE begin = '$duesperiod';";
+			$duesID = mysqli_query($db, $query);
+			
+			// Check for errors
+			if(!($duesID) || !($id)) {
+				die("Database Error: " . mysqli_error($db));
+			} else {
+				// Set personID
+				$id_array = mysqli_fetch_array($id);
+				if($id_array)
+					$id = $id_array[0];
+				// Set periodID
+				$duesID_array = mysqli_fetch_array($duesID);
+				if($duesID_array)
+					$dID = $duesID_array[0];
+				
+				// Insert into memberdues
+				$today=date('Y-m-d');
+				$query = "INSERT INTO memberdues (personID, periodID, paymentDate) VALUES ('$id', '$dID', '$today');";
+				$result = mysqli_query($db, $query);
+				if(!$result) {
+					die("Database Error: " . mysqli_error($db));
+				} else {
+					print "Success: ";
+				}
+			}
+			
+			// =====================
+			// Update member balance
+			// =====================
+			$query = "UPDATE people SET balance = (balance + $payamount) WHERE CONCAT(firstname, ' ', lastname) = '$m';";
+			$result = mysqli_query($db, $query);
+			if(!$result) {
+				die("Database Error: " . mysqli_error($db));
+			} else 
+				print "Payment processed for $m<br>";
+		}
 		
 	} else {
 		
