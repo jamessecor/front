@@ -95,12 +95,16 @@ if(adminIsUser()) {
 	// No Errors: Form 1
 	// ==========================================
 	if($validNewDues) {
-		$v = false;
+		// First Query: Insert new dues period
 		$query = "INSERT INTO dues (periodID, begin, end, amount) VALUES (NULL, '$begin', '$end', $amount);";
 		$result = mysqli_query($db, $query);		
 		
+		// Second Query: Update Member Balances
+		$query = "UPDATE people SET balance = (balance - $amount);";
+		$result2 = mysqli_query($db, $query);
+		
 		// Print error on entry or submission success
-		if(!$result) {
+		if(!$result || !$result2) {
 			$errors['begin'] = "Database Error";
 			die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
 		} else {
