@@ -1,4 +1,10 @@
 TODO:
 - ? Add change contact capability
-- add image upload capability to newartwork
-- allow for uploading images, create image page where users can search by artist (checkboxes)
+- show images based on show (dropdown) or member (checkboxes)
+- query for dues/processing
+- dues page for admin:
+member name column | dues payment
+	...
+	...
+	...
+  | submit payments |

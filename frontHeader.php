@@ -30,6 +30,9 @@ if(isLoggedIn()) {
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/imageupload.php')) echo "class='active'";?> href="./imageupload.php">Upload Image</a>
 		</li>
+		<li>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberimages.php')) echo "class='active'";?> href="./memberimages.php">Images</a>
+		</li>
 		<!--  REMOVE COMMITTEES ???
 		<li>
 			<a <?php // if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
@@ -45,14 +48,17 @@ if(isLoggedIn()) {
 					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/createLabels.php')) echo "class='active'";?> href="./createLabels.php">Labels</a>
 				</li>
 				<li>
-					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/register.php')) echo "class='active'";?> href="./register.php">Set Member Password</a>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/setmemberpassword.php')) echo "class='active'";?> href="./setmemberpassword.php">Set Member Password</a>
+				</li>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/dues.php')) echo "class='active'";?> href="./dues.php">Dues</a>
 				</li>
 				<?php
 			} ?>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Info</a>
 		</li>
-		<?php
+		<?php // Only not admin users see this link
 		if(!adminIsUser()) {?>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
