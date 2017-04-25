@@ -105,7 +105,7 @@ table {
 	margin:0 auto;
 }
 
-input, select, button, input[type="file"] { 
+input, select, button, input[type="file"], input[type="checkbox"] { 
 	background-color: #ccc;
 	color: rgba(100,100,200,.9);
 	border:.15em solid #aaa;
