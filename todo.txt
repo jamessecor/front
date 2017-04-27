@@ -1,10 +1,6 @@
 TODO:
 - ? Add change contact capability
 - show images based on show (dropdown) or member (checkboxes)
-- query for dues/processing
-- dues page for admin:
-member name column | dues payment
-	...
-	...
-	...
-  | submit payments |
+
+
+
