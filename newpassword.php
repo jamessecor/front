@@ -118,7 +118,7 @@ if($validation==true) {
 			<td>Name</td>
 			<?php 
 			if(adminIsUser()) { ?>
-				<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
+				<td><select name="username">
 				<option value=''>Choose Name</option>
 				<?php
 				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY username;";
@@ -131,8 +131,8 @@ if($validation==true) {
 						$row = mysqli_fetch_assoc($result);
 						if($row) {
 							$username = $row['username'];
-							if($_POST['name']==$username)
-								echo "<option value='$username' selected ='selected'>$username</option>";
+							if($_POST['username']==$username)
+								echo "<option value='$username' selected='selected'>$username</option>";
 							else
 								echo "<option value='$username'>$username</option>";
 						}

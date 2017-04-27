@@ -19,7 +19,7 @@ require "../includes/frontConnect.php";
 		$price = 0;
 		
 		// TODO: Change this when new show rolls around
-		$currentShow = '12';
+		$currentShow = '17';
 		
 		if(isset($_POST['newart'])) {
 			// TODO: finish processing
@@ -114,7 +114,7 @@ require "../includes/frontConnect.php";
 			
 			if(!$result)
 				die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
-			else
+			else 
 				print "<table><tr><td>Your artwork has been submitted.</td></tr>";
 			print "<tr><td><a href='./artwork.php'>Back to Artwork</a></td></tr></table>";
 		} else {
@@ -125,7 +125,7 @@ require "../includes/frontConnect.php";
 						<td>Name</td>
 						<?php 
 						if(adminIsUser()) { ?>
-							<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
+							<td><select name="username">
 							<option value=''>Choose Name</option>
 							<?php
 							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY username;";
@@ -138,7 +138,7 @@ require "../includes/frontConnect.php";
 									$row = mysqli_fetch_assoc($result);
 									if($row) {
 										$username = $row['username'];
-										if($_POST['name']==$username)
+										if(isset($_POST['username']) && $_POST['username']==$username)
 											echo "<option value='$username' selected ='selected'>$username</option>";
 										else
 											echo "<option value='$username'>$username</option>";
@@ -166,8 +166,8 @@ require "../includes/frontConnect.php";
 								<?php
 								// Drop-down with 15 years back
 								for($i = 0, $y = date('Y'); $i < 15; $i++, $y--) {
-									if($_POST['year']==$y)
-										echo "<option value='$y' selected ='selected'>$y</option>";
+									if(isset($_POST['year']) && $_POST['year']==$y)
+										echo "<option value='$y' selected='selected'>$y</option>";
 									else
 										echo "<option value='$y'>$y</option>";
 								}

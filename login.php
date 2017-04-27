@@ -77,7 +77,7 @@ if(isLoggedIn()) {
 	<table>
 		<tr>
 			<td>Name</td>
-			<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
+			<td><select name="username">
 				<option value=''>Choose Name</option>
 				<?php
 				
@@ -95,7 +95,7 @@ if(isLoggedIn()) {
 						$row = mysqli_fetch_assoc($result);
 						if($row) {
 							$username = $row['username'];
-							if($_POST['name']==$username)
+							if(isset($_POST['username']) && $_POST['username']==$username)
 								echo "<option value='$username' selected ='selected'>$username</option>";
 							else
 								echo "<option value='$username'>$username</option>";

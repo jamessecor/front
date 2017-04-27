@@ -18,20 +18,21 @@ function displayImages($query, $memberArray)
 	} else {
 		// Number of images
 		$numrows = mysqli_num_rows($data);
-		print "<table>";
+		print "<div class='imagePage'>";
 		for($i = 0; $i < $numrows; $i++) {
 			$row = mysqli_fetch_assoc($data);
 			if($row) {
 				$filepath = "./uploads/" . $row['filename'];
-				print "<tr><td><em>$row[title]</em>, $row[yearMade]. $row[medium]<br>$row[member]</td></tr>";
-				print "<tr><td><img width='60%' src='$filepath' alt='No Image'></td></tr>";
-				//print "<div id='label'><em>$row[title]</em>, $row[yearMade]. $row[medium]<br>$row[member]</div><br>";
-				//print "<img width='60%' src='$filepath' alt='No Image'><br><br>";
+				//print "<tr><td><em>$row[title]</em>, $row[yearMade]. $row[medium]<br>$row[member]</td></tr>";
+				//print "<tr><td><img width='60%' src='$filepath' alt='No Image'></td></tr>";
+				print "<a href='$filepath' target='_blank'><img width='50%' src='$filepath' alt='No Image'></a>";
+				print "<div id='label'><em>$row[title]</em>, $row[yearMade]. $row[medium]<br>$row[member]</div><br><br>";
+				
 			}
 		}
-		print "</table>";
+		print "</div>";
 		?>
-		<div style="text-align:center;">
+		<div class="imagePage">
 			<button id='toTop'>Back to Top</button>
 			<button id="toImgSelection">Back to Image Selection</button>
 			<script>
@@ -52,7 +53,7 @@ function displayImages($query, $memberArray)
 ?>
 
 <div id='right_col'>
-<div class='headings'>Images</div>
+<div class='headings'>Images (click to open in new tab)</div>
 <div class='center'>
 <?php
 if(isLoggedIn()) {
@@ -102,10 +103,10 @@ if(isLoggedIn()) {
 		<tr>
 			<td>Show Number:</td>
 			<td>
-			<select name='showNumber' value="<?php echo isset($_POST['showNumber']) ? $_POST['showNumber'] : ''; ?>">
+			<select name='showNumber'>
 			<option value=''>Choose Show</option>
 			<?php
-			$query = "SELECT showNumber FROM artwork WHERE filename IS NOT NULL ORDER BY showNumber DESC;";
+			$query = "SELECT DISTINCT showNumber FROM artwork WHERE filename IS NOT NULL ORDER BY showNumber DESC;";
 			$result = mysqli_query($db, $query);
 			if(!$result)
 				$errors['showNumber'] = "Error in SQL statement." . mysqli_error($db);
@@ -122,11 +123,9 @@ if(isLoggedIn()) {
 			?>
 			</select>
 			</td>
+			<td><input type='submit' name='go' value='Go'></td>
 			<td>or</td>
 			<td><input type='submit' name='gogogo' value='Show All Images'></td>
-		</tr>
-		<tr>
-			<td></td><td><input type='submit' name='go' value='Go'></td>
 		</tr>
 	</table>
 </form>

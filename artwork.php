@@ -71,12 +71,6 @@ if(isLoggedIn()) {
 					<td><a href='./imageupload.php'>Upload Image(s)</a> |</td>
 				</tr>
 			</table>";
-	/*	
-	print "<button id='newart'>Submit New Artwork</button>";
-	print "	<script language='JavaScript'>
-				document.getElementById('newart').addEventListener('click', function() { window.location.href='./newartwork.php'; });
-			</script> ";
-			*/
 } else {
 	print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>";
 }

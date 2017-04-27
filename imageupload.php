@@ -98,7 +98,7 @@ if(isLoggedIn()) {
 			<td><?php print "$_SESSION[username]";?></td>
 		<tr>
 			<td>Select Work:</td>
-			<td><select name="title" value="<?php echo isset($_POST['title']) ? $_POST['title'] : '';  ?>">
+			<td><select name="title">
 				<option value=''>select work</option>
 				<?php
 				$query =   "SELECT a.title 
@@ -114,7 +114,7 @@ if(isLoggedIn()) {
 						$row = mysqli_fetch_assoc($result);
 						if($row) {
 							$title = $row['title'];
-							if($_POST['title']==$title)
+							if(isset($_POST['title']) && $_POST['title']==$title)
 								echo "<option value='$title' selected ='selected'>$title</option>";
 							else
 								echo "<option value='$title'>$title</option>";
@@ -133,7 +133,7 @@ if(isLoggedIn()) {
 		<tr>
 			<td></td><td><input type='submit' name='upload' value='Upload'></td>
 		</tr>
-		<tr></tr><tr>
+		<tr>
 			<td></td><td colspan=2>| <a href='./artwork.php'>Back to Artwork</a> |</td>
 		</tr>
 	</table>
@@ -144,6 +144,6 @@ if(isLoggedIn()) {
 } else {
 	print "<div class='headings'><a href='./login.php'>Please Log In to proceed</a></div>";
 }
-print "</div>";
+print "</div></div>";
 include "frontFooter.php";
 ?>

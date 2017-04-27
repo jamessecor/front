@@ -17,8 +17,6 @@ if(isLoggedIn()) {
 	print "<h1 id='membername'>[ Logged in as $_SESSION[username] ]</h1>";
 } 
 ?>
-
-<img id='logo' src="./logo.gif" alt="">
 <div id='nav'>
 	<ul>
 		<?php 
@@ -26,9 +24,6 @@ if(isLoggedIn()) {
 		?>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/artwork.php')) echo "class='active'";?> href="./artwork.php">Artwork</a>
-		</li>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/imageupload.php')) echo "class='active'";?> href="./imageupload.php">Upload Image</a>
 		</li>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberimages.php')) echo "class='active'";?> href="./memberimages.php">Images</a>

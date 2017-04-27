@@ -15,16 +15,17 @@ if(isLoggedIn()) {
 	print "<div class='center'>";
 	
 	// Begin db queries =======================================================================
-	// Get Date Joined
-	$query = "SELECT joinDate from people WHERE CONCAT(firstname, ' ', lastname) = '$username';";
+	// Get Date Joined and Dues Balance
+	$query = "SELECT joinDate, balance from people WHERE CONCAT(firstname, ' ', lastname) = '$username';";
 	$result = mysqli_query($db, $query);
 	if(!$result) 
 		die("Connection error" . mysqli_error($db));
 	else {
-		$r = mysqli_fetch_array($result);
-		$joinDate = $r[0];
+		$r = mysqli_fetch_assoc($result);
+		$joinDate = $r['joinDate'];
+		$balance = $r['balance'];
 	}
-	
+		
 	// Get total sales
 	$query = "SELECT sum(price) FROM artwork
 			  WHERE buyerID IS NOT NULL
@@ -40,9 +41,7 @@ if(isLoggedIn()) {
 		$mcut = $sum * .85;
 	}
 	// End db queries =======================================================================
-	
-	
-	$memberinfo = array('Name'=>$username,'Join Date'=>$joinDate, 'Total Sales'=>'$' . $sum, 'Your Cut'=>'$' . $mcut);
+	$memberinfo = array('Name'=>$username,'Join Date'=>$joinDate, 'Dues Balance'=>'$' . $balance, 'Total Sales'=>'$' . $sum, 'Your Cut'=>'$' . $mcut);
 ?>
 	<table id="memberinfo">
 	<?php

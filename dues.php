@@ -198,7 +198,7 @@ if(adminIsUser()) {
 		<tr>
 			<td></td><td><input type='submit' name='newdues' value='New Dues'></td>
 		</tr>
-	<table>
+	</table>
 	<hr>
 	<!-- Dues Payments Form -->
 	<table>
@@ -209,13 +209,13 @@ if(adminIsUser()) {
 		<tr>
 			<td></td><td>Period Begin Date:</td>
 			<td>
-			<select name='duesperiod' value="<?php echo isset($_POST['duesperiod']) ? $_POST['duesperiod'] : ''; ?>">
+			<select name='duesperiod'>
 			<option value=''>Choose Period</option>
 			<?php
 			$query = "SELECT begin, end, amount FROM dues ORDER BY end DESC;";
 			$result = mysqli_query($db, $query);
 			if(!$result)
-				$errors['duesperiod'] = "Error in SQL statement." . mysqli_error($db);
+				die("Error in SQL statement." . mysqli_error($db));
 			else {
 				$numrows = mysqli_num_rows($result);
 				for($i = 0; $i < $numrows; $i++) {

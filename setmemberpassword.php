@@ -52,7 +52,7 @@ if(adminIsUser()) {
 
 			// Check to see if the query was sent
 			if (!$result)
-				echo "INSERT error:" . mysqli_error($db);
+				die("INSERT error:" . mysqli_error($db));
 		
 		
 			echo "<p class='center'>Password set for $username.</p>";
@@ -70,45 +70,41 @@ if(adminIsUser()) {
 			<table>
 				<tr>
 					<td>Username:</td>
-					<td><select name="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : '';  ?>">
+					<td>
+					<select name="username">
 						<option value=''>Choose Name</option>
-						<?php
-						
-						// Get artists to populate username drop-down
-						
-						// TODO: Select members from correct db as below
-						
+						<?php						
 						$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY firstname;";
-						//$query = "SELECT username FROM users ORDER BY username;";
 						$result = mysqli_query($db, $query);
 						if(!$result) {
-							$errors['username'] = "Error in SQL statement." . mysqli_error($db);
+							die("Error in SQL statement." . mysqli_error($db));
 						} else {
 							$numrows = mysqli_num_rows($result);
 							for($i = 0; $i < $numrows; $i++) {
 								$row = mysqli_fetch_assoc($result);
 								if($row) {
 									$username = $row['username'];
-									if($_POST['name']==$username)
-										echo "<option value='$username' selected ='selected'>$username</option>";
+									if(isset($_POST['username']) && $_POST['username']==$username)
+										echo "<option value='$username' selected='selected'>$username</option>";
 									else
 										echo "<option value='$username'>$username</option>";
 								}
 							}
 						}
 						?>
-					</select></td>
+					</select>
+					</td>
 					<td><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
 				</tr>
 				<tr>
-					<td colspan=2><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : "";?></small>
+					<td colspan=2><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : "";?></small></td>
 				</tr>
 				<tr>
 					<td>Password:</td>
 					<td><input type='password' name='password1' required='required'></td>
 				</tr>
 				<tr>
-					<td colspan=2><small class='errorText'><?php echo array_key_exists('password1',$errors) ? $errors['password1'] : "";?></small>
+					<td colspan=2><small class='errorText'><?php echo array_key_exists('password1',$errors) ? $errors['password1'] : "";?></small></td>
 				</tr>
 				
 				<tr>
@@ -116,7 +112,7 @@ if(adminIsUser()) {
 					<td><input type='password' name='password2' required='required'></td>
 				</tr>
 				<tr>
-					<td colspan=2><small class='errorText'><?php echo array_key_exists('password2',$errors) ? $errors['password2'] : "";?></small>
+					<td colspan=2><small class='errorText'><?php echo array_key_exists('password2',$errors) ? $errors['password2'] : "";?></small></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -124,13 +120,6 @@ if(adminIsUser()) {
 				</tr>
 			</table>
 		</form>
-		<!-- THIS IS WHERE YOU WILL PUT ALL THE HTML FOR THE REGISTRATION FORM.  --> 
-		<!-- You need inputs for username, email, password1 and password2 --> 
-		
-		<!-- Remember that each input should be followed by some HTML that will prints validation errors, if any -->
-		
-		
-		
 	</div>
 <?php 
 	}
