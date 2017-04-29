@@ -23,7 +23,15 @@ p {
 	color: rgba(100,100,200,.9);
 }
 
+hr {
+	width:75%;
+	
+	border-width:.1em;
+	color: rgba(100,100,200,.9);
+}
+
 a {
+	font-weight:bold;
 	text-decoration:none;
 	color:#339;
 }
@@ -88,6 +96,7 @@ body {
 	margin-top:5em;	
 	width: 100%;
 	overflow:auto;
+	padding-bottom:3em;
 }
 
 .imagePage {
@@ -114,7 +123,7 @@ table {
 	margin:0 auto;
 }
 
-input, select, button, input[type="file"], input[type="checkbox"] { 
+input, select, button, input[type="file"] { 
 	background-color: #ccc;
 	color: rgba(100,100,200,.9);
 	border:.15em solid #aaa;

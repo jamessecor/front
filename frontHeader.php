@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<title>The Front</title>
 	<link href="frontStyle.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -17,6 +18,25 @@ if(isLoggedIn()) {
 	print "<h1 id='membername'>[ Logged in as $_SESSION[username] ]</h1>";
 } 
 ?>
+<script>
+$(window).scroll(
+{
+	previousTop:0
+},
+function() {
+	var currentTop = $(window).scrollTop();
+	if(currentTop < this.previousTop) {
+		$("#nav").show();
+		$("#top").show();
+		//$(".headings").marginTop("2em");
+	} else {
+		$("#nav").hide();
+		$("#top").hide();
+		//$(".headings").marginTop("0");
+	}
+	this.previousTop = currentTop;
+});
+</script>
 <div id='nav'>
 	<ul>
 		<?php 

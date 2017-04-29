@@ -65,7 +65,7 @@ if(isLoggedIn()) {
 			print "</table>";
 		}
 	}
-	print  "<table>
+	print  "<hr><table>
 				<tr>
 					<td>| <a href='./newartwork.php'>Submit New Artwork</a> |</td>
 					<td><a href='./imageupload.php'>Upload Image(s)</a> |</td>

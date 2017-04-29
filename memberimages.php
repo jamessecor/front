@@ -116,7 +116,9 @@ if(isLoggedIn()) {
 			<th colspan=7>Select Images By:</th>
 		</tr>
 		<tr>
-			<td></td><td colspan=2><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
+			<td colspan=3><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
+			
+			<td colspan=2><small class='errorText'><?php echo array_key_exists('member',$errors) ? $errors['member'] : ''; ?></small></td>
 		</tr>
 		<tr>
 			<!-- Select show number -->
@@ -178,6 +180,12 @@ if(isLoggedIn()) {
 		</tr>
 	</table>
 </form>
+
+<!-- upload -->
+<hr>
+<table><tr><td>
+<a href='imageupload.php'>Click to Upload New Image</a>
+</td></tr></table>
 </div></div>
 <?php
 	}

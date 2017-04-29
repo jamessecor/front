@@ -244,7 +244,7 @@ if(adminIsUser()) {
 			$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY firstname;";
 			$result = mysqli_query($db, $query);
 			if(!$result) {
-				$errors['username'] = "Error in SQL statement." . mysqli_error($db);
+				die("Error in SQL statement." . mysqli_error($db));
 			} else {
 				$numrows = mysqli_num_rows($result);
 				echo "<tr>";
