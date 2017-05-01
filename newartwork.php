@@ -116,7 +116,10 @@ require "../includes/frontConnect.php";
 				die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
 			else 
 				print "<table><tr><td>Your artwork has been submitted.</td></tr>";
-			print "<tr><td><a href='./artwork.php'>Back to Artwork</a></td></tr></table>";
+			print "<tr>
+						<td><a href='./artwork.php'>Back to Artwork</a></td>
+						<td><a href='./newartwork.php'>Submit Another</a></td>
+				   </tr></table>";
 		} else {
 			?>
 			<form id="login" method="post" action="" autocomplete='off'>
