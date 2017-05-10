@@ -1,57 +1,54 @@
 <?php
-include "frontHeader.php"
+include "frontHeader.php";
+require "../includes/frontConfig.php";
+require "../includes/frontConnect.php";
 ?>
 
 <div id="right_col">
 <div class='headings'>Committees</div>
 <div class='center'>
+
 <?php
 if(!isLoggedIn()) {
 	print "<h2><a href='./login.php'>Log In to see your committee info.</a></h2>";
 } else {
-		
-	if(!isset($_POST['join']) && !isset($_POST['leave'])) {
-	?>
-	<form method='post' action="">
-		<input type='submit' name='join' value='Join Committee'>
-		<input type='submit' name='leave' value='Leave Committee'>
-	</form>
-
-	<?php 
-	} else if(isset($_POST['join'])) { 
-		if(isset($_POST['joinNow'])) {
-			print "<div class='center'>";
-			print "Success: Joined";
-			print "</div>";
-		} else {
-	?>
-		<form method='post' action="">
-			<select>
-				<option value='one'>one</option>
-			</select>
-			<input type='submit' name='joinNow' value='Join'>
-		</form>
-	<?php
+	// Show committees
+	$query = "SELECT CONCAT(p.firstname, ' ', p.lastname) AS 'member', c.committeeName, a.joinDate, a.endDate
+			  FROM assignments a 
+			  JOIN committees c ON a.committeeID = c.committeeID
+			  JOIN people p ON a.personID = p.personID;";
+	
+	$result = mysqli_query($db, $query);
+	
+	if(!$result) {
+		die("Database Error: " . mysqli_error($db));
+	} else {
+		$numrows = mysqli_num_rows($result);
+		print "<table><tr><th>Name</th><th>Committee Name</th><th>Join Date</th><th>End Date</th></tr>";
+		for($i = 0; $i < $numrows; $i++) {
+			$row = mysqli_fetch_assoc($result);
+			if($row) {
+				$name = $row['member'];
+				$committeeName = $row['committeeName'];
+				$join = $row['joinDate'];
+				$end = $row['endDate'];
+				if(!$end) 
+					$end = 'n/a';
+				print "<tr><td>$name</td><td>$committeeName</td><td>$join</td><td>$end</td></tr>";
+			}
+			
 		}
-	} else { ?>
-		<form method='post' action="">
-			<select>
-				<option value='one'>one</option>
-			</select>
-			<input type='submit' name='leaveNow' value='Leave Committee'>
-		</form>
-
-<?php
+		print "</table>";
 	}
 }
-?>
-
-</div>
 
 
+print "</div></div>";
 
 
 
-<?php
+
+
+
 include "frontFooter.php";
 ?>

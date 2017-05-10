@@ -45,10 +45,7 @@ if(isLoggedIn()) {
 						$price = $row['price'];
 						$show  = $row['showNumber'];
 						$buyer = $row['buyer'];
-						
-						// TODO: fix these lines (get from db)
 						$filename = $row['filename'];
-						//$filename = 'Mobile2016.jpg';
 						
 						if(!$buyer)
 							$buyer = 'n/a';

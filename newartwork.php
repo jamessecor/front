@@ -192,7 +192,7 @@ require "../includes/frontConnect.php";
 					</tr>
 					<tr>
 						<td>Price</td>
-						<td><input type='number' name='price' value="<?php echo isset($_POST['price']) ? $_POST['price'] : '';  ?>"></td>
+						<td><input type='text' name='price' value="<?php echo isset($_POST['price']) ? $_POST['price'] : '';  ?>"></td>
 						<td><small class='errorText'><?php echo array_key_exists('price',$errors) ? $errors['price'] : ''; ?></small></td>
 					</tr>
 					<tr>

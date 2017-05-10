@@ -81,6 +81,9 @@ function() {
 		<?php
 		}?>
 		<li>
+			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
+		</li>
+		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
 		</li>
 		
