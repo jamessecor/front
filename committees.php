@@ -16,7 +16,8 @@ if(!isLoggedIn()) {
 	$query = "SELECT CONCAT(p.firstname, ' ', p.lastname) AS 'member', c.committeeName, a.joinDate, a.endDate
 			  FROM assignments a 
 			  JOIN committees c ON a.committeeID = c.committeeID
-			  JOIN people p ON a.personID = p.personID;";
+			  JOIN people p ON a.personID = p.personID
+			  ORDER BY c.committeeName;";
 	
 	$result = mysqli_query($db, $query);
 	
