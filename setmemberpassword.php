@@ -37,6 +37,17 @@ if(adminIsUser()) {
 		} else {
 			$errors['password1']="Password cannot be empty.";
 		}		
+		
+		// Password 2
+		if (!empty($_POST['password2'])) {
+			$password2 = $_POST['password2'];
+			
+			if($password2 !== $password1) {
+				$errors['password2']="Passwords do not match";
+			}
+		} else {
+			$errors['password2']="Password cannot be empty.";
+		}		
 	   
 		if (count($errors) > 0) {
 			$validInputs = false;
