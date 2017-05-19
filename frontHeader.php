@@ -26,13 +26,11 @@ $(window).scroll(
 function() {
 	var currentTop = $(window).scrollTop();
 	if(currentTop < this.previousTop) {
-		$("#nav").show();
+		$("ul").css("padding", "3.4em 0 0 0");
 		$("#top").show();
-		//$(".headings").marginTop("2em");
 	} else {
-		$("#nav").hide();
+		$("ul").css("padding", "0 0 0 0");
 		$("#top").hide();
-		//$(".headings").marginTop("0");
 	}
 	this.previousTop = currentTop;
 });

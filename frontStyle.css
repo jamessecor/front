@@ -121,6 +121,9 @@ body {
 
 table {
 	margin:0 auto;
+	padding:.5em;
+	/*background-color: #aaf;
+	border-radius: .5em;*/
 }
 
 input, select, button, input[type="file"] { 
@@ -145,7 +148,10 @@ th {
 td {
 	letter-spacing:.01em;
 	font-weight:bold;
-	padding-right: .5em;
+	padding: .05em .5em .05em .5em;
+	/*background-color: #ccc;*/
+	
+	/*border: .1em solid #ece;*/
 }
 
 #top {
