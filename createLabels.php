@@ -47,7 +47,7 @@ function createLabels($showNumber) {
 $errors = array();
 
 // Check that admin is logged in
-if(adminIsUser()) {
+if(labelCreatorIsUser()) {
 	if(isset($_POST['showForm'])) {
 		if(!empty($_POST['showNumber'])) {
 			$show = $_POST['showNumber'];
@@ -104,7 +104,7 @@ if(adminIsUser()) {
 <?php
 	}
 } else {
-	print "<div class='headings'><a href='./login.php'>Please Log In as Admin to proceed</a></div>";
+	print "<div class='headings'><a href='./login.php'>Please Log In as with Label Priveleges to proceed</a></div>";
 }
 print "</div></div>";
 include "frontFooter.php";

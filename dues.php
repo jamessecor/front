@@ -12,14 +12,14 @@ require "../includes/frontConnect.php";
 <div class='center'>
 
 <?php
-if(adminIsUser()) {
+if(bookkeeperIsUser()) {
 	$errors = array();
 	$validNewDues = false;
 	$validDuesInput = false;
 	$members = array();
 	
 	// ==========================================
-	// New Dues
+	// Submit New Dues Period
 	// ==========================================
 	if(isset($_POST['newdues'])) {
 		// Begin Date
@@ -51,7 +51,7 @@ if(adminIsUser()) {
 	}
 	
 	// ==========================================
-	// Payments
+	// Submit Payments
 	// ==========================================
 	if(isset($_POST['sendpayments'])) {
 		// Members Checkboxes
@@ -92,7 +92,7 @@ if(adminIsUser()) {
 	}
 	
 	// ==========================================
-	// No Errors: Form 1
+	// No Errors: New Dues Period
 	// ==========================================
 	if($validNewDues) {
 		// First Query: Insert new dues period
@@ -113,7 +113,7 @@ if(adminIsUser()) {
 		print "<tr><td><a href='./dues.php'>Back to Dues</a></td></tr></table>";
 	}
 	// ==========================================
-	// No Errors: Form 2
+	// No Errors: Submit Dues
 	// ==========================================	
 	else if($validDuesInput) {
 		foreach($members as $m) {
@@ -162,6 +162,47 @@ if(adminIsUser()) {
 			} else 
 				print "Payment processed for $m<br>";
 		}
+		
+	} 
+	// ==========================================
+	// Member Dues Status Table
+	// ==========================================	
+	else if(isset($_POST['status'])) {
+		// Show most recent payment date, begin and end date of period, and how much is owed.
+		
+		// Get person, id, and balance
+		$allMembersQuery = "SELECT personID, CONCAT(firstname, ' ', lastname) AS 'Name', balance FROM people WHERE member = 1 ORDER BY firstname;";
+		$allMembers = mysqli_query($db, $allMembersQuery);
+		if(!$allMembers) {
+			die("Database Error: " . mysqli_error($db));
+		} else {
+			echo "<table><tr><th>Name</th><th>Balance</th><th>Last Payment</th><th>Period Begin</th><th>Period End</th></tr>";
+			$n = mysqli_num_rows($allMembers);
+			for($i = 0; $i < $n; $i++) {
+				// Get Members, one at a time
+				$m = mysqli_fetch_assoc($allMembers);
+				$id = $m['personID'];
+				
+				// Get most recent payment
+				$paymentQuery = "SELECT m.paymentDate, d.begin, d.end, d.amount 
+								 FROM dues d 
+								 JOIN memberdues m ON d.periodID = m.periodID 
+								 WHERE m.personID = $id AND m.paymentDate = 
+									(SELECT max(paymentDate) FROM memberdues WHERE personID = $id);";
+				$paymentInfo = mysqli_query($db, $paymentQuery);
+				if(!$paymentInfo) {
+					die("Database Error: " . mysqli_error($db));
+				} else {
+					// Print table row
+					$p = mysqli_fetch_assoc($paymentInfo);
+					echo "<tr><td>$m[Name]</td><td>$m[balance]</td><td>$p[paymentDate]</td><td>$p[begin]</td><td>$p[end]</td></tr>";//</td></tr>";
+				}
+				
+			}
+		}
+		
+		
+		$query = "SELECT * FROM memberdues WHERE ";
 		
 	} else {
 		
@@ -271,6 +312,13 @@ if(adminIsUser()) {
 			<td></td><td></td><td><input type='submit' name='sendpayments' value='Send Payments'></td>
 		</tr>
 	</table>	
+	<hr>
+	<!-- See Member Dues Status -->
+	
+	<table>
+		<tr><th>Check Dues Status</th></tr>
+		<tr><td><input type="submit" name="status" value="Member Status"></td></tr>
+	</table>
 </form>
 
 <?php

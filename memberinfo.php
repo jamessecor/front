@@ -6,7 +6,18 @@ require "../includes/frontConnect.php";
 print "<div id='right_col'>";
 
 if(isLoggedIn()) {
+	/*   TODO: Add most recent dues paid
 	
+	// ==========================================
+	// Individual Dues Status
+	// ==========================================	
+	
+		$id = $_SESSION['username']; // 'First Last'
+		$q = "SELECT p.personID, p.balance, m.p
+			  FROM people p WHERE personID = '$id'; ";
+	
+	
+	*/
 	// Get member info from database
 	$username = $_SESSION['username'];
 	print "<div class='headings'>Membership Info for $username</div>";

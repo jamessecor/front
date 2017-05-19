@@ -15,4 +15,26 @@ function adminIsUser() {
 		return FALSE;
 }
 
+
+function bookkeeperIsUser() {
+	$bk = 'James Secor';
+	if(isLoggedIn() && $_SESSION['username'] == $bk)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+
+function labelCreatorIsUser() {
+	$labelCreators = ['James Secor', 'Deluxe Unlimited', 'Glen Coburn Hutcheson'];
+	if(isLoggedIn()) {
+		foreach($labelCreators as $lc) {
+			if($_SESSION['username'] == $lc)
+				return TRUE;
+		}
+	}
+	else
+		return FALSE;
+}
+
 ?>

@@ -25,14 +25,14 @@ $(window).scroll(
 },
 function() {
 	var currentTop = $(window).scrollTop();
-	if(currentTop < this.previousTop) {
+	if(currentTop <= this.previousTop) {
 		$("ul").css("padding", "3.4em 0 0 0");
 		$("#top").show();
 	} else {
 		$("ul").css("padding", "0 0 0 0");
 		$("#top").hide();
 	}
-	this.previousTop = currentTop;
+	// this.previousTop = currentTop;
 });
 </script>
 <div id='nav'>
@@ -58,16 +58,21 @@ function() {
 			if(adminIsUser()) {
 				?>
 				<li>
-					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/createLabels.php')) echo "class='active'";?> href="./createLabels.php">Labels</a>
-				</li>
-				<li>
 					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/setmemberpassword.php')) echo "class='active'";?> href="./setmemberpassword.php">Set Member Password</a>
 				</li>
+			<?php } 
+			// Only Label Creators see this link
+			if(labelCreatorIsUser()) { ?>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/createLabels.php')) echo "class='active'";?> href="./createLabels.php">Labels</a>
+				</li>
+			<?php } 
+			// Only bookkeeper see this link
+			if(bookkeeperIsUser()) { ?>
 				<li>
 					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/dues.php')) echo "class='active'";?> href="./dues.php">Dues</a>
 				</li>
-				<?php
-			} ?>
+			<?php } ?>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Info</a>
 		</li>
