@@ -104,7 +104,7 @@ if(labelCreatorIsUser()) {
 <?php
 	}
 } else {
-	print "<div class='headings'><a href='./login.php'>Please Log In as with Label Priveleges to proceed</a></div>";
+	print "<div class='headings'><a href='./login.php'>Please Log In as with Label Privileges to proceed</a></div>";
 }
 print "</div></div>";
 include "frontFooter.php";
