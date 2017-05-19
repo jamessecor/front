@@ -17,7 +17,7 @@ if(isLoggedIn()) {
 				ORDER BY p.firstname;";
 	TODO: use this query			
 				*/
-	$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'Name', phone, email, website FROM people ORDER BY firstname;";
+	$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'Name', phone, email, website FROM people WHERE member = 1 ORDER BY firstname;";
 	$result = mysqli_query($db, $query);
 	if(!$result)
 		echo "<h2>Database Error. Please try again later.</h2>";
