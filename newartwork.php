@@ -19,7 +19,7 @@ require "../includes/frontConnect.php";
 		$price = 0;
 		
 		// TODO: Change this when new show rolls around
-		$currentShow = '17';
+		$currentShow = '18';
 		
 		if(isset($_POST['newart'])) {
 			// TODO: finish processing

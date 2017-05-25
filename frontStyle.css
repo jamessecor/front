@@ -150,9 +150,9 @@ td {
 	letter-spacing:.01em;
 	font-weight:bold;
 	padding: .05em .5em .05em .5em;
-	/*background-color: #ccc;*/
 	
-	/*border: .1em solid #ece;*/
+	/* ??? */
+	border: 1px dashed rgba(100,0,250,.4);
 }
 
 #top {
