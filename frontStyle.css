@@ -42,7 +42,7 @@ a:hover {
 }
 
 /* navbar */
-#nav {
+.navbar {
 	position:fixed;
 	z-index:1;
 }
@@ -81,8 +81,9 @@ ul li a:hover:not(.active) {
 	color: #337;
 }
 
-/* End navbar */
+.more { display: none; }
 
+/* End navbar */
 body {
 	background-color:#eee;
 	width:100%;
@@ -193,4 +194,12 @@ footer {
 	bottom:1em;
 	right:6em;
 	color:#66d;
+}
+
+@media only screen and (max-width: 1000px) {
+	#top { display: none; }
+	nav {}
+	ul { float:none; padding: 0; }
+	ul li a { display:block; }
+	ul li { }
 }

@@ -34,8 +34,12 @@ function() {
 	}
 	// this.previousTop = currentTop;
 });
+
+$(".more").on("click", function() {
+	$("").show("slow");
+});
 </script>
-<div id='nav'>
+<nav class="navbar">
 	<ul>
 		<?php 
 		if(isLoggedIn()) { 
@@ -93,12 +97,10 @@ function() {
 		<?php
 		} else { 
 		?>
-		
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/login.php')) echo "class='active'";?> href="./login.php">Log In</a>
 		</li>
-		
-		<?php } ?>
-		
+		<?php } ?>		
 	</ul>
+</nav>
 </div>
