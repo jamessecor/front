@@ -18,7 +18,7 @@ if(isLoggedIn()) {
 		if(!$result)
 			echo "<h2>Database Error. Please try again later.</h2>";
 		else {
-			
+			// Print member table
 			print "<table id='membercontacts'>";
 			print "<tr><th>Name (link to website)</th><th>Phone</th><th>Email</th></tr>";
 			$numrows = mysqli_num_rows($result);
@@ -36,20 +36,22 @@ if(isLoggedIn()) {
 					
 					// Print row with or without link to website
 					if($website == NULL)
-						print "<tr><td>$memberName</td><td>$phone</td><td>$email</td></tr>";
+						print "<tr><td>$memberName</td><td>$phone</td><td>$email</td>";
 					else { 
 						print "<tr><td><a href='http://$website' target='_blank'>$memberName</a></td><td>$phone</td><td>$email</td>";
-						if($memberName == $_SESSION['username']) {
-							?>
-							<td><a href='changecontact.php'> Change</a></td>
-							
-							<?php
-						}
-						print "</tr>";
 					}				
+					print "</tr>";
 				}
 			}
 			print "</table>";
+			?>
+			<hr>
+			<table>
+				<tr>
+					<td><a href='changecontact.php'>Change My Contact Info</a></td>
+				</tr>
+			</table>
+			<?php
 		}
 	}
 } else {
