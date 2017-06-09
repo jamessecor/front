@@ -2,8 +2,6 @@
 // James Secor
 
 include "frontHeader.php";
-require("../includes/frontConfig.php");
-require("../includes/frontConnect.php");
 
 print "<div id='right_col'>";
 if(adminIsUser()) {

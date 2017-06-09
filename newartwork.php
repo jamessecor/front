@@ -1,7 +1,5 @@
 <?php
 include "frontHeader.php";
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
 ?>
 
 <div id="right_col">
@@ -213,7 +211,7 @@ require "../includes/frontConnect.php";
 						<td></td><td><input type="submit" name="newart" value="Submit Artwork" formnovalidate></td>
 					</tr>
 					<tr>
-						<td></td><td>| <a href='./artwork.php'>Back to Artwork</a> |</td>
+						<td></td><td><a href='./artwork.php'>Back to Artwork</a></td>
 					</tr>
 				</table>
 			</form>
@@ -224,6 +222,5 @@ require "../includes/frontConnect.php";
 </div>
 
 <?php
-mysqli_close($db);
 include "frontFooter.php";
 ?>

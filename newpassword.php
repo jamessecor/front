@@ -1,10 +1,6 @@
 <?php
 include "frontHeader.php";
 
-// Database Set-up
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
-
 $username='';
 $currentpasswd='';
 $newpasswd1='';
@@ -171,6 +167,5 @@ if($validation==true) {
 
 <?php
 }
-mysqli_close($db);
 include "frontFooter.php";
 ?>

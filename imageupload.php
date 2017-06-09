@@ -1,7 +1,5 @@
 <?php
 include "frontHeader.php";
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
 
 print "<div id='right_col'>";
 print "<div class='headings'>Image Upload</div>";
@@ -170,7 +168,7 @@ if(isLoggedIn()) {
 			<td></td><td><input type='submit' name='upload' value='Upload'></td>
 		</tr>
 		<tr>
-			<td></td><td colspan=2>| <a href='./artwork.php'>Back to Artwork</a> |</td>
+			<td></td><td colspan=2><a href='./artwork.php'>Back to Artwork</a></td>
 		</tr>
 	</table>
 </form>

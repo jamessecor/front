@@ -1,10 +1,6 @@
 <?php
 include "frontHeader.php";
 
-// Database Set-up
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
-
 // Displays member images given a show number and a member array of >= 1
 // TODO: implement
 function displayImages($query, $memberArray) 
@@ -192,6 +188,5 @@ if(isLoggedIn()) {
 } else {
 	print "<div class='headings'><a href='./login.php'>Please Log In</a></div>";
 }
-mysqli_close($db);
 include "frontFooter.php";
 ?>

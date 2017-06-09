@@ -1,7 +1,5 @@
 <?php
 include "frontHeader.php";
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
 
 $username = $_SESSION['username'];
 ?>
@@ -92,6 +90,5 @@ if($go) {
 </div></div>
 <?php
 }
-mysqli_close($db);
 include "frontFooter.php";
 ?>

@@ -1,7 +1,5 @@
 <?php
 include "frontHeader.php";
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
 ?>
 
 <div id="right_col">
@@ -62,12 +60,14 @@ if(isLoggedIn()) {
 			print "</table>";
 		}
 	}
-	print  "<hr><table>
-				<tr>
-					<td>| <a href='./newartwork.php'>Submit New Artwork</a> |</td>
-					<td><a href='./imageupload.php'>Upload Image(s)</a> |</td>
-				</tr>
-			</table>";
+	?>
+	<hr><table>
+		<tr>
+			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
+			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
+		</tr>
+	</table>
+	<?php
 } else {
 	print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>";
 }

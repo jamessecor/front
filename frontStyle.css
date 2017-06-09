@@ -152,6 +152,12 @@ td {
 	padding: .05em .5em .05em .5em;
 }
 
+td a {
+	padding:.1em;
+	border: 1.5px solid #daa;
+	border-radius: .5em;
+}
+
 /*td:not(.errorText) {
 	/* ??? *
 	border: 1px dashed rgba(100,0,250,.4);

@@ -1,10 +1,6 @@
 <?php
 include "frontHeader.php";
 
-// Database Set-up
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
-
 $username='';
 $passwd='';
 $errors=array();
@@ -125,6 +121,5 @@ if(isLoggedIn()) {
 
 <?php
 }
-mysqli_close($db);
 include "frontFooter.php";
 ?>

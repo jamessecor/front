@@ -1,7 +1,5 @@
 <?php
 include "frontHeader.php";
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
 ?>
 
 <div id="right_col">
@@ -48,7 +46,7 @@ if(isLoggedIn()) {
 			<hr>
 			<table>
 				<tr>
-					<td><a href='changecontact.php'>Change My Contact Info</a></td>
+					<td><a href='changecontact.php'>Click to Change Contact Info</a></td>
 				</tr>
 			</table>
 			<?php
@@ -62,6 +60,5 @@ if(isLoggedIn()) {
 
 </div></div>
 <?php
-mysqli_close($db);
 include "frontFooter.php";
 ?>

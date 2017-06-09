@@ -1,7 +1,6 @@
 <?php
 include "frontHeader.php";
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
+
 // Open right_col
 print "<div id='right_col'>";
 

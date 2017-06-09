@@ -1,10 +1,5 @@
 <?php
 include "frontHeader.php";
-
-// Database Set-up
-require "../includes/frontConfig.php";
-require "../includes/frontConnect.php";
-
 ?>
 
 <div id='right_col'>
@@ -327,6 +322,5 @@ if(bookkeeperIsUser()) {
 	print "<div class='headings'><a href='login.php'>Log In to Proceed</a></div>";
 }
 print "</div></div>";
-mysqli_close($db);
 include "frontFooter.php";
 ?>

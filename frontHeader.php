@@ -14,6 +14,9 @@
 <?php
 session_start();
 include "checkLogin.php";
+require "../includes/frontConfig.php";
+require "../includes/frontConnect.php";
+
 if(isLoggedIn()) {
 	print "<h1 id='membername'>[ Logged in as $_SESSION[username] ]</h1>";
 } 
@@ -72,8 +75,8 @@ $(".more").on("click", function() {
 				<li>
 					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/dues.php')) echo "class='active'";?> href="./dues.php">Dues</a>
 				</li>
-			<?php } ?>
-		<?php // Only non-admin users see this link
+			<?php } 
+			// Only non-admin users see this link
 			if(!adminIsUser()) {?>
 			<li>
 				<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
