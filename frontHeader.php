@@ -19,6 +19,7 @@ if(isLoggedIn()) {
 } 
 ?>
 <script>
+// This scrolls the navbar to top and removes 'The Front" heading
 $(window).scroll(
 {
 	previousTop:0
