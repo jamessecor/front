@@ -12,10 +12,16 @@ if(isLoggedIn()) {
 	$validation = false;
 	
 	if(isset($_POST['upload'])) {
+	
+	   //print_r ($_POST);                 // only for debugging
+		//print_r ($_FILES);
 		if(!empty($_POST['title'])) {
 			$title = $_POST['title'];
 		} else {
 			$errors['title'] = 'Title not recognized.';
+		}
+		if(empty($_POST['filename'])) {
+			$errors['filename'] = "Please Select a File.";
 		}
 		if(count($errors) == 0) {
 			$validation = true;
@@ -31,9 +37,17 @@ if(isLoggedIn()) {
 		$target_dir = "uploads/";
 		$target_file = $target_dir . basename($_FILES["filename"]["name"]);
 		$uploadOk = 1;
-		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		
+		$path_parts = pathinfo($target_file);  // new line added by JDS
+		//$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);   original code. 
+		$imageFileType = $path_parts['extension'];
+        // line above was suggested in PHP manual pages online. pathinfo returns an array!		
+		
 		// Check if image file is a actual image or fake image		
+		$tmp_file = $_FILES["filename"]["tmp_name"];
 		$check = getimagesize($_FILES["filename"]["tmp_name"]);
+		//print "Checking image size of $tmp_file. Size is $check[0]<br>";
+		
 		if($check !== false) {
 			$uploadOk = 1;
 		} else {
@@ -48,18 +62,40 @@ if(isLoggedIn()) {
 		}
 		
 		// Check file size
-		if ($_FILES["filename"]["size"] > 1000000) {
-			echo "Sorry, your file is too large.";
+		if ($_FILES["filename"]["size"] > 10000000) {           // I changed this to 10 MB to accomodate hi res images. 
+			echo "Sorry, your file is too large.";              // I also had to change the setting in PHP.ini for max upload size
 			$uploadOk = 0;
 		}
 
-		// Allow certain file formats
-		if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-		&& $imageFileType != "gif" ) {
-			echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+		// Allow certain file formats    // JDS: I had to change these to uppercase. 
+		if($imageFileType != "JPG" && $imageFileType != "PNG" && $imageFileType != "JPEG"
+		&& $imageFileType != "GIF" ) {
+			echo "Image File type is $imageFileType. Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 			$uploadOk = 0;
 		}
 		
+		// Additional Error Checking Added by Joan: 
+		if ($_FILES['filename']['error'] > 0) {
+			$uploadOk = 0;
+			switch ($_FILES['filename']['error']) {
+				case 1:
+					echo "File exceeded upload_max_filesize";   break;  
+				case 2:
+					echo "File exceeded max_file_size.";     break;
+				case 3: 
+					echo "File ony partially uploaded.";  break;
+				case 4:
+					echo "No file uploaded.";  break;     
+				case 6: 
+					echo "No temp directory specified.";  break;
+				case 7:
+					echo "Upload failed. Cannot write to disk";    break;          
+				case 8:
+					echo "A PHP extension blocked the file upload.";   break;
+			}
+		}
+
+				
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk == 0) {
 			echo "Sorry, your file was not uploaded.";
