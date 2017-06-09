@@ -150,10 +150,12 @@ td {
 	letter-spacing:.01em;
 	font-weight:bold;
 	padding: .05em .5em .05em .5em;
-	
-	/* ??? */
-	border: 1px dashed rgba(100,0,250,.4);
 }
+
+/*td:not(.errorText) {
+	/* ??? *
+	border: 1px dashed rgba(100,0,250,.4);
+}*/
 
 #top {
 	position: fixed;
@@ -201,5 +203,6 @@ footer {
 	nav {}
 	ul { float:none; padding: 0; }
 	ul li a { display:block; }
-	ul li { }
+	ul li { width:100%; }
+	.headings { margin-top: 5em; }
 }

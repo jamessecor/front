@@ -51,11 +51,6 @@ $(".more").on("click", function() {
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberimages.php')) echo "class='active'";?> href="./memberimages.php">Images</a>
 		</li>
-		<!--  REMOVE COMMITTEES ???
-		<li>
-			<a <?php // if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
-		</li>
-		-->
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/contacts.php')) echo "class='active'";?> href="./contacts.php">Member Contacts</a>
 		</li>
@@ -78,23 +73,29 @@ $(".more").on("click", function() {
 					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/dues.php')) echo "class='active'";?> href="./dues.php">Dues</a>
 				</li>
 			<?php } ?>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Info</a>
-		</li>
-		<?php // Only not admin users see this link
-		if(!adminIsUser()) {?>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
-		</li>
-		<?php
-		}?>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
-		</li>
+		<?php // Only non-admin users see this link
+			if(!adminIsUser()) {?>
+			<li>
+				<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
+			</li>
+			<?php
+			}
+			if(adminIsUser()) {
+				// These are not part of beta
+				?>
+			<li>
+				<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Info</a>
+			</li>
+			<li>
+				<a <?php if(strpos($_SERVER['REQUEST_URI'], '/committees.php')) echo "class='active'";?> href="./committees.php">Committees</a>
+			</li>
+			
+			
+			<?php
+			} ?>
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
 		</li>
-		
 		<?php
 		} else { 
 		?>
