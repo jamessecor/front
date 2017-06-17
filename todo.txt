@@ -1,9 +1,9 @@
 TODO:
 - ? Add change contact capability
-- show images based on show (dropdown) or member (checkboxes)
--Preview label just after submitting artwork
 
--Addslashes for new artwork
--Create page to edit submitted labels-Input[...], ... in css file: add font-size:100%;
--Extra require statements need to be removed 
-from login.php
+-Preview label just after submitting artwork
+-Create page to edit submitted labels
+
+-Input[...], ... in css file: add font-size:100%;
+
+-Fix css @media navbar

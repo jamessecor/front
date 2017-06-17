@@ -27,17 +27,9 @@ if(isset($_POST['login'])) {
 	}	
 	
 	// NO ERRORS
-	if(count($errors)==0) {
-		// Database setup
-		require("../includes/frontConfig.php");
-		require("../includes/frontConnect.php");
-		
-		// enter info and close
-		
-		// TODO: Change query to following
-		$query = "SELECT CONCAT(firstname,' ',lastname) AS 'username', passwdHash FROM people WHERE CONCAT(firstname, ' ',lastname) = '$username';";
-		//$query = "SELECT username, password FROM users WHERE username = '$username';";
-		
+	if(count($errors)==0) {		
+		// Query Database
+		$query = "SELECT CONCAT(firstname,' ',lastname) AS 'username', passwdHash FROM people WHERE CONCAT(firstname, ' ',lastname) = '$username';";		
 		$result = mysqli_query($db, $query);
 		
 		if(!$result)

@@ -17,11 +17,9 @@ include "frontHeader.php";
 		$price = 0;
 		
 		// TODO: Change this when new show rolls around
-		$currentShow = '18';
+		$currentShow = '19';
 		
 		if(isset($_POST['newart'])) {
-			// TODO: finish processing
-			
 			// Set username to artist's name
 			if(!adminIsUser()) $_POST['username'] = $_SESSION['username'];
 			
@@ -36,7 +34,7 @@ include "frontHeader.php";
 
 			// Title
 			if(!empty($_POST['title'])) {
-				$title = trim($_POST['title']);
+				$title = addslashes(trim($_POST['title']));
 				if(strlen($title) == 0)
 					$errors['title'] = "Please Enter a Title.";
 			} else {
@@ -54,7 +52,8 @@ include "frontHeader.php";
 			
 			// Medium/Media
 			if(!empty($_POST['media'])) {
-				$media = trim($_POST['media']);
+				//$media = trim($_POST['media']);
+				$media = addslashes(trim($_POST['media']));
 				if(strlen($media) == 0) 
 					$errors['media'] = "Please Enter a Medium or Media";
 			} else {
