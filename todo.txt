@@ -3,6 +3,9 @@ TODO:
 
 -Preview label just after submitting artwork
 -Create page to edit submitted labels
+	- This page can be better
+
+
 
 -Input[...], ... in css file: add font-size:100%;
 

@@ -31,7 +31,11 @@ function createLabels($showNumber) {
 			for($i = 0; $i < $numrows; $i++) {
 				$piece = mysqli_fetch_assoc($works);
 				if($piece) {
-					$label = "$piece[title]\n$piece[artist]\t$piece[yearMade]\n$piece[medium]\n$$piece[price]\n\n";
+					$label = "$piece[title]\n$piece[artist]\t$piece[yearMade]\n$piece[medium]\n";
+					if(is_numeric($piece['price'])) {
+						$label = $label . "$";
+					}
+					$label = $label . "$piece[price]\n\n";
 					fwrite($fileptr, $label);
 				}
 			}

@@ -204,16 +204,48 @@ include "frontHeader.php";
 						</td>
 						<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
 					<tr>
-						<td class='errorText' colspan=2>Please Double Check Before Submitting</td>
+						<td class='errorText' colspan=2>Preview Label Before Submitting</td>
 					</tr>
 					<tr>
 						<td></td><td><input type="submit" name="newart" value="Submit Artwork" formnovalidate></td>
 					</tr>
-					<tr>
-						<td></td><td><a href='./artwork.php'>Back to Artwork</a></td>
-					</tr>
 				</table>
 			</form>
+			
+			<!-- New -->
+			<hr>
+			<table>
+				<tr>
+					<td><button id="previewButton">Preview Label</button></td>
+				</tr>
+				<tr>
+					<td id="labelPreview"></td>
+				</tr>
+				<tr>
+					<td><a href='./artwork.php'>Back to Artwork</a></td>
+				</tr>
+			</table>
+			<script>
+			$(document).ready(function() {
+				$("#previewButton").on("click", function() {
+					// Get label info
+					var title  = document.getElementsByName("title")[0].value;
+					var artist = document.getElementsByName("username")[0].value;
+					var year   = document.getElementsByName("year")[0].value;
+					var media  = document.getElementsByName("media")[0].value;
+					var price  = document.getElementsByName("price")[0].value;
+					
+					// Show label preview
+					var labelText = "<p>" + title + "<br>" + artist + "&nbsp; &nbsp;" + year + "<br>" + media + "<br>";
+					if(!isNaN(price)) {
+						labelText += "$";
+					}
+					labelText +=  price + "</p>";
+					$("#labelPreview").html(labelText);
+				});
+			});
+			</script>
+			<!-- End New -->
 		<?php 
 		} 
 	} else print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>"; ?>
