@@ -102,7 +102,42 @@ if(labelCreatorIsUser()) {
 			</tr>
 		</table>
 	</form>
+	<table>
+		<tr><td><a id="toggleMissingLabelInfo">Show Missing Artists</a></td></tr>
+	</table>
+	<table style="display:none" id='missingLabelInfo'>
+		<tr><th>Need Labels From...</th></tr>
+		<?php
+		$query = "select distinct firstname, lastname from people 
+					where member = 1 AND lastname not in (
+						select distinct p.lastname FROM people p
+						left OUTER JOIN artwork a ON p.personID = a.artistID
+						where a.showNumber = 19
+						) ";
+		$result = mysqli_query($db, $query);
+		if(!$result)
+			$errors['missingLabels'] = "Error in SQL statement." . mysqli_error($db);
+		else {
+			$numrows = mysqli_num_rows($result);
+			for($i = 0; $i < $numrows; $i++) {
+				$missingArtist = mysqli_fetch_assoc($result);
+				if($missingArtist) {
+					print "<tr><td>$missingArtist[firstname] $missingArtist[lastname]</td></tr>";
+				}
+			}
+		}
+		?>
+		
+	</table>
 	</div>
+	<script>
+	$(document).ready(function() {
+		$("#toggleMissingLabelInfo").on("click", function() {
+			$("#missingLabelInfo").toggle("slow", function() {
+			});
+		});
+	});
+	</script>
 <?php
 	}
 } else {
