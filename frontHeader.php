@@ -45,6 +45,10 @@ $(".more").on("click", function() {
 </script>
 <nav class="navbar">
 	<ul>
+		<li id="getMoreNav" style="display:none">
+			<a href='' >More</a>
+		</li>
+		<span id="moreNav">
 		<?php 
 		if(isLoggedIn()) { 
 		?>
@@ -105,7 +109,11 @@ $(".more").on("click", function() {
 		<li>
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/login.php')) echo "class='active'";?> href="./login.php">Log In</a>
 		</li>
-		<?php } ?>		
+		<?php } ?>	
+		</span>
 	</ul>
 </nav>
+</div>
+<div id="spacer">
+&nbsp;
 </div>

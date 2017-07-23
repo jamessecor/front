@@ -128,7 +128,7 @@ include "frontHeader.php";
 							<td><select name="username">
 							<option value=''>Choose Name</option>
 							<?php
-							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY username;";
+							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 ORDER BY username;";
 							$result = mysqli_query($db, $query);
 							if(!$result) {
 								$errors['username'] = "Error in SQL statement." . mysqli_error($db);

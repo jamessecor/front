@@ -73,7 +73,7 @@ if(isLoggedIn()) {
 				
 				// TODO: Select members from correct db as below
 				//$query = "SELECT CONCAT(firstname, ' ', lastname) FROM artists ORDER BY firstname;";
-				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY username;";
+				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 ORDER BY username;";
 				$result = mysqli_query($db, $query);
 				if(!$result) {
 					$errors['username'] = "Error in SQL statement." . mysqli_error($db);

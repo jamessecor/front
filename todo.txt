@@ -1,12 +1,14 @@
 TODO:
-- ? Add change contact capability
+- add query for finding members without label info for current show
+select distinct firstname, lastname from people 
+where member = 1 AND lastname not in (
+	select distinct p.lastname FROM people p
+	left OUTER JOIN artwork a ON p.personID = a.artistID
+	where a.showNumber = 19
+	) 
 
--Preview label just after submitting artwork
+
+
 -Create page to edit submitted labels
-	- This page can be better
-
-
-
--Input[...], ... in css file: add font-size:100%;
 
 -Fix css @media navbar
