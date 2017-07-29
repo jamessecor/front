@@ -198,7 +198,11 @@ if(bookkeeperIsUser()) {
 		
 		
 		$query = "SELECT * FROM memberdues WHERE ";
-		
+	// ==========================================
+	// Member Dues Status Table
+	// ==========================================	
+	} else if(isset($_POST['missingDues'])) {	
+		print "here";
 	} else {
 		
 	// ==========================================
@@ -313,6 +317,35 @@ if(bookkeeperIsUser()) {
 	<table>
 		<tr><th>Check Dues Status</th></tr>
 		<tr><td><input type="submit" name="status" value="Member Status"></td></tr>
+	</table>
+	<!-- Check missing dues by date -->
+	<table>
+		<tr><th>Check Missing Dues</th></tr>
+		<tr>
+			<td>
+			<select name='duesStartDate'>
+				<option value=''>Choose Dues Period</option>
+				<?php
+				$query = "SELECT DISTINCT begin FROM dues ORDER BY begin DESC;";
+				$result = mysqli_query($db, $query);
+				if(!$result)
+					$errors['missingDuesError'] = "Error in SQL statement." . mysqli_error($db);
+				else {
+					$numrows = mysqli_num_rows($result);
+					for($i = 0; $i < $numrows; $i++) {
+						$duesPeriod = mysqli_fetch_array($result);
+						if($duesPeriod) {
+							$n = $duesPeriod[0];
+							print "<option value='$n'>$n</option>";
+						}
+					}
+				}
+				?>
+			</select>
+			</td>
+			<td><input type="submit" name="missingDues" value="Find Missing Dues"></td>
+			<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
+		</tr>
 	</table>
 </form>
 

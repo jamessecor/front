@@ -104,7 +104,7 @@ include "frontHeader.php";
 			// Query to insert data
 			// TODO: buyerID should not be hard-coded to 1
 			$query = "INSERT INTO artwork (artistID, buyerID, artworkID, title, yearMade, medium, price, showNumber) 
-					  VALUES ($artistID, NULL, NULL, '$title', '$year', '$media', $price, $showNumber);";
+					  VALUES ($artistID, NULL, NULL, '$title', '$year', '$media', '$price', $showNumber);";
 					  
 			// Send query to database
 			$result = mysqli_query($db, $query);
@@ -230,7 +230,12 @@ include "frontHeader.php";
 				$("#previewButton").on("click", function() {
 					// Get label info
 					var title  = document.getElementsByName("title")[0].value;
-					var artist = document.getElementsByName("username")[0].value;
+					var artist = "";
+					<?php if(adminIsUser()) { ?>
+						artist = document.getElementsByName("username")[0].value;
+					<?php } else { ?>
+						artist = <?php echo json_encode($_SESSION['username']); ?>;
+					<?php } ?>
 					var year   = document.getElementsByName("year")[0].value;
 					var media  = document.getElementsByName("media")[0].value;
 					var price  = document.getElementsByName("price")[0].value;

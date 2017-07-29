@@ -65,6 +65,7 @@ if(isLoggedIn()) {
 		<tr>
 			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
 			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
+			<td><a href='./editartwork.php'>Edit Artwork Info</a></td>
 		</tr>
 	</table>
 	<?php
