@@ -118,6 +118,7 @@ body {
 	border-radius:.5em;
 	background-color: #ccc;
 	color: rgba(100,100,200,.9);
+	tabindex:0;
 }
 
 table {

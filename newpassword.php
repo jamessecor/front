@@ -63,12 +63,6 @@ if(isset($_POST['changepasswd'])) {
 	// NO ERRORS
 	// =============================================================
 	if(count($errors)==0) {
-		// Database setup
-		require("../includes/frontConfig.php");
-		require("../includes/frontConnect.php");
-		
-		// TODO: Change query to work with correct database
-		
 		// Check current password before proceding
 		// Select password hash from db, check, then change password in db
 		$query1="SELECT passwdHash FROM people WHERE CONCAT(firstname, ' ', lastname) = '$username';";
