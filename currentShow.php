@@ -1,0 +1,3 @@
+<?php
+$currentShow = '23';
+?>
