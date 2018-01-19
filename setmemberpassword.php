@@ -1,13 +1,15 @@
 <?php
 // James Secor
+// setmemberpassword.php
 
 include "frontHeader.php";
-
-print "<div id='right_col'>";
+?>
+<div id='right_col'>
+	<div class='headings'>Set New Password for Members</div>
+		<div class='center'>
+<?php
 if(adminIsUser()) {
-		
-	print "<div class='headings'>Set New Password for Members</div>";
-
+	
 	$username='';
 
 	$validInputs = false; 
@@ -64,7 +66,7 @@ if(adminIsUser()) {
 				die("INSERT error:" . mysqli_error($db));
 		
 		
-			echo "<p class='center'>Password set for $username.</p>";
+			echo "<p>Password set for $username.</p>";
 			   
 		}
 		
@@ -75,7 +77,7 @@ if(adminIsUser()) {
 
 	if (!$validInputs)  {      // DISPLAY THE REGISTRATION FORM if user inputs are not yet valid. 
 	?>
-		<form class='center' action="" method="post">
+		<form action="" method="post">
 			<table>
 				<tr>
 					<td>Username:</td>
@@ -83,7 +85,7 @@ if(adminIsUser()) {
 					<select name="username">
 						<option value=''>Choose Name</option>
 						<?php						
-						$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people ORDER BY firstname;";
+						$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = '1' ORDER BY firstname;";
 						$result = mysqli_query($db, $query);
 						if(!$result) {
 							die("Error in SQL statement." . mysqli_error($db));
@@ -127,14 +129,25 @@ if(adminIsUser()) {
 					<td></td>
 					<td><input type='submit' name='submit' value='Set Password' formnovalidate></td>
 				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td></td><td><a href="./usermanagement.php">Back to User Management</a></td>
+				</tr>
 			</table>
 		</form>
 	</div>
 <?php 
 	}
 } else {
-	print "<div class='headings'><a href='./login.php'>Please Log In</a></div>";
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
+<?php
 }
+echo "</div>";
 include "frontFooter.php";
 ?>
 

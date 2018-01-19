@@ -1,14 +1,1 @@
 TODO:
-- add query for finding members without label info for current show
-select distinct firstname, lastname from people 
-where member = 1 AND lastname not in (
-	select distinct p.lastname FROM people p
-	left OUTER JOIN artwork a ON p.personID = a.artistID
-	where a.showNumber = 19
-	) 
-
-
-
--Create page to edit submitted labels
-
--Fix css @media navbar

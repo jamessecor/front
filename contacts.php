@@ -53,8 +53,13 @@ if(isLoggedIn()) {
 		}
 	}
 } else {
-	
-	print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>";
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
+<?php
 }
 ?>
 

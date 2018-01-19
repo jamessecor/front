@@ -1,4 +1,8 @@
 <?php
+// memberimages.php
+// author James Secor
+// TODO: convert to using only one submit button
+// drop-downs as filters
 include "frontHeader.php";
 
 // Displays member images given a show number and a member array of >= 1
@@ -20,7 +24,7 @@ function displayImages($query, $memberArray)
 			$row = mysqli_fetch_assoc($data);
 			if($row) {
 				$filepath = "./uploads/" . $row['filename'];
-				print "<a href='$filepath' target='_blank'><img width='50%' src='$filepath' alt='No Image'></a>";
+				print "<a href='$filepath' target='_blank'><img width='75%' src='$filepath' alt='No Image'></a>";
 				print "<div id='label'><em>$row[title]</em>, $row[yearMade]. $row[medium]<br>$row[member]</div><br><br>";
 				
 			}
@@ -32,7 +36,7 @@ function displayImages($query, $memberArray)
 			<button id="toImgSelection">Back to Image Selection</button>
 			<script>
 			document.getElementById("toImgSelection").addEventListener("click", function() {
-				window.location.href = 'memberImages.php';
+				window.location.href = 'memberimages.php';
 			});
 			
 			document.getElementById("toTop").addEventListener("click", function() {
@@ -57,48 +61,30 @@ if(isLoggedIn()) {
 	$member= '';
 	$showNum= '';
 	
-	if(isset($_POST['go'])) {
+	if(isset($_POST['viewimages'])) {
 		if(!empty($_POST['showNumber'])) {
-			$showNum = $_POST['showNumber'];
-		} else {
-			$errors['showNumber'] = "Select a show number";
+			$showNum = addslashes(trim($_POST['showNumber']));
 		}
-		if(count($errors)===0) {
-			$validation = true;
-		}
-	} else if(isset($_POST['gogogo'])) {
-		$validation = true;
-	} else if(isset($_POST['gomember'])) {
 		if(!empty($_POST['member'])) {
-			$member = $_POST['member'];
-		} else {
-			$errors['member'] = "Select a member";
+			$member = addslashes(trim($_POST['member']));
 		}
-		if(count($errors)===0)
-			$validation = true;
+		$validation = true;
 	}
-	
+		
 	// Show number has been selected
 	if($validation) {
-		if(isset($_POST['gogogo'])) {
-			$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename 
-				FROM artwork a 
-				JOIN people m ON a.artistID = m.personID 
-				WHERE a.filename IS NOT NULL
-				ORDER BY m.firstname;";
-		} else if(isset($_POST['go'])) {
-			$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename 
-				FROM artwork a 
-				JOIN people m ON a.artistID = m.personID 
-				WHERE showNumber = '$showNum' AND a.filename IS NOT NULL
-				ORDER BY showNumber;";
-		} else if(isset($_POST['gomember'])) {
-			$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename 
-				FROM artwork a 
-				JOIN people m ON a.artistID = m.personID 
-				WHERE CONCAT(m.firstname, ' ', m.lastname) = '$member' AND a.filename IS NOT NULL
-				ORDER BY m.firstname;";
+		$where = "WHERE a.filename IS NOT NULL";
+		if($showNum !== "") {
+			$where = $where . " AND showNumber = '$showNum'";
 		}
+		if($member !== "") {
+			$where = $where . " AND CONCAT(m.firstname, ' ', m.lastname) = '$member' AND a.filename IS NOT NULL";
+		}
+		$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename 
+				FROM artwork a 
+				JOIN people m ON a.artistID = m.personID 
+				$where
+				ORDER BY m.firstname;";
 		displayImages($query, 'xxx');  // 2nd parameter (member list) not used
 	} else {
 ?>
@@ -108,6 +94,9 @@ if(isLoggedIn()) {
 
 <form method='post' action=''>
 	<table>
+		<tr>
+			<td class="errorText">Filters are optional</td>
+		</tr>
 		<tr>
 			<th colspan=7>Select Images By:</th>
 		</tr>
@@ -139,10 +128,8 @@ if(isLoggedIn()) {
 			?>
 			</select>
 			</td>
-			<td><input type='submit' name='go' value='Go'></td>
-			<td>or</td>
-		
-		
+		</tr>
+		</tr>	
 			<!-- Select member -->
 			<td>
 			<select name='member'>
@@ -168,11 +155,9 @@ if(isLoggedIn()) {
 			?>
 			</select>
 			</td>
-			<td><input type='submit' name='gomember' value='Go'></td>
-			<td>or</td>
-			
-			<!-- Select all images -->
-			<td><input type='submit' name='gogogo' value='Show All Images'></td>
+		</tr>
+		<tr>			
+			<td><input type='submit' name='viewimages' value='View Images'></td>
 		</tr>
 	</table>
 </form>
@@ -186,7 +171,13 @@ if(isLoggedIn()) {
 <?php
 	}
 } else {
-	print "<div class='headings'><a href='./login.php'>Please Log In</a></div>";
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
+<?php
 }
 include "frontFooter.php";
 ?>

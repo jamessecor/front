@@ -1,4 +1,7 @@
 <?php
+// newartwork.php
+// author James Secor
+// January 2018
 include "frontHeader.php";
 ?>
 
@@ -17,7 +20,7 @@ include "frontHeader.php";
 		$price = 0;
 		
 		// TODO: Change this when new show rolls around
-		$currentShow = '19';
+		include "currentShow.php";
 		
 		if(isset($_POST['newart'])) {
 			// Set username to artist's name
@@ -67,7 +70,7 @@ include "frontHeader.php";
 					$errors['price'] = "Please Enter a Dollar Amount";
 				} 
 			} else {
-				$errors['price'] = "Please Enter a Dollar Amount";
+				$errors['price'] = "Please Enter a Price";
 			}
 			
 			
@@ -104,13 +107,13 @@ include "frontHeader.php";
 			// Query to insert data
 			// TODO: buyerID should not be hard-coded to 1
 			$query = "INSERT INTO artwork (artistID, buyerID, artworkID, title, yearMade, medium, price, showNumber) 
-					  VALUES ($artistID, NULL, NULL, '$title', '$year', '$media', '$price', $showNumber);";
+					VALUES ($artistID, NULL, NULL, '$title', '$year', '$media', '$price', $showNumber);";
 					  
 			// Send query to database
 			$result = mysqli_query($db, $query);
 			
 			if(!$result)
-				die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
+				die("<table><tr><td>$price: Data Entry Error. <a href=''>Please try again.</a></td></tr>");
 			else 
 				print "<table><tr><td>Your artwork has been submitted.</td></tr>";
 			print "<tr>
@@ -128,7 +131,7 @@ include "frontHeader.php";
 							<td><select name="username">
 							<option value=''>Choose Name</option>
 							<?php
-							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 ORDER BY username;";
+							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 OR member = 2 ORDER BY username;";
 							$result = mysqli_query($db, $query);
 							if(!$result) {
 								$errors['username'] = "Error in SQL statement." . mysqli_error($db);
@@ -230,12 +233,7 @@ include "frontHeader.php";
 				$("#previewButton").on("click", function() {
 					// Get label info
 					var title  = document.getElementsByName("title")[0].value;
-					var artist = "";
-					<?php if(adminIsUser()) { ?>
-						artist = document.getElementsByName("username")[0].value;
-					<?php } else { ?>
-						artist = <?php echo json_encode($_SESSION['username']); ?>;
-					<?php } ?>
+					var artist = document.getElementsByName("username")[0].value;
 					var year   = document.getElementsByName("year")[0].value;
 					var media  = document.getElementsByName("media")[0].value;
 					var price  = document.getElementsByName("price")[0].value;
@@ -253,7 +251,13 @@ include "frontHeader.php";
 			<!-- End New -->
 		<?php 
 		} 
-	} else print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>"; ?>
+	} else {	
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
 	</div>
 </div>
 

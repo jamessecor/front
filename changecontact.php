@@ -1,4 +1,7 @@
 <?php
+// changecontact.php
+// author James Secor
+// January 2018
 include "frontHeader.php";
 
 $username = $_SESSION['username'];
@@ -9,6 +12,7 @@ $username = $_SESSION['username'];
 <div class="center">
 
 <?php
+if(isLoggedIn()) {
 $error = false;
 $go = false;
 
@@ -83,11 +87,21 @@ if($go) {
 			<td></td>
 			<td><input type="submit" name="submitNewInfo" value="Submit New Info"> </td>
 		</tr>
+		<tr><td>&nbsp;</td></tr>
 		<tr><td></td><td><a href="./contacts.php">Back to Contacts</a></td></tr>
 	</table>
 </form>
 
 </div></div>
+<?php
+} 
+} else {
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
 <?php
 }
 include "frontFooter.php";

@@ -1,4 +1,5 @@
 <?php
+// artwork.php
 include "frontHeader.php";
 ?>
 
@@ -33,7 +34,7 @@ if(isLoggedIn()) {
 			//$total = 0;
 			print "<table id='memberart'>";
 
-				print "<tr><th>View Image</th><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
+				print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
 				for($i = 0; $i < $numrows; $i++) {
 					$row = mysqli_fetch_assoc($result);
 					if($row) {
@@ -50,11 +51,15 @@ if(isLoggedIn()) {
 						//else
 							//$total += $price;
 						// TODO: add link to upload on title
-						if($filename)
-							$link = "<a href='./uploads/$filename' target='_blank'>open</a>";
-						else
-							$link = "n/a";
-						print "<tr><td>$link</td><td>$title</td><td>$media</td><td>$y</td><td>$$price</td><td>$show</td><td>$buyer</td></tr>";
+						if($filename) {
+							$title = "<a href='./uploads/$filename' target='_blank'>$title</a>";
+						}
+
+						// Add "$" to price
+						if(is_numeric($price))
+							$price = "$$price";
+							
+						print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$price</td><td>$show</td><td>$buyer</td></tr>";
 					}
 				}
 			print "</table>";
@@ -65,12 +70,18 @@ if(isLoggedIn()) {
 		<tr>
 			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
 			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
-			<td><a href='./editartwork.php'>Edit Artwork Info</a></td>
+			<td><a href='./editartwork.php'>Edit Artwork</a></td>
 		</tr>
 	</table>
 	<?php
 } else {
-	print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>";
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
+<?php
 }
 
 ?>

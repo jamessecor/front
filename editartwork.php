@@ -1,189 +1,193 @@
 <?php
+// editartwork.php
+// author jrs
+// 2018
 include "frontHeader.php";
-
-$username='';
-$currentTitle='';
-$errors=array();
-$newErrors=array();
-$validation=false;
-$newValidation = false;
-
-print "<div id='right_col'>";
-print "<div class='headings'>Edit Artwork</div>";
-print "<div class='center'>";
-
-// Verify inputs
-if(isset($_POST['changeartwork'])) {
-	// Title
-	if(!empty($_POST['currentTitle'])) {
-		$currentTitle = addslashes($_POST['currentTitle']);	
-		if(strlen(trim($currentTitle))==0)
-			$errors['currentTitle']="Title cannot be blank.";
-	} else {
-		$errors['currentTitle']="This field is required.";
-	}	
-	
-	// =============================================================	
-	// NO ERRORS
-	// =============================================================
-	if(count($errors)==0) {		
-		$validation=true;
-	}	
-} else if(isset($_POST['submitChanges'])) {	
-	// Title
-	if(!empty($_POST['newTitle'])) {
-		$title = addslashes(trim($_POST['newTitle']));
-		if(strlen($title) == 0)
-			$newErrors['newTitle'] = "Please Enter a Title.";
-	} else {
-		$newErrors['newTitle'] = "Please Enter a Title.";
-	}
-	
-	// Date complete (Year)	
-	if(!empty($_POST['newYear'])) {
-		$year = trim($_POST['newYear']);
-		if(strlen($year) == 0)
-			$newErrors['newYear'] = "Please Enter a Year";		
-	} else {
-		$newErrors['newYear'] = "Please Enter a Year";
-	}
-	
-	// Medium/Media
-	if(!empty($_POST['newMedia'])) {
-		//$media = trim($_POST['media']);
-		$media = addslashes(trim($_POST['newMedia']));
-		if(strlen($media) == 0) 
-			$newErrors['newMedia'] = "Please Enter a Medium or Media";
-	} else {
-		$newErrors['newMedia'] = "Please Enter a Medium or Media";
-	}
-
-	// Price	
-	if(!empty($_POST['newPrice'])) {
-		$price = trim($_POST['newPrice']);
-		if(strlen($price) == 0) {
-			$newErrors['newPrice'] = "Please Enter a Dollar Amount";
-		} 
-	} else {
-		$newErrors['newPrice'] = "Please Enter a Dollar Amount";
-	}
-	
-	// =============================================================	
-	// NO ERRORS
-	// =============================================================
-	if(count($newErrors)==0) {		
-		$newValidation=true;
-	}	
-	
-	if($newValidation) {
-		
-		print "<hr><p>Edit Another?</p>";
-	}
-}
-
-// New form to change artwork
-if($validation==true) {
-	// Successful Change
-	// Get Current Artwork Info
-	$query = "SELECT * FROM artwork WHERE title = '$_POST[currentTitle]';";
-	// TODO: Do I worry about duplicate titles ("Untitled")
-	$result = mysqli_query($db, $query);
-	if(!$result)
-		$result = array();
-	else {
-		$piece = mysqli_fetch_assoc($result);		
-	}
-	?>
-	<form method="post" action="">
-	<table>
-		<tr>
-			<th></th><th>New</th><th>Current</th>
-		</tr>
-		<tr>
-			<td><label for="artist">Artist</label></td>
-			<td><?php echo $_SESSION['username']; ?></td>			
-		<tr>
-			<td><label for="title">Title</label></td>
-			<td><input type="text" name="newtitle" placeholder="New Title"></td>
-			<td><?php echo $piece['title'] ? $piece['title'] : ''; ?></td>
-		</tr>
-		<tr>
-			<td><small class='errorText'><?php echo array_key_exists('newTitle',$errors) ? $errors['newTitle'] : ''; ?></small></td>
-		</tr>
-		<tr>
-			<td><label for="media">Medium</label></td>
-			<td><input type="text" name="newMedia" placeholder="New Media"></td>
-			<td><?php echo $piece['medium'] ? $piece['medium'] : ''; ?></td>
-		</tr>
-		<tr>
-			<td><small class='errorText'><?php echo array_key_exists('newMedia',$errors) ? $errors['newMedia'] : ''; ?></small></td>
-		</tr>
-		<tr>
-			<td><label for="year">Year Made</label></td>
-			<td><input type="text" name="newYear" placeholder="New Year"></td>
-			<td><?php echo $piece['yearMade'] ? $piece['yearMade'] : ''; ?></td>
-		</tr>
-		<tr>
-			<td><small class='errorText'><?php echo array_key_exists('newYear',$errors) ? $errors['newYear'] : ''; ?></small></td>
-		</tr>
-		<tr>
-			<td><label for="price">Price</label></td>
-			<td><input type="text" name="newPrice" placeholder="New Price"></td>
-			<td><?php echo $piece['price'] ? $piece['price'] : ''; ?></td>
-		</tr>
-		<tr>
-			<td><small class='errorText'><?php echo array_key_exists('newPrice',$errors) ? $errors['newPrice'] : ''; ?></small></td>
-		</tr>
-		<tr>		
-			<td></td><td>
-				<input type="submit" name="submitChanges" value="Submit Changes">
-			</td>
-		</tr>
-	</table>
-	</form>
-	<?php
-	print "<p>$_POST[currentTitle]: Your artwork info has been updated.</p>";
-	print "<hr><p>Edit Another?</p>";
-}
 ?>
-<form method="post" action="">
+
+<div id="right_col">
+<div class='headings'>Edit Artwork</div>
+<div class='center'>
+
+<?php 
+if(isLoggedIn()) {
+	$errors = array();
+	// Get artistID
+	$artist = $_SESSION['username'];
+	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
+	$personID = mysqli_query($db, $query);
+	if($personID) {
+		$id_array = mysqli_fetch_array($personID);
+		$id = $id_array[0];
+		
+		// Get member's artwork info from database
+		$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber
+				  FROM artwork a 
+				  WHERE a.artistID = $id
+				  ORDER BY a.title;";
+		$artworkResult = mysqli_query($db, $query);
+		
+		if(!$artworkResult) {
+			print "<h2>Database Error.</h2>";
+		} else { // got member's artwork
+			// Dropdown showing pieces to edit and edit button
+			?>
+			<form id="selectwork" method="post" action="">
+				<table>
+					<tr>
+						<td>Select a work to edit</td>
+						<td><select name="workSelected">
+							<option value="">Select...</option>
+						<?php
+						if(isset($_POST['workSelected'])) {
+							$selected = $_POST['workSelected'];
+						}
+						while($work = mysqli_fetch_assoc($artworkResult)) {
+							$n = $work['title'];
+							if(isset($_POST['updatework']) && $n == $_POST['oldtitle']) {
+								$n = $_POST['updatetitle'];
+							}						
+							if($n == $selected) {
+								print "<option value='$n' selected>$n</option>";
+							} else {
+								print "<option value='$n'>$n</option>";
+							}
+						}
+						?>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td></td><td><input type="submit" value="Edit Work" name="editwork"></td>
+					</tr>
+				</table>
+			</form>
+			<?php 
+			if(isset($_POST['editwork']) || isset($_POST['updatework'])) {
+				// TODO: validate entry
+				// include showNumber in where clause to be sure we have the correct piece
+				$editQuery = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber
+						  FROM artwork a 
+						  WHERE a.title = '$_POST[workSelected]';";
+				
+				$editResult = mysqli_query($db, $editQuery);
+				if(!$editResult) {
+					die("Database error here.");
+				} else {
+					// This is the current info, to be edited
+					$editWork = mysqli_fetch_assoc($editResult);
+					
+					// Get $workID, the artworkID to update
+					$workID = $editWork['artworkID'];	
+					
+					if(isset($_POST['editwork'])) {
+					?>
+					<hr>					
+					<form id="updateform" method="post" action="">
+						<table>
+							<tr>
+								<th>Title</th>
+								<td><input type="text" name="updatetitle" value="<?php echo "$editWork[title]";?>"></td>
+								<td><small class='errorText'><?php echo array_key_exists('updatetitle',$errors) ? $errors['updatetitle'] : ''; ?></small></td>
+							</tr>
+							<tr>
+								<th>Medium</th>
+								<td><input type="text" name="updatemedium" value="<?php echo "$editWork[medium]";?>"></td>
+							</tr>
+							<tr>
+								<th>Year</th>
+								<td><input type="text" name="updateyear" value="<?php echo "$editWork[yearMade]";?>"></td>
+							</tr>
+							<tr>
+								<th>Price</th>
+								<td><input type="text" name="updateprice" value="<?php echo "$editWork[price]";?>"></td>
+							</tr>
+							<tr>
+								<th>Show Number</th>
+								<td><input type="text" name="updateshownumber" value="<?php echo "$editWork[showNumber]";?>"></td>
+							</tr>
+							<tr>
+								<td></td><td><input type="submit" value="Submit Updates" name="updatework"></td>
+							</tr>
+							<tr>
+								<td><input type="hidden" name="artworkid" value="<?php echo $workID; ?>" display="none">
+								<input type="hidden" name="oldtitle" value="<?php echo $editWork[title]; ?>">
+								</td>
+								
+							</tr>
+						</table>
+					</form>
+					<?php		
+					}	
+					if(isset($_POST['updatework'])) {
+						// TODO: validate entry
+						if(!empty($_POST['updatetitle'])) {
+							$newTitle = trim($_POST['updatetitle']);
+							if(strlen($newTitle) == 0)
+								$errors['updatetitle'] = "Enter a title";
+						} else {
+							$errors['updatetitle'] = "Enter a title";						
+						}
+						if(!empty($_POST['updatemedium'])) {
+							$newMedium = $_POST['updatemedium'];
+						}
+						if(!empty($_POST['updateyear'])) {
+							$newYear = $_POST['updateyear'];
+						}
+						if(!empty($_POST['updateprice'])) {
+							$newPrice = $_POST['updateprice'];
+						}
+						if(!empty($_POST['updateshownumber'])) {
+							$newShowNumber = $_POST['updateshownumber'];
+						}
+						$artworkID = $_POST['artworkid'];
+						
+						// Update Query
+						$updateQuery = "UPDATE artwork SET title   = '$newTitle', 
+										medium     = '$newMedium',
+										yearMade   = '$newYear',
+										price      = '$newPrice',
+										showNumber = '$newShowNumber'
+								WHERE artworkID = $artworkID;";
+						$updateResult = mysqli_query($db, $updateQuery);
+						if(!$updateResult) {
+							die("Update Error. Unable to access the database.");
+						} else {
+							?>
+							<hr>
+							<table>
+								<tr>
+									<td>Artwork Updated Successfully!</td>
+								</tr>
+							</table>										
+						<?php
+							if(is_numeric($newPrice)) {
+								$newPrice = "$$newPrice";
+							}
+							print "<p>$newTitle, $newYear</br>$newMedium</br>$newPrice</br>(Show: $newShowNumber)</p>";
+						}
+					}
+					// print "<h2>$editWork[title]</h2>";
+				} 
+			}
+		 }
+	} 
+	?>
+
+	<hr>
 	<table>
 		<tr>
-			<td>Current Title</td>
-			<td><select name="currentTitle">
-			<option value=''>Select Artwork</option>
-			<?php
-			$query = "SELECT a.title FROM artwork a 
-						JOIN people p ON a.artistID = p.personID
-						WHERE CONCAT(p.firstname, ' ', p.lastname) = '$_SESSION[username]';";
-			$result = mysqli_query($db, $query);
-			if(!$result) {
-				die("Could not find and artwork." . mysqli_error($db));
-			} else {
-				$numrows = mysqli_num_rows($result);
-				for($i = 0; $i < $numrows; $i++) {
-					$row = mysqli_fetch_array($result);
-					if($row) {
-						echo "<option value='$row[0]'>$row[0]</option>";
-					}
-				}
-			}
-			?>
-			</select></td>
-			<td>
-				<small class='errorText'><?php echo array_key_exists('currentTitle',$errors) ? $errors['currentTitle'] : ''; ?></small>
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input type="submit" name="changeartwork" value="Edit Artwork Info"></td>
+			<td><a href='./artwork.php'>Back to Artwork</a></td>
 		</tr>
 	</table>
-</form>
+	<?php
+} else {
+	print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>";
+}
 
-</div>
+?>
+</div></div>
 
 <?php
-//}
 include "frontFooter.php";
 ?>

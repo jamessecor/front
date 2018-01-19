@@ -27,9 +27,13 @@ if(isset($_POST['login'])) {
 	}	
 	
 	// NO ERRORS
-	if(count($errors)==0) {		
-		// Query Database
-		$query = "SELECT CONCAT(firstname,' ',lastname) AS 'username', passwdHash FROM people WHERE CONCAT(firstname, ' ',lastname) = '$username';";		
+	if(count($errors)==0) {
+		// enter info and close
+		
+		// TODO: Change query to following
+		$query = "SELECT CONCAT(firstname,' ',lastname) AS 'username', passwdHash FROM people WHERE CONCAT(firstname, ' ',lastname) = '$username';";
+		//$query = "SELECT username, password FROM users WHERE username = '$username';";
+		
 		$result = mysqli_query($db, $query);
 		
 		if(!$result)
@@ -69,10 +73,7 @@ if(isLoggedIn()) {
 				<option value=''>Choose Name</option>
 				<?php
 				
-				// Get artists to populate username drop-down
-				
-				// TODO: Select members from correct db as below
-				//$query = "SELECT CONCAT(firstname, ' ', lastname) FROM artists ORDER BY firstname;";
+				// Use query to get artists to populate username drop-down		
 				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 ORDER BY username;";
 				$result = mysqli_query($db, $query);
 				if(!$result) {

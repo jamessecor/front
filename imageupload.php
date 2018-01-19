@@ -10,15 +10,12 @@ if(isLoggedIn()) {
 	$validation = false;
 	
 	if(isset($_POST['upload'])) {
-	
-	   //print_r ($_POST);                 // only for debugging
-		//print_r ($_FILES);
 		if(!empty($_POST['title'])) {
-			$title = $_POST['title'];
+			$title = trim(addslashes($_POST['title']));
 		} else {
 			$errors['title'] = 'Title not recognized.';
 		}
-		if(empty($_POST['filename'])) {
+		if(empty($_FILES['filename'])) {
 			$errors['filename'] = "Please Select a File.";
 		}
 		if(count($errors) == 0) {
@@ -55,20 +52,21 @@ if(isLoggedIn()) {
 		
 		// Check if file already exists
 		if (file_exists($target_file)) {
-			echo "Sorry, file already exists.";
+			echo "File already exists.";
 			$uploadOk = 0;
 		}
 		
 		// Check file size
 		if ($_FILES["filename"]["size"] > 10000000) {           // I changed this to 10 MB to accomodate hi res images. 
-			echo "Sorry, your file is too large.";              // I also had to change the setting in PHP.ini for max upload size
+			echo "Your file is too large.";              // I also had to change the setting in PHP.ini for max upload size
 			$uploadOk = 0;
 		}
 
 		// Allow certain file formats    // JDS: I had to change these to uppercase. 
+		$imageFileType = strtoupper($imageFileType);
 		if($imageFileType != "JPG" && $imageFileType != "PNG" && $imageFileType != "JPEG"
 		&& $imageFileType != "GIF" ) {
-			echo "Image File type is $imageFileType. Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+			echo "Image File type is $imageFileType. Only JPG, JPEG, PNG & GIF files are allowed.";
 			$uploadOk = 0;
 		}
 		
@@ -96,7 +94,7 @@ if(isLoggedIn()) {
 				
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk == 0) {
-			echo "Sorry, your file was not uploaded.";
+			echo "Your file was not uploaded.";
 		// if everything is ok, try to upload file
 		} else {
 			if (move_uploaded_file($_FILES["filename"]["tmp_name"], $target_file)) {
@@ -110,11 +108,14 @@ if(isLoggedIn()) {
 					die("Connection error" . mysqli_error($db));
 				} else {
 					// Print success message
-					echo "<table><tr><td>The file $filename has been uploaded.</td></tr>";
-					echo "<tr><td><a href='$imgLocation' target='_blank'>Preview Image</a> | <a href='./artwork.php'>Back to Artwork</a></td></tr></table>";
+					echo "<table><tr><td>The file $filename has been uploaded.</td></tr></table>";
+					echo "<table><tr>
+						<td><a href='$imgLocation' target='_blank'>Preview Image</a></td>
+						<td><a href='./imageupload.php'>Upload Another</a></td>
+						</tr></table>";
 				}
 			} else {
-				echo "Sorry, there was an error uploading your file.";
+				echo "There was an error uploading your file.";
 			}
 		}
 		
@@ -138,7 +139,8 @@ if(isLoggedIn()) {
 				$query =   "SELECT a.title 
 							FROM artwork a 
 							JOIN people p ON a.artistID = p.personID
-							WHERE CONCAT(p.firstname, ' ', p.lastname) = '$_SESSION[username]';";
+							WHERE CONCAT(p.firstname, ' ', p.lastname) = '$_SESSION[username]'
+							ORDER BY a.title;";
 				$result = mysqli_query($db, $query);
 				if(!$result) {
 					$errors['artwork'] = "Error in SQL statement." . mysqli_error($db);
@@ -148,10 +150,13 @@ if(isLoggedIn()) {
 						$row = mysqli_fetch_assoc($result);
 						if($row) {
 							$title = $row['title'];
-							if(isset($_POST['title']) && $_POST['title']==$title)
-								echo "<option value='$title' selected ='selected'>$title</option>";
-							else
-								echo "<option value='$title'>$title</option>";
+							if(isset($_POST['title']) && $_POST['title']==$title) { ?>
+								<option value="<?php echo $title; ?>" selected ='selected'><?php echo $title; ?></option>
+								<?php
+							} else { ?>
+								<option value="<?php echo $title; ?>"><?php echo $title; ?></option>
+								<?php
+							}
 						}
 					}
 				}
@@ -161,22 +166,27 @@ if(isLoggedIn()) {
 		</tr>
 		<tr>
 			<td>Find File:</td>
-			<td colspan=2><input type='file' name='filename'></td>
+			<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
+			<td><input type='file' name='filename'></td>
 			<td><small class='errorText'><?php echo array_key_exists('filename',$errors) ? $errors['filename'] : ''; ?></small></td>
 		</tr>
 		<tr>
 			<td></td><td><input type='submit' name='upload' value='Upload'></td>
-		</tr>
-		<tr>
-			<td></td><td colspan=2><a href='./artwork.php'>Back to Artwork</a></td>
 		</tr>
 	</table>
 </form>
 
 <?php
 	}
+	echo "<table><tr><td></td><td colspan=2><a href='./artwork.php'>Back to Artwork</a></td></tr></table>";
 } else {
-	print "<div class='headings'><a href='./login.php'>Please Log In to proceed</a></div>";
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
+<?php
 }
 print "</div></div>";
 include "frontFooter.php";

@@ -1,5 +1,6 @@
 <?php
 include "frontHeader.php";
+include "currentShow.php";
 
 print "<div id='right_col'>";
 print "<div class='headings'>Create Show Labels</div>";
@@ -7,6 +8,7 @@ print "<div class='center'>";
 
 function createLabels($showNumber) {
 	global $db;
+
 	$query = "SELECT a.title, a.medium, a.yearMade, a.price, CONCAT(p.firstname, ' ', p.lastname) AS 'artist'
 			  FROM artwork a 
 			  JOIN people p ON a.artistID = p.personID
@@ -74,7 +76,6 @@ if(labelCreatorIsUser()) {
 				<td>Show Number</td>
 				<td>
 				<select name='showNumber'>
-				<option value=''>Choose Show</option>
 				<?php
 				$query = "SELECT DISTINCT showNumber FROM artwork WHERE title IS NOT NULL ORDER BY showNumber DESC;";
 				$result = mysqli_query($db, $query);
@@ -98,21 +99,23 @@ if(labelCreatorIsUser()) {
 				<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
 			</tr>
 			<tr>
-				<td></td><td><input type='submit' name='showForm' value="Create Labels"></td>
+				<td><input type='submit' name='showForm' value="Create Labels"></td>
 			</tr>
 		</table>
 	</form>
 	<table>
-		<tr><td><a id="toggleMissingLabelInfo">Show Missing Artists</a></td></tr>
+		<tr><td colspan='2'><a id="toggleMissingLabelInfo">Show Missing Artists</a></td></tr>
 	</table>
 	<table style="display:none" id='missingLabelInfo'>
 		<tr><th>Need Labels From...</th></tr>
 		<?php
+		global $currentShow;
+		
 		$query = "select distinct firstname, lastname from people 
 					where member = 1 AND lastname not in (
 						select distinct p.lastname FROM people p
 						left OUTER JOIN artwork a ON p.personID = a.artistID
-						where a.showNumber = 19
+						where a.showNumber = ${currentShow}
 						) ";
 		$result = mysqli_query($db, $query);
 		if(!$result)
@@ -133,15 +136,20 @@ if(labelCreatorIsUser()) {
 	<script>
 	$(document).ready(function() {
 		$("#toggleMissingLabelInfo").on("click", function() {
-			$("#missingLabelInfo").toggle("slow", function() {
-			});
+			$("#missingLabelInfo").toggle();
 		});
 	});
 	</script>
 <?php
 	}
 } else {
-	print "<div class='headings'><a href='./login.php'>Please Log In as with Label Privileges to proceed</a></div>";
+?>
+<table>
+	<tr>
+		<td><a href="./login.php">Log In to Continue</a></td>
+	</tr>
+</table>
+<?php
 }
 print "</div></div>";
 include "frontFooter.php";

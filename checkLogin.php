@@ -27,14 +27,14 @@ function bookkeeperIsUser() {
 
 function labelCreatorIsUser() {
 	$labelCreators = ['James Secor', 'Deluxe Unlimited', 'Glen Coburn Hutcheson'];
+	$labelCreator = FALSE;
 	if(isLoggedIn()) {
 		foreach($labelCreators as $lc) {
 			if($_SESSION['username'] == $lc)
 				return TRUE;
 		}
 	}
-	else
-		return FALSE;
+	return $labelCreator;
 }
 
 ?>
