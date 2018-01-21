@@ -5,7 +5,7 @@
 include "frontHeader.php";
 ?>
 <div id='right_col'>
-	<div class='headings'>Set New Password for Members</div>
+	<div class='headings'>Set Member Password</div>
 		<div class='center'>
 <?php
 if(adminIsUser()) {
@@ -130,14 +130,17 @@ if(adminIsUser()) {
 					<td><input type='submit' name='submit' value='Set Password' formnovalidate></td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
-				<tr>
-					<td></td><td><a href="./usermanagement.php">Back to User Management</a></td>
-				</tr>
 			</table>
 		</form>
-	</div>
 <?php 
 	}
+	?>
+	<table>
+		<tr>
+			<td></td><td><a href="./usermanagement.php">Back to User Management</a></td>
+		</tr>
+	</table>
+	<?php
 } else {
 ?>
 <table>

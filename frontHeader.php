@@ -45,7 +45,7 @@ $(document).ready(function() {
 	$(".more").on("click", function() {
 		$("").show();
 	});
-	
+
 	var getMore = true;
 	$(".navbar-toggle").on("click", function() {
 		$(".navbar-item").toggle();	
@@ -58,6 +58,21 @@ $(document).ready(function() {
 		}
 		
 	});	
+	
+	// Show .navbar-item when large
+	$(window).resize(function() {
+		if($(window).width() > 900) {
+			$(".navbar-item").show();
+			$(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
+			getMore = false;
+		} else {
+			$(".navbar-item").hide();
+			// $(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
+			getMore = true;
+
+		}
+	});
+
 });
 
 </script>

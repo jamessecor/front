@@ -42,8 +42,21 @@ function createLabels($showNumber) {
 				}
 			}
 			fclose($fileptr);
-			print "<h1>Labels created and saved as \"$filename\". ";
-			print "<a href='./$filename' target='_blank'>Preview Labels</a></h1>";
+			?>
+			<table>
+				<tr>
+					<th>Successfully created!</th>
+				</tr>
+				<tr>
+					<td>Labels created and saved as "<?php echo $filename; ?>". </td>
+				</tr>
+				<tr>
+					<td><a href="./<?php echo $filename; ?>" target="_blank">Preview Labels</a></td>
+				</tr>
+			</table>
+			<?php
+			// print "<h1>Labels created and saved as \"$filename\". ";
+			// print "<a href='./$filename' target='_blank'>Preview Labels</a></h1>";
 		}
 	}
 }
