@@ -16,6 +16,8 @@ if(isLoggedIn()) {
 	$artist = $_SESSION['username'];
 	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
 	$personID = mysqli_query($db, $query);
+	$selected = "";
+	
 	if($personID) {
 		$id_array = mysqli_fetch_array($personID);
 		$id = $id_array[0];
@@ -40,6 +42,7 @@ if(isLoggedIn()) {
 							<option value="">Select...</option>
 						<?php
 						if(isset($_POST['workSelected'])) {
+							global $selected;
 							$selected = $_POST['workSelected'];
 						}
 						while($work = mysqli_fetch_assoc($artworkResult)) {
@@ -68,7 +71,7 @@ if(isLoggedIn()) {
 				// include showNumber in where clause to be sure we have the correct piece
 				$editQuery = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber
 						  FROM artwork a 
-						  WHERE a.title = '$_POST[workSelected]';";
+						  WHERE a.title = '$selected';";
 				
 				$editResult = mysqli_query($db, $editQuery);
 				if(!$editResult) {
@@ -167,7 +170,6 @@ if(isLoggedIn()) {
 							print "<p>$newTitle, $newYear</br>$newMedium</br>$newPrice</br>(Show: $newShowNumber)</p>";
 						}
 					}
-					// print "<h2>$editWork[title]</h2>";
 				} 
 			}
 		 }

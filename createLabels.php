@@ -142,6 +142,13 @@ if(labelCreatorIsUser()) {
 	</script>
 <?php
 	}
+	?>
+	<table>
+		<tr>
+			<td><a href="./labels.php">Back to Labels</a></td>
+		</tr>		
+	</table>
+	<?php
 } else {
 ?>
 <table>

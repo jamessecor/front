@@ -90,7 +90,7 @@ $(document).ready(function() {
 			// Only Label Creators see this link
 			if(labelCreatorIsUser()) { ?>
 				<li class="navbar-item">
-					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/createLabels.php')) echo "class='active'";?> href="./createLabels.php">Labels</a>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/labels.php')) echo "class='active'";?> href="./labels.php">Labels</a>
 				</li>
 			<?php } 
 			// Only bookkeeper see this link

@@ -127,9 +127,8 @@ include "frontHeader.php";
 					<tr>
 						<td>Name</td>
 						<?php 
-						if(adminIsUser()) { ?>
+						if(labelCreatorIsUser()) { ?>
 							<td><select name="username">
-							<option value=''>Choose Name</option>
 							<?php
 							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 OR member = 2 ORDER BY username;";
 							$result = mysqli_query($db, $query);
@@ -141,7 +140,7 @@ include "frontHeader.php";
 									$row = mysqli_fetch_assoc($result);
 									if($row) {
 										$username = $row['username'];
-										if(isset($_POST['username']) && $_POST['username']==$username)
+										if($username === $_SESSION['username'])
 											echo "<option value='$username' selected ='selected'>$username</option>";
 										else
 											echo "<option value='$username'>$username</option>";
@@ -168,7 +167,7 @@ include "frontHeader.php";
 								<option value=''>Year Completed</option>
 								<?php
 								// Drop-down with 15 years back
-								for($i = 0, $y = date('Y'); $i < 15; $i++, $y--) {
+								for($i = 0, $y = date('Y'); $i < 25; $i++, $y--) {
 									if(isset($_POST['year']) && $_POST['year']==$y)
 										echo "<option value='$y' selected='selected'>$y</option>";
 									else
@@ -199,7 +198,7 @@ include "frontHeader.php";
 						<td>Show Number</td>
 						<td><?php
 							if(adminIsUser()) { ?>
-								<input type='text' name='showNumber' value="<?php echo isset($_POST['showNumber']) ? $_POST['showNumber'] : '';  ?>" placeholder='ex: 12'>
+								<input type='text' name='showNumber' value="<?php echo $currentShow; ?>" placeholder='ex: 12'>
 							<?php
 							} else {
 								print "$currentShow";
@@ -262,5 +261,6 @@ include "frontHeader.php";
 </div>
 
 <?php
+}
 include "frontFooter.php";
 ?>

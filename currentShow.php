@@ -1,3 +1,1 @@
-<?php
-$currentShow = '23';
-?>
+<?php $currentShow = 23; ?>
