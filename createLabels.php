@@ -19,8 +19,10 @@ function createLabels($showNumber) {
 		die("Data could not be reached.");
 	else {
 		// Create or open file
+		$path = "labels";
 		$filename = "labels" . $showNumber . ".txt";
-		$fileptr = fopen($filename, "w") or die("Unable to open file.");
+		$filepath = $path . "/" . $filename;
+		$fileptr = fopen($filepath, "w") or die("Unable to open file.");
 		
 		// Get number of rows for loop
 		$numrows = mysqli_num_rows($works);
@@ -48,10 +50,10 @@ function createLabels($showNumber) {
 					<th>Successfully created!</th>
 				</tr>
 				<tr>
-					<td>Labels created and saved as "<?php echo $filename; ?>". </td>
+					<td>Labels created and saved as "<?php echo $filename; ?>" in the "<?php echo $path; ?>" folder. </td>
 				</tr>
 				<tr>
-					<td><a href="./<?php echo $filename; ?>" target="_blank">Preview Labels</a></td>
+					<td><a href="./<?php echo $filepath; ?>" target="_blank">Preview Labels</a></td>
 				</tr>
 			</table>
 			<?php
