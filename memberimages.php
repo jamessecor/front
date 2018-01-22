@@ -23,7 +23,7 @@ function displayImages($query, $memberArray)
 		for($i = 0; $i < $numrows; $i++) {
 			$row = mysqli_fetch_assoc($data);
 			if($row) {
-				$filepath = "./uploads/" . $row['filename'];
+				$filepath = "../frontUploads/" . $row['filename'];
 				print "<a href='$filepath' target='_blank'><img width='75%' src='$filepath' alt='No Image'></a>";
 				print "<div id='label'><em>$row[title]</em>, $row[yearMade]. $row[medium]<br>$row[member]</div><br><br>";
 				

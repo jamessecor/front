@@ -1,1 +1,1 @@
-TODO:
+TODO: move uploads folder up a directory
