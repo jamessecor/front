@@ -67,7 +67,6 @@ $(document).ready(function() {
 			getMore = false;
 		} else {
 			$(".navbar-item").hide();
-			// $(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
 			getMore = true;
 
 		}

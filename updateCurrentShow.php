@@ -26,7 +26,7 @@ function updateCurrentShow($newNumber) {
 	?>
 	<table>
 		<tr>
-			<th><?php echo $heading; ?></th>
+			<th colspan='2'><?php echo $heading; ?></th>
 		</tr>		
 		<tr>
 			<td><?php echo $field; ?></td>
