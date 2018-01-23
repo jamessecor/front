@@ -38,7 +38,7 @@ if(isLoggedIn()) {
 					else { 
 						print "<tr><td><a href='http://$website' target='_blank'>$memberName</a></td><td>$phone</td><td>$email</td>";
 					}				
-					print "</tr>";
+					print "</tr><tr><td colspan='3'><hr></td></tr>";
 				}
 			}
 			print "</table>";
