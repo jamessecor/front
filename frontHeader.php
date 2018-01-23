@@ -61,7 +61,7 @@ $(document).ready(function() {
 	
 	// Show .navbar-item when large
 	$(window).resize(function() {
-		if($(window).width() > 900) {
+		if($(window).width() > 1000) {
 			$(".navbar-item").show();
 			$(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
 			getMore = false;
