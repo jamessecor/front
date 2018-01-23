@@ -223,6 +223,7 @@ include "frontHeader.php";
 				<tr>
 					<td id="labelPreview"></td>
 				</tr>
+				<tr><td>&nbsp;</td></tr>
 				<tr>
 					<td><a href='./artwork.php'>Back to Artwork</a></td>
 				</tr>

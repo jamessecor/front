@@ -42,10 +42,6 @@ function() {
 });
 
 $(document).ready(function() {
-	$(".more").on("click", function() {
-		$("").show();
-	});
-
 	var getMore = true;
 	$(".navbar-toggle").on("click", function() {
 		$(".navbar-item").toggle();	
