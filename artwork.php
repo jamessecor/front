@@ -52,7 +52,7 @@ if(isLoggedIn()) {
 							//$total += $price;
 						// TODO: add link to upload on title
 						if($filename) {
-							$title = "<a href='./uploads/$filename' target='_blank'>$title</a>";
+							$title = "<a href='../frontUploads/$filename' target='_blank'>$title</a>";
 						}
 
 						// Add "$" to price
