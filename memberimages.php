@@ -174,7 +174,7 @@ if(isLoggedIn()) {
 ?>
 <table>
 	<tr>
-		<td><a href="./login.php">Log In to Continue</a></td>
+		<td><a href="./login.php?page=memberimages">Log In to Continue</a></td>
 	</tr>
 </table>
 <?php

@@ -352,7 +352,7 @@ if(bookkeeperIsUser()) {
 <?php
 	}
 } else {
-	print "<div class='headings'><a href='login.php'>Log In to Proceed</a></div>";
+	print "<div class='headings'><a href='login.php?page=dues'>Log In to Proceed</a></div>";
 }
 print "</div></div>";
 include "frontFooter.php";

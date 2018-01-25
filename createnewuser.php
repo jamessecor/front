@@ -219,7 +219,7 @@ if(adminIsUser()) {
 ?>
 <table>
 	<tr>
-		<td><a href="./login.php">Log In to Continue</a></td>
+		<td><a href="./login.php?page=createnewuser">Log In to Continue</a></td>
 	</tr>
 </table>
 <?php

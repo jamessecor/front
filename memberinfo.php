@@ -65,7 +65,7 @@ if(isLoggedIn()) {
 } else {
 	print "<div class='headings'>Membership Info</div>";
 	print "<div class='center'>";
-	print "<h2><a href='./login.php'>Log In to see your membership info.</a></h2>";
+	print "<h2><a href='./login.php?page=memberinfo'>Log In to see your membership info.</a></h2>";
 }
 // Close .center and #right_col
 print "</div></div>";

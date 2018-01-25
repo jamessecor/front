@@ -184,7 +184,7 @@ if(isLoggedIn()) {
 	</table>
 	<?php
 } else {
-	print "<h2><a href='./login.php'>Log In to see your artwork info.</a></h2>";
+	print "<h2><a href='./login.php?page=editartwork'>Log In to see your artwork info.</a></h2>";
 }
 
 ?>
