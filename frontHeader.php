@@ -43,6 +43,15 @@ function() {
 
 $(document).ready(function() {
 	var getMore = true;
+
+	if($(window).width() < 1000) {
+		$(window).scroll(function() {
+			$(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
+			$(".navbar-item").fadeOut("fast");
+			getMore = true;
+		});
+	}
+
 	$(".navbar-toggle").on("click", function() {
 		$(".navbar-item").toggle();	
 		if(getMore) {
@@ -67,6 +76,7 @@ $(document).ready(function() {
 
 		}
 	});
+	
 
 });
 
