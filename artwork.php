@@ -136,10 +136,9 @@ if(isLoggedIn()) {
 			<tr>
 				<td>Sort by</td>
 				<td>
-					<select name="workSelected">
-						<option value="">Select...</option>			
-						<option value="artist">Artist</option>
-						<option value="shownumber">Show Number</option>
+					<select name="order">
+						<option value="a.artistID">Artist</option>
+						<option value="a.showNumber DESC">Show Number</option>
 					</select>
 				</td>
 			</tr>
@@ -150,10 +149,14 @@ if(isLoggedIn()) {
 	</form>
 	<?php
 	if(isset($_POST['seework'])) {
+		if(!empty($_POST['order'])) {
+			$order = trim(addslashes($_POST['order']));
+		}
 		?>
 		<hr>
 		<?php
-		printArtwork("","ORDER BY a.artistID");
+		$orderBy = "ORDER BY $order";
+		printArtwork("", $orderBy);
 	}	
 } else {
 ?>
