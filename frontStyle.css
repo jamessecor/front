@@ -15,7 +15,7 @@ p {
 	text-align:center;
 }
 
-.headings {
+.headings, .artworkHeader {
 	position:relative;
 	font-size:1.25em;
 	font-weight:bold;
@@ -24,22 +24,15 @@ p {
 	color: rgba(100,100,200,.9);
 }
 
+.artworkHeader { margin-top:0; }
+
+.memberart { border: .2em solid #aaaadd; border-radius: .5em; }
+
 hr {
 	width:75%;
 	
 	border-width:.1em;
 	color: rgba(100,100,200,.9);
-}
-
-a {
-	font-weight:bold;
-	text-decoration:none;
-	color:#339;
-}
-
-a:hover {
-	background-color: #339;
-	color: #aef;
 }
 
 /* navbar */
@@ -159,17 +152,25 @@ td {
 	padding: .05em .5em .05em .5em;
 }
 
+a {
+	font-weight:bold;
+	text-decoration:none;
+	color:#339;
+}
+
+a:hover {
+	background-color: #339;
+	color: #aef;
+}
+
 td a {
 	padding:.1em;
-	border: 1.5px solid #daa;
+	border: 1.5px solid #aaaacc;
 	border-radius: .5em;
 	text-align: center;
 }
 
-/*td:not(.errorText) {
-	/* ??? *
-	border: 1px dashed rgba(100,0,250,.4);
-}*/
+
 
 #top {
 	position: fixed;

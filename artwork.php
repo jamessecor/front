@@ -3,12 +3,33 @@
 include "frontHeader.php";
 ?>
 
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+$(document).ready(function() {
+	$( function() {
+		$( "#accordion" ).accordion({
+			fade: "slow",
+			collapsible: true,
+			heightStyle: "content",
+			animate: 0
+		});
+	} );
+});
+</script>
+
 <div id="right_col">
 <div class='headings'>Artwork</div>
 <div class='center'>
-
+	<table id="artworkLinks">	
+		<tr>
+			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
+			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
+			<td><a href='./editartwork.php'>Edit Artwork</a></td>
+		</tr>
+	</table>
 <?php 
-function printArtwork($where, $order) {
+function printArtwork($where, $order, $artistName) {
 	global $db;
 	// Get member's artwork info from database
 	$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
@@ -23,8 +44,11 @@ function printArtwork($where, $order) {
 		print "<h2>Database Error. Please try again later.</h2>";
 	} else {
 		$numrows = mysqli_num_rows($result);
-		//$total = 0;
-		print "<table id='memberart'>";
+		// Artist Name header
+		print "<h1 class='artworkHeader'>$artistName</h1>";
+		
+		// Artist's works
+		print "<table class='memberart' rules='rows'>";
 
 			print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
 			for($i = 0; $i < $numrows; $i++) {
@@ -62,6 +86,7 @@ function printArtwork($where, $order) {
 
 // TODO: take away "!"
 if(isLoggedIn()) {
+	?><div id="accordion"><?php
 	// Get artistID
 	$artist = $_SESSION['username'];
 	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
@@ -71,93 +96,25 @@ if(isLoggedIn()) {
 		$id_array = mysqli_fetch_array($personID);
 		$id = $id_array[0];
 		
-		printArtwork("WHERE a.artistID = $id","ORDER BY a.showNumber DESC");
-		/*
-		// Get member's artwork info from database
-		$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
-				  FROM artwork a 
-				  LEFT OUTER JOIN people p ON a.buyerID = p.personID
-				  WHERE a.artistID = $id
-				  ORDER BY a.showNumber DESC;";
-		$result = mysqli_query($db, $query);
+		printArtwork("WHERE a.artistID = $id","ORDER BY a.showNumber DESC", "$artist");
 		
-		if(!$result) {
-			print "<h2>Database Error. Please try again later.</h2>";
-		} else {
-			$numrows = mysqli_num_rows($result);
-			//$total = 0;
-			print "<table id='memberart'>";
-
-				print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
-				for($i = 0; $i < $numrows; $i++) {
-					$row = mysqli_fetch_assoc($result);
-					if($row) {
-						$title = $row['title'];
-						$media = $row['medium'];
-						$y     = $row['yearMade'];
-						$price = $row['price'];
-						$show  = $row['showNumber'];
-						$buyer = $row['buyer'];
-						$filename = $row['filename'];
-						
-						if(!$buyer)
-							$buyer = 'n/a';
-						//else
-							//$total += $price;
-						// TODO: add link to upload on title
-						if($filename) {
-							$title = "<a href='../frontUploads/$filename' target='_blank'>$title</a>";
-						}
-
-						// Add "$" to price
-						if(is_numeric($price))
-							$price = "$$price";
-							
-						print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$price</td><td>$show</td><td>$buyer</td></tr>";
-					}
-				}
-			print "</table>";
-		}*/
+	}
+	
+	// Get the rest of the artists'
+	$allQuery = "SELECT personID, firstname, lastname FROM people WHERE CONCAT(firstname,' ',lastname) <> '$artist' AND member = 1 ORDER BY firstname;";
+	$artists = mysqli_query($db, $allQuery);
+	if(!$artists) {
+		die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
+	} else {
+		// Get all their work
+		while($artist = mysqli_fetch_assoc($artists)) {			
+			$artistName = "$artist[firstname] $artist[lastname]";
+			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName);
+		}
 	}
 	?>
-	<hr><table>
-		<tr>
-			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
-			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
-			<td><a href='./editartwork.php'>Edit Artwork</a></td>
-		</tr>
-	</table>
-	<!-- Form for viewing other members' work -->
-	<form id="memberswork" method="post" action="artwork.php#memberswork" autocomplete="off">
-		<table>
-			<tr>
-				<th colspan='10'>See Other Members' Work</th>
-			</tr>
-			<tr>
-				<td>Sort by</td>
-				<td>
-					<select name="order">
-						<option value="a.artistID">Artist</option>
-						<option value="a.showNumber DESC">Show Number</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td></td><td><input type="submit" value="See Work" name="seework"></td>
-			</tr>
-		</table>
-	</form>
+	</div>
 	<?php
-	if(isset($_POST['seework'])) {
-		if(!empty($_POST['order'])) {
-			$order = trim(addslashes($_POST['order']));
-		}
-		?>
-		<hr>
-		<?php
-		$orderBy = "ORDER BY $order";
-		printArtwork("", $orderBy);
-	}	
 } else {
 ?>
 <table>
