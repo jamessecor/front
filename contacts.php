@@ -17,11 +17,10 @@ if(isLoggedIn()) {
 			echo "<h2>Database Error. Please try again later.</h2>";
 		else {
 			// Print member table
-			print "<table id='membercontacts'>";
+			print "<table class='contacts' rules='rows'>";
 			print "<tr><th>Name (link to website)</th><th>Phone</th><th>Email</th></tr>";
 			$numrows = mysqli_num_rows($result);
-			for($i = 0; $i < $numrows; $i++) {
-				$row = mysqli_fetch_assoc($result);
+			while($row = mysqli_fetch_assoc($result)) {
 				if($row) {				
 					$memberName = $row['Name'];
 					$phone = $row['phone'];
@@ -38,12 +37,11 @@ if(isLoggedIn()) {
 					else { 
 						print "<tr><td><a href='http://$website' target='_blank'>$memberName</a></td><td>$phone</td><td>$email</td>";
 					}				
-					print "</tr><tr><td colspan='3'><hr></td></tr>";
+					print "</tr><tr><td colspan='3'></td></tr>";
 				}
 			}
 			print "</table>";
 			?>
-			<hr>
 			<table>
 				<tr>
 					<td><a href='changecontact.php'>Click to Change Contact Info</a></td>

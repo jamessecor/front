@@ -24,13 +24,12 @@ p {
 	color: rgba(100,100,200,.9);
 }
 
-.artworkHeader { margin-top:0; }
+.artworkHeader { margin-top:0; background-color: rgba(100,100,200,.9); color: #bbbbbb; border-radius: .25em;  }
 
-.memberart { border: .2em solid #aaaadd; border-radius: .5em; }
+.memberart, .contacts { border: .2em solid #aaaadd; border-radius: .5em; }
 
 hr {
 	width:75%;
-	
 	border-width:.1em;
 	color: rgba(100,100,200,.9);
 }
