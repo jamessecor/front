@@ -17,6 +17,10 @@ if(isLoggedIn()) {
 	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
 	$personID = mysqli_query($db, $query);
 	$selected = "";
+	$selectedArray = "";
+	$selectedTitle = ""; 
+	$selectedShow = "";
+	$disabled="";
 	
 	if($personID) {
 		$id_array = mysqli_fetch_array($personID);
@@ -30,7 +34,7 @@ if(isLoggedIn()) {
 		$artworkResult = mysqli_query($db, $query);
 		
 		if(!$artworkResult) {
-			print "<h2>Database Error.</h2>";
+			die("<h2>Database Error.</h2>");
 		} else { // got member's artwork
 			// Dropdown showing pieces to edit and edit button
 			?>
@@ -38,22 +42,31 @@ if(isLoggedIn()) {
 				<table>
 					<tr>
 						<td>Select a work to edit</td>
+					</tr>
+					<tr>
 						<td><select name="workSelected">
 							<option value="">Select...</option>
 						<?php
+						// Populate drop-down
 						if(isset($_POST['workSelected'])) {
-							global $selected;
+							global $selectedTitle;
+							global $selectedShow;
 							$selected = $_POST['workSelected'];
+							$selectedArray = explode(" ___ ", $selected);
+							$selectedTitle = $selectedArray[0];
+							$selectedShow = $selectedArray[1];
 						}
 						while($work = mysqli_fetch_assoc($artworkResult)) {
 							$n = $work['title'];
-							if(isset($_POST['updatework']) && $n == $_POST['oldtitle']) {
+							$show = $work['showNumber'];
+							if(isset($_POST['updatework']) && ($n == $_POST['oldtitle'] )) { //|| $show == $_POST['oldshownumber']) {
 								$n = $_POST['updatetitle'];
+								$show = $_POST['updateshownumber'];
 							}						
-							if($n == $selected) {
-								print "<option value='$n' selected>$n</option>";
+							if("${n} ___ ${show}" == $selected) {
+								print "<option value='${n} ___ ${show}' selected>$n (Show $show)</option>";
 							} else {
-								print "<option value='$n'>$n</option>";
+								print "<option value='${n} ___ ${show}'>$n (Show $show)</option>";
 							}
 						}
 						?>
@@ -61,17 +74,19 @@ if(isLoggedIn()) {
 						</td>
 					</tr>
 					<tr>
-						<td></td><td><input type="submit" value="Edit Work" name="editwork"></td>
+						<td><input type="submit" value="Edit Work" name="editwork">
+							<input type="submit" value="Delete Work" name="deletework"></td>
 					</tr>
 				</table>
 			</form>
 			<?php 
-			if(isset($_POST['editwork']) || isset($_POST['updatework'])) {
+			if(isset($_POST['editwork']) || isset($_POST['updatework']) || isset($_POST['deletework'])) {
 				// TODO: validate entry
 				// include showNumber in where clause to be sure we have the correct piece
 				$editQuery = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber
 						  FROM artwork a 
-						  WHERE a.title = '$selected';";
+						  WHERE a.title = '$selectedTitle'
+						  AND a.showNumber = '$selectedShow';";
 				
 				$editResult = mysqli_query($db, $editQuery);
 				if(!$editResult) {
@@ -83,34 +98,47 @@ if(isLoggedIn()) {
 					// Get $workID, the artworkID to update
 					$workID = $editWork['artworkID'];	
 					
-					if(isset($_POST['editwork'])) {
+					if(isset($_POST['editwork']) || isset($_POST['deletework'])) {
+						if(isset($_POST['deletework']))
+							$disabled="disabled";
 					?>
 					<hr>					
 					<form id="updateform" method="post" action="">
 						<table>
 							<tr>
 								<th>Title</th>
-								<td><input type="text" name="updatetitle" value="<?php echo "$editWork[title]";?>"></td>
+								<!-- Disabled based on deletebutton -->
+								<td><input type="text" name="updatetitle" value="<?php echo "$editWork[title]";?>" <?php echo $disabled; ?>></td>
 								<td><small class='errorText'><?php echo array_key_exists('updatetitle',$errors) ? $errors['updatetitle'] : ''; ?></small></td>
 							</tr>
 							<tr>
 								<th>Medium</th>
-								<td><input type="text" name="updatemedium" value="<?php echo "$editWork[medium]";?>"></td>
+								<td><input type="text" name="updatemedium" value="<?php echo "$editWork[medium]";?>" <?php echo $disabled; ?>></td>
 							</tr>
 							<tr>
 								<th>Year</th>
-								<td><input type="text" name="updateyear" value="<?php echo "$editWork[yearMade]";?>"></td>
+								<td><input type="text" name="updateyear" value="<?php echo "$editWork[yearMade]";?>" <?php echo $disabled; ?>></td>
 							</tr>
 							<tr>
 								<th>Price</th>
-								<td><input type="text" name="updateprice" value="<?php echo "$editWork[price]";?>"></td>
+								<td><input type="text" name="updateprice" value="<?php echo "$editWork[price]";?>" <?php echo $disabled; ?>></td>
 							</tr>
 							<tr>
 								<th>Show Number</th>
-								<td><input type="text" name="updateshownumber" value="<?php echo "$editWork[showNumber]";?>"></td>
+								<td><input type="text" name="updateshownumber" value="<?php echo "$editWork[showNumber]";?>" <?php echo $disabled; ?>></td>
 							</tr>
 							<tr>
-								<td></td><td><input type="submit" value="Submit Updates" name="updatework"></td>
+								<!-- delete button based on above button -->
+								<?php 
+								if(isset($_POST['deletework'])) {
+									$value = "Delete";
+									$name = "submitdeletion";
+								} else {
+									$value = "Submit Updates";
+									$name = "updatework";
+								}
+								?>
+								<td></td><td><input type="submit" value="<?php echo "$value"; ?>" name="<?php echo "$name"; ?>"></td>
 							</tr>
 							<tr>
 								<td><input type="hidden" name="artworkid" value="<?php echo $workID; ?>" display="none">
@@ -121,8 +149,7 @@ if(isLoggedIn()) {
 						</table>
 					</form>
 					<?php		
-					}	
-					if(isset($_POST['updatework'])) {
+					} elseif(isset($_POST['updatework'])) {
 						// TODO: validate entry
 						if(!empty($_POST['updatetitle'])) {
 							$newTitle = trim($_POST['updatetitle']);
@@ -169,6 +196,18 @@ if(isLoggedIn()) {
 							}
 							print "<p>$newTitle, $newYear</br>$newMedium</br>$newPrice</br>(Show: $newShowNumber)</p>";
 						}
+					} elseif(isset($_POST['submitdeletion'])) {
+						$artworkID = $_POST['artworkid'];
+						echo "$artworkID";
+						?>
+						<hr>
+							<table>
+								<tr>
+									<td>Artwork Updated Successfully!</td>
+								</tr>
+							</table>	
+						<?php
+						$deletionQuery = "DELETE FROM artwork WHERE artworkID = '$artworkID';";
 					}
 				} 
 			}

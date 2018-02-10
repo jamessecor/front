@@ -169,7 +169,10 @@ td a {
 	text-align: center;
 }
 
-
+input[type="text"]:disabled {
+    border: none;
+	color: #444488;
+}
 
 #top {
 	position: fixed;
