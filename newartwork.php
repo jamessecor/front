@@ -115,9 +115,10 @@ include "frontHeader.php";
 			if(!$result)
 				die("<table><tr><td>$price: Data Entry Error. <a href=''>Please try again.</a></td></tr>");
 			else 
-				print "<table><tr><td>Your artwork has been submitted.</td></tr>";
+				print "<table><tr><td colspan='10'>Your artwork has been submitted.</td></tr>";
 			print "<tr>
 						<td><a href='./artwork.php'>Back to Artwork</a></td>
+						<td><a href='./editartwork.php'>Edit Artwork</a></td>
 						<td><a href='./newartwork.php'>Submit Another</a></td>
 				   </tr></table>";
 		} else {
