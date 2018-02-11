@@ -21,13 +21,6 @@ $(document).ready(function() {
 <div id="right_col">
 <div class='headings'>Artwork</div>
 <div class='center'>
-	<table id="artworkLinks">	
-		<tr>
-			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
-			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
-			<td><a href='./editartwork.php'>Edit Artwork</a></td>
-		</tr>
-	</table>
 <?php 
 function printArtwork($where, $order, $artistName) {
 	global $db;
@@ -83,9 +76,18 @@ function printArtwork($where, $order, $artistName) {
 }
 
 
-
-// TODO: take away "!"
 if(isLoggedIn()) {
+?>
+	<table id="artworkLinks">	
+		<tr>
+			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
+			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
+			<td><a href='./editartwork.php'>Edit Artwork</a></td>
+		</tr>
+	</table>
+<?php 
+// TODO: take away "!"
+
 	?><div id="accordion"><?php
 	// Get artistID
 	$artist = $_SESSION['username'];
