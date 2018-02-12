@@ -199,7 +199,7 @@ if(adminIsUser()) {
 				<option value="">Select...</option>
 				<option value="1">member - 1</option>
 				<option value="<?php echo $currentShow; ?>">Guest Artist - <?php echo $currentShow; ?></option>
-				<option value="2">buyer - 2</option>
+				<option value="0">buyer - 0</option>
 			</select>
 			</td>
 		</tr>
