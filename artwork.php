@@ -114,6 +114,19 @@ if(isLoggedIn()) {
 			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName);
 		}
 	}
+	
+	// Guest Artists
+	$guestQuery = "SELECT personID, firstname, lastname FROM people WHERE CONCAT(firstname,' ',lastname) <> '$artist' AND member <> 1 AND member <> 0 ORDER BY firstname;";
+	$artists = mysqli_query($db, $guestQuery);
+	if(!$artists) {
+		die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
+	} else {
+		// Get all their work
+		while($artist = mysqli_fetch_assoc($artists)) {			
+			$artistName = "$artist[firstname] $artist[lastname]";
+			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName);
+		}
+	}
 	?>
 	</div>
 	<?php
