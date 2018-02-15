@@ -1,1 +1,3 @@
 TODO: move uploads folder up a directory
+
+Labels page: Add button to show missing artists based on shownumber

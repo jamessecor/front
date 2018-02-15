@@ -33,12 +33,7 @@ function displayImages($query, $memberArray)
 		?>
 		<div class="imagePage">
 			<button id='toTop'>Back to Top</button>
-			<button id="toImgSelection">Back to Image Selection</button>
-			<script>
-			document.getElementById("toImgSelection").addEventListener("click", function() {
-				window.location.href = 'memberimages.php';
-			});
-			
+			<script>			
 			document.getElementById("toTop").addEventListener("click", function() {
 				window.location.href = '#';
 			});
@@ -57,54 +52,55 @@ function displayImages($query, $memberArray)
 <?php
 if(isLoggedIn()) {
 	$errors = array();
-	$validation = false;
-	$member= '';
 	$showNum= '';
+	$members = "";
 	
 	if(isset($_POST['viewimages'])) {
 		if(!empty($_POST['showNumber'])) {
 			$showNum = addslashes(trim($_POST['showNumber']));
 		}
-		if(!empty($_POST['member'])) {
-			$member = addslashes(trim($_POST['member']));
+		if(!empty($_POST['members'])) {			
+			$members = $_POST['members'];
+			foreach($members as $m) {
+				$m = addslashes($m);
+			}
 		}
-		$validation = true;
 	}
-		
-	// Show number has been selected
-	if($validation) {
-		$where = "WHERE a.filename IS NOT NULL";
-		if($showNum !== "") {
-			$where = $where . " AND showNumber = '$showNum'";
-		}
-		if($member !== "") {
-			$where = $where . " AND CONCAT(m.firstname, ' ', m.lastname) = '$member' AND a.filename IS NOT NULL";
-		}
-		$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename 
-				FROM artwork a 
-				JOIN people m ON a.artistID = m.personID 
-				$where
-				ORDER BY m.firstname;";
-		displayImages($query, 'xxx');  // 2nd parameter (member list) not used
-	} else {
 ?>
-
-
-
-
+<table><tr><td>
+<a href='imageupload.php'>Upload New Image</a>
+</td></tr></table>
+<hr>
 <form method='post' action=''>
 	<table>
-		<tr>
-			<td class="errorText">Filters are optional</td>
-		</tr>
-		<tr>
-			<th colspan=7>Select Images By:</th>
-		</tr>
-		<tr>
-			<td colspan=3><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
-			
-			<td colspan=2><small class='errorText'><?php echo array_key_exists('member',$errors) ? $errors['member'] : ''; ?></small></td>
-		</tr>
+		<?php				
+		// Print Member Checkboxes
+		$query = "	SELECT DISTINCT CONCAT(firstname, ' ', lastname) AS 'username' FROM people p
+					JOIN artwork a ON a.artistID = p.personID AND a.filename IS NOT NULL
+					ORDER BY firstname;";
+		$result = mysqli_query($db, $query);
+		if(!$result) {
+			die("Error in SQL statement." . mysqli_error($db));
+		} else {
+			$numrows = mysqli_num_rows($result);
+			echo "<tr>";
+			// To create columns
+			$t = 1;
+			for($i = 0; $i < $numrows; $i++) {
+				$row = mysqli_fetch_assoc($result);
+				if($row) {
+					$username = $row['username'];
+					echo "<td><input type='checkbox' name='members[]' value='$username'>$username</td>";
+					// Creates 4 columns
+					if($t % 4 == 0) echo "</tr><tr>";
+					$t++;
+				}
+			}
+			echo "</tr>";
+		}
+		?>
+	</table>
+	<table>
 		<tr>
 			<!-- Select show number -->
 			<td>
@@ -129,47 +125,46 @@ if(isLoggedIn()) {
 			</select>
 			</td>
 		</tr>
-		</tr>	
-			<!-- Select member -->
-			<td>
-			<select name='member'>
-			<option value=''>Member</option>
-			<?php
-			$query = "SELECT DISTINCT CONCAT(p.firstname, ' ', p.lastname)
-					  FROM people p
-					  JOIN artwork a ON p.personID = a.artistID
-					  WHERE a.filename IS NOT NULL ORDER BY p.firstname;";
-			$result = mysqli_query($db, $query);
-			if(!$result)
-				die("Error in SQL statement." . mysqli_error($db));
-			else {
-				$numrows = mysqli_num_rows($result);
-				for($i = 0; $i < $numrows; $i++) {
-					$artist = mysqli_fetch_array($result);
-					if($artist) {
-						$n = $artist[0];
-						print "<option value='$n'>$n</option>";
-					}
-				}
-			}
-			?>
-			</select>
-			</td>
-		</tr>
+		<tr><td>&nbsp;</td></tr>
 		<tr>			
-			<td><input type='submit' name='viewimages' value='View Images'></td>
+			<td colspan='4'><input type='submit' name='viewimages' value='Filter Images'></td>
 		</tr>
 	</table>
 </form>
+<?php
+// Show images
+$where = "WHERE a.filename IS NOT NULL";
+if($showNum !== "") {
+	$where = $where . " AND showNumber = '$showNum'";
+}
+if($members !== "") {
+	$membersIn = "";
+	foreach($members as $m) {
+		if($membersIn === "") {
+			$membersIn = "'$m'";
+		} else {
+			$membersIn .= ", '$m'";
+		}			
+	}
+	$where = $where . " AND CONCAT(m.firstname, ' ', m.lastname) IN ($membersIn) AND a.filename IS NOT NULL";
+}
+$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename 
+		FROM artwork a 
+		JOIN people m ON a.artistID = m.personID 
+		$where
+		ORDER BY m.firstname;";
+displayImages($query, 'xxx');  // 2nd parameter (member list) not used
+
+?>
 
 <!-- upload -->
 <hr>
 <table><tr><td>
-<a href='imageupload.php'>Click to Upload New Image</a>
+<a href='imageupload.php'>Upload New Image</a>
 </td></tr></table>
 </div></div>
 <?php
-	}
+	
 } else {
 ?>
 <table>
