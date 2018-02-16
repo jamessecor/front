@@ -89,10 +89,70 @@ if(isLoggedIn()) {
 			<td><a href='./editartwork.php'>Edit Artwork</a></td>
 		</tr>
 	</table>
-<?php 
-// TODO: take away "!"
-
-	?><div id="accordion"><?php
+	
+	<?php
+	// Process/Validate Filter
+	$members = "";
+	$validSelection = false;
+	if(isset($_POST['filterartwork'])) {
+		if(!empty($_POST['members'])) {
+			$members = $_POST['members'];
+			foreach($members as $member) {
+				$member = addslashes($member);
+			}
+			$validSelection = true;
+		}
+	}
+	?>
+	
+	<!-- Filter by member -->
+	<form method='post' action=''>
+	<table>
+		<?php				
+		// Print Member Checkboxes
+		$query = "	SELECT DISTINCT CONCAT(firstname, ' ', lastname) AS 'username' FROM people p
+					JOIN artwork a ON a.artistID = p.personID
+					ORDER BY firstname;";
+		$result = mysqli_query($db, $query);
+		if(!$result) {
+			die("Error in SQL statement." . mysqli_error($db));
+		} else {
+			$numrows = mysqli_num_rows($result);
+			echo "<tr>";
+			// To create columns
+			$t = 1;
+			for($i = 0; $i < $numrows; $i++) {
+				$row = mysqli_fetch_assoc($result);
+				if($row) {
+					$username = $row['username'];
+					
+					// Get selected members
+					$checked = "";
+					if($validSelection) {
+						foreach($members as $member) {
+							if($member === $username)
+								$checked = "checked";
+						}
+					}
+					
+					echo "<td><input type='checkbox' name='members[]' value='$username' $checked>$username</td>";
+					// Creates 4 columns
+					if($t % 4 == 0) echo "</tr><tr>";
+					$t++;
+				}
+			}
+			echo "</tr>";
+		}
+		?>
+	</table><table>
+		<tr>			
+			<td colspan='4'><input type='submit' name='filterartwork' value='Filter Artwork'></td>
+		</tr>
+	</table>
+	</form>
+	
+	<!-- End Filter by member -->
+	<div id="accordion"><?php
 	// Get artistID
 	$artist = $_SESSION['username'];
 	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
@@ -114,9 +174,18 @@ if(isLoggedIn()) {
 	} else {
 		// Get all their work
 		while($artist = mysqli_fetch_assoc($artists)) {			
-			$oddInd = $oddInd ? false : true;
 			$artistName = "$artist[firstname] $artist[lastname]";
-			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
+			if($validSelection) {
+				foreach($members as $m) {
+					if($artistName === $m) {
+						$oddInd = $oddInd ? false : true;			
+						printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
+					}
+				}
+			} else {
+				$oddInd = $oddInd ? false : true;			
+				printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
+			}
 		}
 	}
 	
@@ -128,9 +197,18 @@ if(isLoggedIn()) {
 	} else {
 		// Get all their work
 		while($artist = mysqli_fetch_assoc($artists)) {		
-			$oddInd = $oddInd ? false : true;
 			$artistName = "$artist[firstname] $artist[lastname]";
-			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
+			if($validSelection) {
+				foreach($members as $m) {
+					if($artistName === $m) {
+						$oddInd = $oddInd ? false : true;
+						printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
+					}
+				}
+			} else {
+				$oddInd = $oddInd ? false : true;
+				printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
+			}
 		}
 	}
 	?>

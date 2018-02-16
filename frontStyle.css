@@ -32,8 +32,7 @@ p {
 #accordion > table.memberartEven, 
 .artworkHeaderEven,
 #accordion > table.memberartEven > tbody > tr > td > a
-	{ background-color: rgba(160, 80, 80, .9); color: #e0c099; }
-
+	{ background-color: rgba(120, 80, 110, .9); color: #e0c099; }
 
 
 /* Odd Members' Artwork Page */
@@ -44,6 +43,7 @@ p {
 #accordion > table.memberart > tbody > tr > td > a 
 	{ background-color: rgba(80,80,160,.9); color: #bbdbff; }
 
+/* hover links */
 #accordion > table.memberart > tbody > tr > td > a:hover,
 #accordion > table.memberartEven > tbody > tr > td > a:hover
  { background-color: #222222; color: #bbdbff; }
@@ -136,7 +136,7 @@ body {
 	border: .4em solid rgba(100,100,200,.9);
 	border-radius:.5em;
 	background-color: #ccc;	
-	color: rgba(100,100,200,.9);
+	color: rgba(60,60,180,.9);
 }
 
 table {
@@ -146,9 +146,11 @@ table {
 	border-radius: .5em;*/
 }
 
-#accordion { background-color: #44a0d2; }
+#accordion { background-color: #cccccc; }
 
-#accordion > table { background-color: #cccccc; }
+#accordion > table { background-color: #cccccc; width:100%;}
+
+#artworkLinks { padding-top:0; } 
 
 input, select, button, input[type="file"] { 
 	background-color: #ccc;
@@ -165,9 +167,9 @@ input[type="submit"]:hover, button:hover, input[type="file"]:hover {
 }
 
 th {
-	background-color: #888;
+	background-color: #676767;
 	padding: .1em 1em .1em 1em;
-	color: #ccf;
+	color: #adccce;
 	border-radius: .25em;
 }
 
