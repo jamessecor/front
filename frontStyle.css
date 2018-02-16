@@ -15,7 +15,7 @@ p {
 	text-align:center;
 }
 
-.headings, .artworkHeader {
+.headings, .artworkHeader, .artworkHeaderEven {
 	position:relative;
 	font-size:1.25em;
 	font-weight:bold;
@@ -24,14 +24,36 @@ p {
 	color: rgba(100,100,200,.9);
 }
 
-.artworkHeader { margin-top:0; background-color: rgba(100,100,200,.9); color: #bbbbbb; border-radius: .25em;  }
+.memberart, .memberartEven, .contacts { border: .2em solid #aaaadd; border-radius: .5em; }
 
-.memberart, .contacts { border: .2em solid #aaaadd; border-radius: .5em; }
+/* Even Members Artwork Page */
+.artworkHeaderEven 
+	{ margin-top:.8em; }
+#accordion > table.memberartEven, 
+.artworkHeaderEven,
+#accordion > table.memberartEven > tbody > tr > td > a
+	{ background-color: rgba(160, 80, 80, .9); color: #e0c099; }
 
+
+
+/* Odd Members' Artwork Page */
+.artworkHeader 
+	{ margin-top:.8em; }
+#accordion > table.memberart,
+.artworkHeader,
+#accordion > table.memberart > tbody > tr > td > a 
+	{ background-color: rgba(80,80,160,.9); color: #bbdbff; }
+
+#accordion > table.memberart > tbody > tr > td > a:hover,
+#accordion > table.memberartEven > tbody > tr > td > a:hover
+ { background-color: #222222; color: #bbdbff; }
+
+	
 hr {
 	width:75%;
 	border-width:.1em;
 	color: rgba(100,100,200,.9);
+	border-radius: 1em;
 }
 
 /* navbar */
@@ -113,7 +135,7 @@ body {
 	padding:3em;
 	border: .4em solid rgba(100,100,200,.9);
 	border-radius:.5em;
-	background-color: #ccc;
+	background-color: #ccc;	
 	color: rgba(100,100,200,.9);
 }
 
@@ -123,6 +145,10 @@ table {
 	/*background-color: #aaf;
 	border-radius: .5em;*/
 }
+
+#accordion { background-color: #44a0d2; }
+
+#accordion > table { background-color: #cccccc; }
 
 input, select, button, input[type="file"] { 
 	background-color: #ccc;
@@ -163,7 +189,6 @@ a:hover {
 }
 
 td a {
-	padding:.1em;
 	border: 1.5px solid #aaaacc;
 	border-radius: .5em;
 	text-align: center;

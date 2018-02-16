@@ -6,6 +6,7 @@ include "frontHeader.php";
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
+/*
 $(document).ready(function() {
 	$( function() {
 		$( "#accordion" ).accordion({
@@ -16,13 +17,14 @@ $(document).ready(function() {
 		});
 	} );
 });
+*/
 </script>
 
 <div id="right_col">
 <div class='headings'>Artwork</div>
-<div class='center'>
+<div class='center artwork'>
 <?php 
-function printArtwork($where, $order, $artistName) {
+function printArtwork($where, $order, $artistName, $oddInd) {
 	global $db;
 	// Get member's artwork info from database
 	$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
@@ -38,10 +40,12 @@ function printArtwork($where, $order, $artistName) {
 	} else {
 		$numrows = mysqli_num_rows($result);
 		// Artist Name header
-		print "<h1 class='artworkHeader'>$artistName</h1>";
+		$headerClass = $oddInd ? "artworkHeader" : "artworkHeaderEven";
+		print "<h1 class='$headerClass'>$artistName</h1>";
 		
 		// Artist's works
-		print "<table class='memberart' rules='rows'>";
+		$tableClass = $oddInd ? "memberart" : "memberartEven";
+		print "<table class='$tableClass' rules='rows'>";
 
 			print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
 			for($i = 0; $i < $numrows; $i++) {
@@ -97,8 +101,8 @@ if(isLoggedIn()) {
 	if($personID) {
 		$id_array = mysqli_fetch_array($personID);
 		$id = $id_array[0];
-		
-		printArtwork("WHERE a.artistID = $id","ORDER BY a.showNumber DESC", "$artist");
+		$oddInd = true;
+		printArtwork("WHERE a.artistID = $id","ORDER BY a.showNumber DESC", "$artist", $oddInd);
 		
 	}
 	
@@ -110,8 +114,9 @@ if(isLoggedIn()) {
 	} else {
 		// Get all their work
 		while($artist = mysqli_fetch_assoc($artists)) {			
+			$oddInd = $oddInd ? false : true;
 			$artistName = "$artist[firstname] $artist[lastname]";
-			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName);
+			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
 		}
 	}
 	
@@ -122,9 +127,10 @@ if(isLoggedIn()) {
 		die("<table><tr><td>Data Entry Error. <a href=''>Please try again.</a></td></tr>");
 	} else {
 		// Get all their work
-		while($artist = mysqli_fetch_assoc($artists)) {			
+		while($artist = mysqli_fetch_assoc($artists)) {		
+			$oddInd = $oddInd ? false : true;
 			$artistName = "$artist[firstname] $artist[lastname]";
-			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName);
+			printArtwork("WHERE a.artistID = $artist[personID]","ORDER BY a.showNumber DESC", $artistName, $oddInd);
 		}
 	}
 	?>
