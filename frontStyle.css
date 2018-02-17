@@ -258,4 +258,5 @@ footer {
 	td { text-align: center; }
 	td a { background-color: #dcc; border:none; text-align: center; }
 	input, select { border: .1em solid #ccc; background-color: #dde; }
+	#right_col > div.center.artwork > form > table > tbody > tr > td > input[type="checkbox"] { width:1.2em; height:1.2em; }
 }
