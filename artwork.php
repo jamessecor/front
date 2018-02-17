@@ -6,18 +6,19 @@ include "frontHeader.php";
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
-/*
+
 $(document).ready(function() {
-	$( function() {
-		$( "#accordion" ).accordion({
-			fade: "slow",
-			collapsible: true,
-			heightStyle: "content",
-			animate: 0
-		});
-	} );
+	// select all checkboxes
+	$("#allOrNone").on("change", function() {
+		if(this.checked) {
+			$(".membersCheckboxes").prop("checked", true);
+		} else {
+			$(".membersCheckboxes").prop("checked", false);
+		}
+	});
+	
 });
-*/
+
 </script>
 
 <div id="right_col">
@@ -94,7 +95,12 @@ if(isLoggedIn()) {
 	// Process/Validate Filter
 	$members = "";
 	$validSelection = false;
+	$all = "";
 	if(isset($_POST['filterartwork'])) {
+		if(!empty($_POST['allOrNone'])) {
+			$all = "checked";
+		}
+		
 		if(!empty($_POST['members'])) {
 			$members = $_POST['members'];
 			foreach($members as $member) {
@@ -135,7 +141,7 @@ if(isLoggedIn()) {
 						}
 					}
 					
-					echo "<td><input type='checkbox' name='members[]' value='$username' $checked>$username</td>";
+					echo "<td><input type='checkbox' class='membersCheckboxes' name='members[]' value='$username' $checked>$username</td>";
 					// Creates 4 columns
 					if($t % 4 == 0) echo "</tr><tr>";
 					$t++;
@@ -144,9 +150,11 @@ if(isLoggedIn()) {
 			echo "</tr>";
 		}
 		?>
-	</table><table>
-		<tr>			
+	</table>
+	<table>
+		<tr>
 			<td colspan='4'><input type='submit' name='filterartwork' value='Filter Artwork'></td>
+			<td><input type="checkbox" id="allOrNone" name="allOrNone" <?php echo "$all"; ?>>All or None</td>	
 		</tr>
 	</table>
 	</form>
@@ -155,15 +163,22 @@ if(isLoggedIn()) {
 	<div id="accordion"><?php
 	// Get artistID
 	$artist = $_SESSION['username'];
-	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
-	$personID = mysqli_query($db, $query);
+	$query = "SELECT personID, firstname, lastname FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
+	$personResult = mysqli_query($db, $query);
 	
-	if($personID) {
-		$id_array = mysqli_fetch_array($personID);
-		$id = $id_array[0];
+	if($personResult) {
+		$artistLoggedIn = mysqli_fetch_assoc($personResult);
+		$artistName = "$artistLoggedIn[firstname] $artistLoggedIn[lastname]";
 		$oddInd = true;
-		printArtwork("WHERE a.artistID = $id","ORDER BY a.showNumber DESC", "$artist", $oddInd);
-		
+		if($validSelection) {
+			foreach($members as $m) {
+				if($artistName === $m) {
+					printArtwork("WHERE a.artistID = $artistLoggedIn[personID]","ORDER BY a.showNumber DESC", "$artistName", $oddInd);
+				}
+			}
+		} else {
+			printArtwork("WHERE a.artistID = $artistLoggedIn[personID]","ORDER BY a.showNumber DESC", "$artistName", $oddInd);
+		}		
 	}
 	
 	// Get the rest of the artists'
