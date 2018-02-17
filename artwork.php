@@ -117,7 +117,7 @@ if(isLoggedIn()) {
 		<?php				
 		// Print Member Checkboxes
 		$query = "	SELECT DISTINCT CONCAT(firstname, ' ', lastname) AS 'username' FROM people p
-					JOIN artwork a ON a.artistID = p.personID
+					JOIN artwork a ON a.artistID = p.personID AND p.member <> 0
 					ORDER BY firstname;";
 		$result = mysqli_query($db, $query);
 		if(!$result) {

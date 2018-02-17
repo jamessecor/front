@@ -75,9 +75,9 @@ if(isLoggedIn()) {
 								$show = $_POST['updateshownumber'];
 							}						
 							if("${n} ___ ${show}" == $selected) {
-								print "<option value='${n} ___ ${show}' selected>$n (Show $show)</option>";
+								print "<option value=\"${n} ___ ${show}\" selected>$n (Show $show)</option>";
 							} else {
-								print "<option value='${n} ___ ${show}'>$n (Show $show)</option>";
+								print "<option value=\"${n} ___ ${show}\">$n (Show $show)</option>";
 							}
 						}
 						?>
@@ -233,6 +233,8 @@ if(isLoggedIn()) {
 						<?php
 							if(is_numeric($newPrice)) {
 								$newPrice = "$$newPrice";
+								$newTitle = str_replace("\'", "'", $newTitle);
+								$newMedium = str_replace("\'", "'", $newMedium);
 							}
 							print "<p>$newTitle, $newYear</br>$newMedium</br>$newPrice</br>(Show: $newShowNumber)</p>";
 						}
