@@ -1,7 +1,7 @@
-TODO: move uploads folder up a directory
+TODO: 
+
+move uploads folder up a directory
 
 Labels page: Add button to show missing artists based on shownumber
-
-Artwork: show all with checkbox filter
 
 images: select all and clear all

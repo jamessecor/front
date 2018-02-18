@@ -69,15 +69,19 @@ if(isLoggedIn()) {
 						
 						while($work = mysqli_fetch_assoc($artworkResult)) {
 							$n = $work['title'];
-							$show = $work['showNumber'];
+							$show = $work['showNumber'];														
+							// Correct Updated Artwork for dropdown and display
 							if(isset($_POST['updatework']) && ($n == $_POST['oldtitle'] )) { //|| $show == $_POST['oldshownumber']) {
 								$n = $_POST['updatetitle'];
 								$show = $_POST['updateshownumber'];
 							}						
-							if("${n} ___ ${show}" == $selected) {
-								print "<option value=\"${n} ___ ${show}\" selected>$n (Show $show)</option>";
-							} else {
-								print "<option value=\"${n} ___ ${show}\">$n (Show $show)</option>";
+							// Only display on Dropdown menu if not deleted
+							if(!(isset($_POST['submitdeletion']) && $n == $_POST['oldtitle'])) {
+								if("${n} ___ ${show}" == $selected) {
+									print "<option value=\"${n} ___ ${show}\" selected>$n (Show $show)</option>";
+								} else {
+									print "<option value=\"${n} ___ ${show}\">$n (Show $show)</option>";
+								}
 							}
 						}
 						?>
