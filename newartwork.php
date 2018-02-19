@@ -241,14 +241,20 @@ include "frontHeader.php";
 					<?php } ?>
 					var year   = document.getElementsByName("year")[0].value;
 					var media  = document.getElementsByName("media")[0].value;
-					var price  = document.getElementsByName("price")[0].value;
+					var price  = document.getElementsByName("price")[0].value;					
+					var labelText = "";
+					
+					// Display message if info is incomplete
+					if(title==="" || artist==="" || year==="" || media==="" || price==="") {
+						labelText += "<p class=\"errorText\"><em>Incomplete label info.</em></p>";
+					}
 					
 					// Show label preview
-					var labelText = "<p>" + title + "<br>" + artist + "&nbsp; &nbsp;" + year + "<br>" + media + "<br>";
+					labelText += "<p>" + title + "<br>" + artist + "&nbsp; &nbsp;" + year + "<br>" + media + "<br>";
 					if($.isNumeric(price)) {
 						labelText += "$";
 					}
-					labelText +=  price + "</p>";
+					labelText +=  price + "</p>";					
 					$("#labelPreview").html(labelText);
 				});
 			});
