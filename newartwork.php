@@ -241,7 +241,7 @@ include "frontHeader.php";
 					
 					// Show label preview
 					var labelText = "<p>" + title + "<br>" + artist + "&nbsp; &nbsp;" + year + "<br>" + media + "<br>";
-					if(!isNaN(price)) {
+					if(price.isNumeric) {
 						labelText += "$";
 					}
 					labelText +=  price + "</p>";
