@@ -7,3 +7,5 @@ Labels page: Add button to show missing artists based on shownumber
 images: select all and clear all
 
 line 81 editartwork: 
+
+? allow apostrophes for price in editartwork ?
