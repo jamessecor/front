@@ -52,7 +52,8 @@ if(isLoggedIn()) {
 						if(isset($_POST['editwork']) || isset($_POST['deletework'])) {
 							if(!empty($_POST['workSelected'])) {
 								global $selectedTitle;
-								global $selectedShow;
+								global $selectedShow;	
+								$s = $_POST['workSelected'];
 								$selected = addslashes(trim($_POST['workSelected']));
 								$selectedArray = explode(" ___ ", $selected);
 								$selectedTitle = $selectedArray[0];
@@ -77,7 +78,7 @@ if(isLoggedIn()) {
 							}						
 							// Only display on Dropdown menu if not deleted
 							if(!(isset($_POST['submitdeletion']) && $n == $_POST['oldtitle'])) {
-								if("${n} ___ ${show}" == $selected) {
+								if("${n} ___ ${show}" == $s) {
 									print "<option value=\"${n} ___ ${show}\" selected>$n (Show $show)</option>";
 								} else {
 									print "<option value=\"${n} ___ ${show}\">$n (Show $show)</option>";
