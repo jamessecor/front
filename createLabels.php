@@ -143,6 +143,7 @@ if(labelCreatorIsUser()) {
 					print "<tr><td>$missingArtist[firstname] $missingArtist[lastname]</td></tr>";
 				}
 			}
+			print "<tr><td><em>Total missing:</em> $numrows</td></tr>";
 		}
 		?>
 		
