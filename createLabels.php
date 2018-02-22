@@ -20,7 +20,7 @@ function createLabels($showNumber) {
 	else {
 		// Create or open file
 		$path = "labels";
-		$filename = "labels" . $showNumber . ".txt";
+		$filename = "labels" . $showNumber . ".html";
 		$filepath = $path . "/" . $filename;
 		$fileptr = fopen($filepath, "w") or die("Unable to open file.");
 		
@@ -35,11 +35,11 @@ function createLabels($showNumber) {
 			for($i = 0; $i < $numrows; $i++) {
 				$piece = mysqli_fetch_assoc($works);
 				if($piece) {
-					$label = "$piece[title]\n$piece[artist]\t$piece[yearMade]\n$piece[medium]\n";
+					$label = "<strong>$piece[title]<br>$piece[artist]</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$piece[yearMade]<br>$piece[medium]<br>";
 					if(is_numeric($piece['price'])) {
 						$label = $label . "$";
 					}
-					$label = $label . "$piece[price]\n\n";
+					$label = $label . "$piece[price]<br><br>";
 					fwrite($fileptr, $label);
 				}
 			}
