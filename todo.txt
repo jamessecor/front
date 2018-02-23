@@ -9,3 +9,5 @@ images: select all and clear all
 line 81 editartwork: 
 
 ? allow apostrophes for price in editartwork ?
+
+Text forgotpassword with admin

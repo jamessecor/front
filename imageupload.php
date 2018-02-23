@@ -29,7 +29,7 @@ if(isLoggedIn()) {
 		// Code from https://www.w3schools.com/php/php_file_upload.asp
 		// ======================
 		
-		$target_dir = "uploads/";
+		$target_dir = "frontUploads/";
 		$target_file = $target_dir . basename($_FILES["filename"]["name"]);
 		$uploadOk = 1;
 		
@@ -99,7 +99,7 @@ if(isLoggedIn()) {
 		} else {
 			if (move_uploaded_file($_FILES["filename"]["tmp_name"], $target_file)) {
 				$filename = basename($_FILES["filename"]["name"]);
-				$imgLocation = "uploads/" . $filename;
+				$imgLocation = "frontUploads/" . $filename;
 				
 				// Send to the database
 				$query = "UPDATE artwork SET filename = '$filename' WHERE title = '$title';";
