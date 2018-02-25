@@ -25,7 +25,7 @@ function displayImages($query, $memberArray)
 			if($row) {
 				$filepath = "../frontUploads/" . $row['filename'];
 				print "<a href='$filepath' target='_blank'><img width='75%' src='$filepath' alt='No Image'></a>";
-				print "<div id='label'><em>$row[title]</em>, $row[yearMade]. $row[medium]<br>$row[member]</div><br><br>";
+				print "<table><tr><td><em>$row[title]</em>, $row[yearMade]. $row[member]. $row[medium], Show $row[showNumber]</td></tr></table><br><br>";
 				
 			}
 		}
@@ -54,6 +54,7 @@ if(isLoggedIn()) {
 	$errors = array();
 	$showNum= '';
 	$members = "";
+	$validSelection = false;
 	
 	if(isset($_POST['viewimages'])) {
 		if(!empty($_POST['showNumber'])) {
@@ -64,6 +65,7 @@ if(isLoggedIn()) {
 			foreach($members as $m) {
 				$m = addslashes($m);
 			}
+			$validSelection = true;
 		}
 	}
 ?>
@@ -90,7 +92,17 @@ if(isLoggedIn()) {
 				$row = mysqli_fetch_assoc($result);
 				if($row) {
 					$username = $row['username'];
-					echo "<td><input type='checkbox' name='members[]' value='$username'>$username</td>";
+					
+					// Get selected members
+					$checked = "";
+					if($validSelection) {
+						foreach($members as $member) {
+							if($member === $username)
+								$checked = "checked";
+						}
+					}
+
+					echo "<td><input type='checkbox' class='membersCheckboxes' name='members[]' value='$username' $checked>$username</td>";
 					// Creates 4 columns
 					if($t % 4 == 0) echo "</tr><tr>";
 					$t++;
@@ -148,7 +160,7 @@ if($members !== "") {
 	}
 	$where = $where . " AND CONCAT(m.firstname, ' ', m.lastname) IN ($membersIn) AND a.filename IS NOT NULL";
 }
-$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename 
+$query = "SELECT CONCAT(m.firstname, ' ', m.lastname) AS 'member', a.title, a.yearMade, a.medium, a.filename, a.showNumber 
 		FROM artwork a 
 		JOIN people m ON a.artistID = m.personID 
 		$where

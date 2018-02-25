@@ -11,3 +11,5 @@ line 81 editartwork:
 ? allow apostrophes for price in editartwork ?
 
 Text forgotpassword with admin
+
+-Add order by member and showNumber on images page

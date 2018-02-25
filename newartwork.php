@@ -131,7 +131,7 @@ include "frontHeader.php";
 						if(labelCreatorIsUser()) { ?>
 							<td><select name="username">
 							<?php
-							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 OR member = 2 ORDER BY username;";
+							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 OR member = $currentShow ORDER BY member, username;";
 							$result = mysqli_query($db, $query);
 							if(!$result) {
 								$errors['username'] = "Error in SQL statement." . mysqli_error($db);
