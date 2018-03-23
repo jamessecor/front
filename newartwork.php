@@ -75,7 +75,8 @@ include "frontHeader.php";
 			
 			
 			// showNumber
-			if(!adminIsUser()) $_POST['showNumber'] = $currentShow;
+			// Opened up so members can put in work for past shows
+			// if(!adminIsUser()) $_POST['showNumber'] = $currentShow;
 				
 			if(!empty($_POST['showNumber'])) {
 				$showNumber = trim($_POST['showNumber']);
