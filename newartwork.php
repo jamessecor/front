@@ -197,13 +197,9 @@ include "frontHeader.php";
 					</tr>
 					<tr>
 						<td>Show Number</td>
-						<td><?php
-							if(adminIsUser()) { ?>
-								<input type='text' name='showNumber' value="<?php echo $currentShow; ?>" placeholder='ex: 12'>
-							<?php
-							} else {
-								print "$currentShow";
-							} ?>
+						<td><?php // if(adminIsUser()) { ?>
+							<input type='text' name='showNumber' value=<?php echo "\"$currentShow\" placeholder=\"current show: $currentShow\""; ?>>
+							<?php // } else { echo $currentShow; } ?>
 						</td>
 						<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
 					<tr>
