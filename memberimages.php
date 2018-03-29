@@ -24,7 +24,7 @@ function displayImages($query, $memberArray)
 			$row = mysqli_fetch_assoc($data);
 			if($row) {
 				$filepath = "../frontUploads/" . $row['filename'];
-				print "<a href='$filepath' target='_blank'><img width='75%' src='$filepath' alt='No Image'></a>";
+				print "<a href='$filepath' target='_blank'><img width='50%' src='$filepath' alt='No Image'></a>";
 				print "<table><tr><td><em>$row[title]</em>, $row[yearMade]. $row[member]. $row[medium], Show $row[showNumber]</td></tr></table><br><br>";
 				
 			}
