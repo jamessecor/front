@@ -102,7 +102,7 @@ if(isLoggedIn()) {
 			if($validWork && (isset($_POST['editwork']) || isset($_POST['updatework']) || isset($_POST['deletework']) || isset($_POST['submitdeletion']))) {
 				// TODO: validate entry
 				// include showNumber in where clause to be sure we have the correct piece
-				$editQuery = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber
+				$editQuery = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename
 						  FROM artwork a 
 						  WHERE a.title = '$selectedTitle'
 						  AND a.showNumber = '$selectedShow';";
@@ -124,6 +124,10 @@ if(isLoggedIn()) {
 					<hr>					
 					<form id="updateform" method="post" action="">
 						<table>
+							<tr>
+								<th>Image</th>
+								<td><img width="180em" src="../frontUploads/<?php echo $editWork['filename']; ?>" alt="No Image"></td>
+							</tr>
 							<tr>
 								<th>Title</th>
 								<td><input type="text" name="updatetitle" value="<?php echo "$editWork[title]";?>" <?php echo $disabled; ?>></td>
@@ -164,6 +168,7 @@ if(isLoggedIn()) {
 							<tr>
 								<td><input type="hidden" name="artworkid" value="<?php echo $workID; ?>" display="none">
 								<input type="hidden" name="oldtitle" value="<?php echo $editWork['title']; ?>">
+								<input type="hidden" name="filename" value="<?php echo $editWork['filename']; ?>">
 								</td>
 								
 							</tr>
@@ -242,6 +247,7 @@ if(isLoggedIn()) {
 								$newMedium = str_replace("\'", "'", $newMedium);
 							}
 							print "<p>$newTitle, $newYear</br>$newMedium</br>$newPrice</br>(Show: $newShowNumber)</p>";
+							print "<table><tr><td><img width=\"180em\" src=\"../frontUploads/$_POST[filename]\" alt=\"No Image\"></td></tr></table>";
 						}
 					} elseif(isset($_POST['submitdeletion'])) {
 						$artworkID = $_POST['artworkid'];

@@ -48,7 +48,7 @@ function printArtwork($where, $order, $artistName, $oddInd) {
 		$tableClass = $oddInd ? "memberart" : "memberartEven";
 		print "<table class='$tableClass' rules='rows'>";
 
-			print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th><th>Sold To</th></tr>";
+			print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th></tr>";
 			for($i = 0; $i < $numrows; $i++) {
 				$row = mysqli_fetch_assoc($result);
 				if($row) {
@@ -73,7 +73,7 @@ function printArtwork($where, $order, $artistName, $oddInd) {
 					if(is_numeric($price))
 						$price = "$$price";
 						
-					print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$price</td><td>$show</td><td>$buyer</td></tr>";
+					print "<tr><td>$title</td><td>$media</td><td>$y</td><td>$price</td><td>$show</td></tr>";
 				}
 			}
 		print "</table>";
