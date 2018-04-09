@@ -29,10 +29,12 @@ if(adminIsUser()) {
 	$email      = "";
 	$buttonName = "submitNewUser";
 	$buttonValue= "Submit New Info";
+	$successfulQueryText = "New User Added Successfully!";
 	if(isset($_GET['userid'])) {
 		$userId = $_GET['userid'];
 		$buttonName = "submitUserUpdate";
 		$buttonValue= "Update User Info";
+		$successfulQueryText = "User Updated Successfully!";
 		
 		// Select user's info
 		$userInfoQuery = "SELECT * FROM people WHERE personID = '$userId';";
@@ -52,9 +54,7 @@ if(adminIsUser()) {
 			$usertype  = $userInfo['member'];
 			$website   = $userInfo['website'];
 		}
-		
-		// Set button value
-		
+				
 		// Set query (INSERT or UPDATE)
 		
 	}
@@ -124,24 +124,25 @@ if(adminIsUser()) {
 			$columnValue[] = $phone;
 		}
 		
-		// usertype
-		if(!empty($_POST['usertype'])) {
-			$usertype= addslashes(trim($_POST['usertype']));
-			$columnName[] = "member";
-			$columnValue[] = $usertype;
-			if(strlen($usertype) == 0) {
-				$errors[1] = $errors[1] ? "$errors[1], user typex" : "user typex";
-			}
-		} else {
-			$errors[1] = $errors[1] ? "$errors[1], user type" : "user type";
-		}	
-		
 		// website
 		if(!empty($_POST['website'])) {
 			$website = addslashes(trim($_POST['website']));
 			$columnName[] = "website";
 			$columnValue[] = $website;
 		}
+		
+		// usertype
+		if(!empty($_POST['usertype']) || $_POST['usertype'] == 0) {
+			$usertype= addslashes(trim($_POST['usertype']));
+			$columnName[] = "member";
+			$columnValue[] = $usertype;		
+			if(strlen($usertype) == 0) {
+				$errors[1] = $errors[1] ? "$errors[1], user type" : "user type";
+			}
+		} else {
+			
+			$errors[1] = $errors[1] ? "$errors[1], user type" : "user type";
+		}		
 		
 		// If all good, proceed
 		if(!$errors[1]) {
@@ -154,72 +155,92 @@ if(adminIsUser()) {
 			$q1 = "UPDATE people SET ";
 			$q2 = "";
 			$q3 = "WHERE personID = $userid;";
-			print_r($columnName);
-			print_r($columnValue);
 			for($i = 0; $i < count($columnName); $i++) {
 				if($q2 != "") {
 					$q2 .= ", ";
 				}
 				// Use quotes or not
-				if(is_numeric($columnValue[$i]))
+				if($columnName[$i] == 'zip' || $columnName[$i] == 'member')	
 					$q2 .= $columnName[$i] . " = ${columnValue[$i]} ";
 				else 
 					$q2 .= $columnName[$i] . " = '${columnValue[$i]}' ";
 								
 			}
 			$userQuery = $q1 . $q2 . $q3;
-			echo $userQuery;
 		} elseif(isset($_POST['submitNewUser'])) {
-			$joinDate = date("Ymd");				
-			$userQuery = "INSERT INTO people (
-						firstname, 
-						lastname, 
-						phone, 
-						email, 
-						address, 
-						city,
-						state,
-						zip,
-						joinDate,
-						website,
-						member
-					)
-				VALUES (
-						'$firstname',
-						'$lastname',
-						'$phone',
-						'$email', 
-						'$address', 
-						'$city',
-						'$state',
-						$zip,
-						'$joinDate',
-						'$website',
-						$usertype
-					);";
-		}		
+			$joinDate = date("Ymd");	
+			$q1 = "INSERT INTO people (";
+			$q2 = "";
+			$q3 = ") VALUES (";
+			$q4 = "";
+			$q5 = ");";
+			
+			// Put specific columns from user input
+			for($i = 0; $i < count($columnName); $i++) {
+				if($q2 != "" && $q4 != "") {
+					$q2 .= ", ";
+					$q4 .= ", ";
+				}
+				
+				// Use quotes or not
+				if($columnName[$i] == 'zip' || $columnName[$i] == 'member')
+					$q4 .= " ${columnValue[$i]} ";
+				else 
+					$q4 .= " '${columnValue[$i]}' ";
+				$q2 .= " $columnName[$i] ";
+								
+			}
+			$userQuery = $q1 . $q2 . $q3 . $q4 . $q5;
+		} else {
+			die("Something went wrong, and there's no query" . mysqli_error());
+		}			
+		
+		// Query db 
 		$queryResponse = mysqli_query($db, $userQuery);
+		
+		// Did it work?
 		if($queryResponse) {
 			?>
 			<table>
 				<tr>
-					<td colspan='2'>New User Added Successfully!</td>
+					<td colspan="<?php echo count($columnName);?>"> <?php echo $successfulQueryText; ?></td>
+				</tr>
+				<tr>
+				<?php 
+				foreach($columnName as $cname) {
+					echo "<th>${cname}</th>";
+				}				
+				?>				
+				</tr>
+				<tr>
+				<?php 
+				foreach($columnValue as $cValue) {
+					echo "<td>${cValue}</td>";
+				}				
+				?>				
+				</tr>
+				<tr>
+					<td colspan="<?php echo count($columnName);?>"><a href="./createnewuser.php">Add Another</a></td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr>
-					<td><a href="./createnewuser.php">Add Another</a></td>
-					<td><a href="./usermanagement.php">Back to User Management</a></td>
+					<td colspan="<?php echo count($columnName);?>"><a href="./usermanagement.php">Back to User Management</a></td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td colspan="<?php echo count($columnName);?>"><a href="./createnewuser.php?userid=<?php echo $userid; ?>">Edit This User</a></td>
 				</tr>
 			</table>
 			<?php
 		} else {
+			// Nope, it didn't
 		?>
 			<table>
 				<tr>
 					<td>Unable to add user.</td>
 				</tr>
 				<tr>
-					<td><a href="./createnewuser.php">Try Again</a></td>
+					<td><a href="./usermanagement.php">Try Again</a></td>
 				</tr>				
 			</table>
 		<?php
