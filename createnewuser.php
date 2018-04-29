@@ -168,11 +168,13 @@ if(adminIsUser()) {
 			}
 			$userQuery = $q1 . $q2 . $q3;
 		} elseif(isset($_POST['submitNewUser'])) {
-			$joinDate = date("Ymd");	
+			$joinDate = date("Ymd");
+
+			// Query pieces to insert a new user (joinDate is not null)
 			$q1 = "INSERT INTO people (";
-			$q2 = "";
+			$q2 = "joinDate";
 			$q3 = ") VALUES (";
-			$q4 = "";
+			$q4 = "'$joinDate'";
 			$q5 = ");";
 			
 			// Put specific columns from user input
@@ -241,6 +243,10 @@ if(adminIsUser()) {
 				</tr>
 				<tr>
 					<td><a href="./usermanagement.php">Try Again</a></td>
+				</tr>	
+				<tr>
+					<th>Query used</th>
+					<td><?php echo $userQuery; ?></td>
 				</tr>				
 			</table>
 		<?php
