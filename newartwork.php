@@ -19,7 +19,6 @@ include "frontHeader.php";
 		$media = '';
 		$price = 0;
 		
-		// TODO: Change this when new show rolls around
 		include "currentShow.php";
 		
 		if(isset($_POST['newart'])) {
@@ -160,7 +159,7 @@ include "frontHeader.php";
 					</tr>
 					<tr>
 						<td>Title</td>
-						<td><input type='text' name='title' value="<?php echo isset($_POST['title']) ? $_POST['title'] : '';  ?>"></td>
+						<td><input type='text' name='title' value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';  ?>"></td>
 						<td><small class='errorText'><?php echo array_key_exists('title',$errors) ? $errors['title'] : ''; ?></small></td>
 					</tr>
 					<tr>
@@ -188,12 +187,12 @@ include "frontHeader.php";
 					</tr>
 					<tr>
 						<td>Medium/Media</td>
-						<td><input type='text' name='media' value="<?php echo isset($_POST['media']) ? $_POST['media'] : '';  ?>" placeholder='ex: oil on canvas'></td>
+						<td><input type='text' name='media' value="<?php echo isset($_POST['media']) ? htmlspecialchars($_POST['media']) : '';  ?>" placeholder='ex: oil on canvas'></td>
 						<td><small class='errorText'><?php echo array_key_exists('media',$errors) ? $errors['media'] : ''; ?></small></td>
 					</tr>
 					<tr>
 						<td>Price</td>
-						<td><input type='text' name='price' value="<?php echo isset($_POST['price']) ? $_POST['price'] : '';  ?>"></td>
+						<td><input type='text' name='price' value="<?php echo isset($_POST['price']) ? htmlspecialchars($_POST['price']) : '';  ?>"></td>
 						<td><small class='errorText'><?php echo array_key_exists('price',$errors) ? $errors['price'] : ''; ?></small></td>
 					</tr>
 					<tr>

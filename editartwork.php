@@ -20,6 +20,8 @@ if(isLoggedIn()) {
 	$selectedArray = "";
 	$selectedTitle = ""; 
 	$selectedShow = "";
+	$artworkID = "";
+	$selectedArtworkID = "";
 	$disabled="";
 	$validWork=false;
 	
@@ -28,7 +30,7 @@ if(isLoggedIn()) {
 		$id = $id_array[0];
 		
 		// Get member's artwork info from database
-		$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber
+		$query = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber
 				  FROM artwork a 
 				  WHERE a.artistID = $id
 				  ORDER BY a.title;";
@@ -50,14 +52,10 @@ if(isLoggedIn()) {
 						<?php
 						// Populate drop-down
 						if(isset($_POST['editwork']) || isset($_POST['deletework'])) {
-							if(!empty($_POST['workSelected'])) {
-								global $selectedTitle;
-								global $selectedShow;	
-								$s = $_POST['workSelected'];
+							if(!empty($_POST['workSelected'])) {	
+								global $selectedArtworkID;
+								$selectedArtworkID = $_POST['workSelected'];
 								$selected = addslashes(trim($_POST['workSelected']));
-								$selectedArray = explode(" ___ ", $selected);
-								$selectedTitle = $selectedArray[0];
-								$selectedShow = $selectedArray[1];
 							} else {
 								$errors['validwork'] = "Choose a work to edit or delete.";
 							}
@@ -70,7 +68,8 @@ if(isLoggedIn()) {
 						
 						while($work = mysqli_fetch_assoc($artworkResult)) {
 							$n = $work['title'];
-							$show = $work['showNumber'];														
+							$show = $work['showNumber'];
+							$artworkID = $work['artworkID'];
 							// Correct Updated Artwork for dropdown and display
 							if(isset($_POST['updatework']) && ($n == $_POST['oldtitle'] )) { //|| $show == $_POST['oldshownumber']) {
 								$n = $_POST['updatetitle'];
@@ -78,10 +77,10 @@ if(isLoggedIn()) {
 							}						
 							// Only display on Dropdown menu if not deleted
 							if(!(isset($_POST['submitdeletion']) && $n == $_POST['oldtitle'])) {
-								if("${n} ___ ${show}" == $s) {
-									print "<option value=\"${n} ___ ${show}\" selected>$n (Show $show)</option>";
+								if(isset($s) && $artworkID == $selectedArtworkID) {
+									print "<option value=\"${artworkID}\" selected>$n (Show $show)</option>";
 								} else {
-									print "<option value=\"${n} ___ ${show}\">$n (Show $show)</option>";
+									print "<option value=\"${artworkID}\">$n (Show $show)</option>";
 								}
 							}
 						}
@@ -104,8 +103,7 @@ if(isLoggedIn()) {
 				// include showNumber in where clause to be sure we have the correct piece
 				$editQuery = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename
 						  FROM artwork a 
-						  WHERE a.title = '$selectedTitle'
-						  AND a.showNumber = '$selectedShow';";
+						  WHERE a.artworkID = '$selectedArtworkID';";
 				
 				$editResult = mysqli_query($db, $editQuery);
 				if(!$editResult) {
@@ -130,12 +128,12 @@ if(isLoggedIn()) {
 							</tr>
 							<tr>
 								<th>Title</th>
-								<td><input type="text" name="updatetitle" value="<?php echo "$editWork[title]";?>" <?php echo $disabled; ?>></td>
+								<td><input type="text" name="updatetitle" value="<?php echo htmlspecialchars($editWork['title']);?>" <?php echo $disabled; ?>></td>
 								<td><small class='errorText'><?php echo array_key_exists('updatetitle',$errors) ? $errors['updatetitle'] : ''; ?></small></td>
 							</tr>
 							<tr>
 								<th>Medium</th>
-								<td><input type="text" name="updatemedium" value="<?php echo "$editWork[medium]";?>" <?php echo $disabled; ?>></td>
+								<td><input type="text" name="updatemedium" value="<?php echo htmlspecialchars($editWork['medium']);?>" <?php echo $disabled; ?>></td>
 							</tr>
 							<tr>
 								<th>Year</th>
@@ -143,7 +141,7 @@ if(isLoggedIn()) {
 							</tr>
 							<tr>
 								<th>Price</th>
-								<td><input type="text" name="updateprice" value="<?php echo "$editWork[price]";?>" <?php echo $disabled; ?>></td>
+								<td><input type="text" name="updateprice" value="<?php echo htmlspecialchars($editWork['price']);?>" <?php echo $disabled; ?>></td>
 							</tr>
 							<tr>
 								<th>Show Number</th>
@@ -167,7 +165,7 @@ if(isLoggedIn()) {
 							</tr>
 							<tr>
 								<td><input type="hidden" name="artworkid" value="<?php echo $workID; ?>" display="none">
-								<input type="hidden" name="oldtitle" value="<?php echo $editWork['title']; ?>">
+								<input type="hidden" name="oldtitle" value="<?php echo htmlspecialchars($editWork['title']); ?>">
 								<input type="hidden" name="filename" value="<?php echo $editWork['filename']; ?>">
 								</td>
 								
@@ -178,7 +176,7 @@ if(isLoggedIn()) {
 					} elseif(isset($_POST['updatework'])) {
 						// Validate Title
 						if(!empty($_POST['updatetitle'])) {
-							$newTitle = addslashes(trim($_POST['updatetitle']));
+							$newTitle = trim($_POST['updatetitle']);
 							if(strlen($newTitle) == 0)
 								$errors['updatetitle'] = "Enter a title";
 						} else {
@@ -186,7 +184,7 @@ if(isLoggedIn()) {
 						}
 						// Validate Medium
 						if(!empty($_POST['updatemedium'])) {
-							$newMedium = addslashes(trim($_POST['updatemedium']));
+							$newMedium = trim($_POST['updatemedium']);
 							if(strlen($newMedium) == 0)
 								$errors['updatemedium'] = "Enter a medium";
 						} else {
@@ -204,7 +202,7 @@ if(isLoggedIn()) {
 						
 						// Validate Price
 						if(!empty($_POST['updateprice'])) {
-							$newPrice = $_POST['updateprice'];
+							$newPrice = trim($_POST['updateprice']);
 							if(strlen($newPrice) == 0)
 								$errors['updateprice'] = "Enter a price";
 						} else {
@@ -223,10 +221,14 @@ if(isLoggedIn()) {
 						$artworkID = $_POST['artworkid'];
 						
 						// Update Query
-						$updateQuery = "UPDATE artwork SET title   = '$newTitle', 
-										medium     = '$newMedium',
+						$queryNewTitle = addslashes($newTitle);
+						$queryNewMedium = addslashes($newMedium);
+						$queryNewPrice = addslashes($newPrice);
+						
+						$updateQuery = "UPDATE artwork SET title   = '$queryNewTitle', 
+										medium     = '$queryNewMedium',
 										yearMade   = '$newYear',
-										price      = '$newPrice',
+										price      = '$queryNewPrice',
 										showNumber = '$newShowNumber'
 								WHERE artworkID = $artworkID;";
 						$updateResult = mysqli_query($db, $updateQuery);
@@ -243,15 +245,14 @@ if(isLoggedIn()) {
 						<?php
 							if(is_numeric($newPrice)) {
 								$newPrice = "$$newPrice";
-								$newTitle = str_replace("\'", "'", $newTitle);
-								$newMedium = str_replace("\'", "'", $newMedium);
 							}
+							// Show edits
 							print "<p>$newTitle, $newYear</br>$newMedium</br>$newPrice</br>(Show: $newShowNumber)</p>";
 							print "<table><tr><td><img width=\"180em\" src=\"../frontUploads/$_POST[filename]\" alt=\"No Image\"></td></tr></table>";
 						}
 					} elseif(isset($_POST['submitdeletion'])) {
 						$artworkID = $_POST['artworkid'];
-						$title = $_POST['oldtitle'];
+						$title = ($_POST['oldtitle']);
 						
 						// Query for deletion
 						$deletionQuery = "DELETE FROM artwork WHERE artworkID = '$artworkID';";
