@@ -143,9 +143,9 @@ $(document).ready(function() {
 		<li class="navbar-item">
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/login.php')) echo "class='active'";?> href="./login.php">Log In</a>
 		</li>
-		<li class="navbar-item">
+		<!--<li class="navbar-item">
 			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/forgotpassword.php')) echo "class='active'";?> href="./forgotpassword.php">Forgot Password?</a>
-		</li>
+		</li>-->
 		<?php } ?>		
 	</ul>
 </nav>
