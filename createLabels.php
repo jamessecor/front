@@ -39,7 +39,7 @@ function createLabels($showNumber) {
 					if(is_numeric($piece['price'])) {
 						$label = $label . "$";
 					}
-					$label = $label . "$piece[price]<br><br>";
+					$label = $label . "$piece[price]<br><br><br>";
 					fwrite($fileptr, $label);
 				}
 			}
