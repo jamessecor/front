@@ -12,22 +12,25 @@ $errors = array();
 // Check that admin is logged in
 if(labelCreatorIsUser()) {
 	?>
-	<table>
-		<tr>
-			<td><a href="./createLabels.php">Create Labels</a></td>
-			<td><a href="./updateCurrentShow.php">Update Current Show Number</a></td>
-		</tr>
-	</table>
+	<div class="row">
+		<div class="col-md-3 col-md-offset-3 center-it">
+			<a class="links" href="./createLabels.php">Create Labels</a>
+		</div>
+		<div class="col-md-4 center-it">
+			<a class="links" href="./updateCurrentShow.php">Update Current Show Number</a>
+		</div>
+	</div>
 
 	</div>
 <?php
 } else {
 ?>
-<table>
-	<tr>
-		<td><a href="./login.php?page=labels">Log In to Continue</a></td>
-	</tr>
-</table>
+	<div class="row">
+		<div class="col-md-12 center-it">
+			<a class="links" href="./login.php?page=labels">Log In to Continue</a>
+		</div>
+	</div>
+	
 <?php
 }
 print "</div></div>";

@@ -2,7 +2,6 @@
 include "frontHeader.php";
 include "currentShow.php";
 
-print "<div id='right_col'>";
 print "<div class='headings'>Create Show Labels</div>";
 print "<div class='center'>";
 
@@ -29,7 +28,7 @@ function createLabels($showNumber) {
 		
 		// If no artwork
 		if($numrows == 0) {
-			print "<h1>No Artwork in show $showNumber. <a href='./createLabels.php'>Back to Create Labels</a></h1>";
+			print "<h1>No Artwork in show $showNumber. <a class='links' href='./createLabels.php'>Back to Create Labels</a></h1>";
 		} else {
 			// Loop through and print labels
 			for($i = 0; $i < $numrows; $i++) {
@@ -45,17 +44,17 @@ function createLabels($showNumber) {
 			}
 			fclose($fileptr);
 			?>
-			<table>
-				<tr>
-					<th>Successfully created!</th>
-				</tr>
-				<tr>
-					<td>Labels created and saved as "<?php echo $filename; ?>" in the "<?php echo $path; ?>" folder. </td>
-				</tr>
-				<tr>
-					<td><a href="./<?php echo $filepath; ?>" target="_blank">Preview Labels</a></td>
-				</tr>
-			</table>
+			<div class="row">
+				<div class="col-12 center-it">
+					Successfully created!
+				</div>
+				<div class="col-12 center-it">
+					Labels created and saved as "<?php echo $filename; ?>" in the "<?php echo $path; ?>" folder.
+				</div>
+				<div class="col-12 center-it">
+					<a class="links" href="./<?php echo $filepath; ?>" target="_blank">Preview Labels</a>
+				</div>
+			</div>
 			<?php
 			// print "<h1>Labels created and saved as \"$filename\". ";
 			// print "<a href='./$filename' target='_blank'>Preview Labels</a></h1>";
@@ -86,10 +85,9 @@ if(labelCreatorIsUser()) {
 ?>
 	<div class='form'>
 	<form method="post" action="" autocomplete='off'>
-		<table>
-			<tr>
-				<td>Show Number</td>
-				<td>
+		<div class="row">
+			<div class="col-md center-it">Show Number</div>
+				<div class="col-md center-it">
 				<select name='showNumber'>
 				<?php
 				$query = "SELECT DISTINCT showNumber FROM artwork WHERE title IS NOT NULL ORDER BY showNumber DESC;";
@@ -108,21 +106,20 @@ if(labelCreatorIsUser()) {
 				}
 				?>
 				</select>
-				</td>
-			</tr>
-			<tr>
-				<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
-			</tr>
-			<tr>
-				<td><input type='submit' name='showForm' value="Create Labels"></td>
-			</tr>
-		</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md center-it"><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></div>
+			</div>
+			<div class="row">
+				<div class="col-md center-it"><input type='submit' name='showForm' value="Create Labels"></div>
+			</div>		
 	</form>
-	<table>
-		<tr><td colspan='2'><a id="toggleMissingLabelInfo">Show Missing Artists</a></td></tr>
-	</table>
+	<div class="row">
+		<div class="col-md center-it"><a id="toggleMissingLabelInfo">Show Missing Artists</a></div>
+	</div>
 	<table style="display:none" id='missingLabelInfo'>
-		<tr><th>Need Labels From...</th></tr>
+		<div class="row"><th>Need Labels From...</th></tr>
 		<?php
 		global $currentShow;
 		
@@ -140,10 +137,10 @@ if(labelCreatorIsUser()) {
 			for($i = 0; $i < $numrows; $i++) {
 				$missingArtist = mysqli_fetch_assoc($result);
 				if($missingArtist) {
-					print "<tr><td>$missingArtist[firstname] $missingArtist[lastname]</td></tr>";
+					print "<div class=\"row\"><td>$missingArtist[firstname] $missingArtist[lastname]</td></tr>";
 				}
 			}
-			print "<tr><td><em>Total missing:</em> $numrows</td></tr>";
+			print "<div class=\"row\"><td><em>Total missing:</em> $numrows</td></tr>";
 		}
 		?>
 		
@@ -159,16 +156,16 @@ if(labelCreatorIsUser()) {
 <?php
 	}
 	?>
-	<table>
-		<tr>
-			<td><a href="./labels.php">Back to Labels</a></td>
-		</tr>		
-	</table>
+	<div class="row">
+		<div class="col-12 center-it">
+			<a class="links" href="./labels.php">Back to Labels</a></td>
+		</div>
+	</div>
 	<?php
 } else {
 ?>
 <table>
-	<tr>
+	<div class="row">
 		<td><a href="./login.php?page=createLabels">Log In to Continue</a></td>
 	</tr>
 </table>
