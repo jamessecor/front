@@ -12,6 +12,10 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, footer, header {
 
 
 :root {
+	--even-color:#e0c099;
+	--even-background-color:rgba(120, 80, 110, .9);
+	--odd-background-color: rgba(80,80,160,.9); 
+	--odd-color: #bbdbff;
 	--nav-background-color:rgba(80,80,120,1);
 	--nav-color: rgb(170,170,200);
 	--form-background: rgba(190,211,244,.3);
@@ -23,12 +27,16 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, footer, header {
 .navbar { border:none; border-radius:0; }
 
 .navbar-default,
+nav.navbar.navbar-default,
 .navbar-default .navbar-nav .open .dropdown-toggle,
 .navbar-default .navbar-nav .open .dropdown-menu>li>a,
 .navbar-default .navbar-nav .open .dropdown-menu {
-	background-color: var(--nav-background-color);
+	/*background-color: var(--nav-background-color);*/
+	background-color: var(--odd-background-color);
 }
 
+#nav-front > ul > li > a,
+div.navbar-header > a.navbar-brand,
 .navbar-default .navbar-brand, 
 .navbar-default .navbar-right li.navbar-text,
 .navbar-default .navbar-nav .dropdown-toggle,
@@ -36,23 +44,23 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, footer, header {
 .navbar-default .navbar-nav .open .dropdown-toggle,
 .navbar-default .navbar-nav .open .dropdown-menu>li>a,
 .navbar-default .navbar-nav .open .dropdown-menu {
-	color:var(--nav-color);
+	color:var(--odd-color);
 }
 
-/*.navbar-default .navbar-header:hover, */
+#nav-front > ul > li > a:hover,
+div.navbar-header > a.navbar-brand:hover,
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-nav .dropdown-toggle:hover,
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav .open .dropdown-toggle:hover,
 .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover {
-	color:var(--nav-background-color);
-	background-color:var(--nav-color);
-	border-radius:5em;
+	color:var(--odd-background-color);
+	background-color:var(--odd-color);
 }
 
 #nav-front > ul > li.active > a {
-	color:var(--nav-background-color);
-	background-color:var(--nav-color);
+	color:var(--odd-background-color);
+	background-color:var(--odd-color);
 	border-radius:1em;
 }
 
@@ -81,7 +89,7 @@ p {
 #accordion > table.memberartEven, 
 .artworkHeaderEven,
 #accordion > table.memberartEven > tbody > tr > td > a
-	{ background-color: rgba(120, 80, 110, .9); color: #e0c099; }
+	{ background-color: var(--even-background-color); color: var(--even-color); }
 
 
 /* Odd Members' Artwork Page */
@@ -90,7 +98,7 @@ p {
 #accordion > table.memberart,
 .artworkHeader,
 #accordion > table.memberart > tbody > tr > td > a 
-	{ background-color: rgba(80,80,160,.9); color: #bbdbff; }
+	{ background-color: var(--odd-background-color); color: var(--odd-color); }
 
 /* hover links */
 #accordion > table.memberart > tbody > tr > td > a:hover,
@@ -105,52 +113,6 @@ hr {
 	border-radius: 1em;
 }
 
-/* navbar *
-.navbar {
-	position:fixed;
-	z-index:1;
-}
-
-ul {
-	position:fixed;
-	list-style-type:none;
-	margin:0;	
-	width:100%;
-	overflow:auto;
-	display:inline-block;
-	background-color: #337;
-}
-
-ul li {
-	float:left;
-}
-
-ul li a {
-	text-align:center;
-	display: block;
-	padding: 8px 20px;
-	text-decoration:none;
-	font-weight:bold;
-	color: #cce;
-}
-
-.navbar-toggle { display: none; }
-
-.navbar-item { display:inline-block; }
-
-ul li a.active {
-	color:#caa;
-	background-color:#66d;
-}
-
-ul li a:hover:not(.active) {
-	background-color: #cce;
-	color: #337;
-}
-
-.more { display: none; }
-
-/* End navbar */
 body {
 	background-color:#eee;
 	width:100%;
@@ -228,15 +190,15 @@ td {
 	padding: .05em .5em .05em .5em;
 }
 
-div > a.links {
+div > a.links, td > a.links {
 	font-weight:bold;	
 	color:#339;
 	border-radius: .1em;
 	border: .1em solid #339;
-	padding:.2em;
+	padding:.25em;
 }
 
-div > a:hover {
+div > a:hover, td>a.links:hover {
 	text-decoration:none;
 	background-color: #339;	
 	color: #aef;
@@ -292,23 +254,4 @@ footer {
 	bottom:1em;
 	right:6em;
 	color:#66d;
-}
-
-@media only screen and (max-width: 1000px) {
-	#top { display: none; }
-	nav {}
-	ul { float:none; padding: 0; }
-	ul li a { display:block; height: 1.2em; font-size: 1.5em; }
-	ul li { width:100%; height: 2.3em; }
-	.headings { margin-top: 0; }
-	.navbar-item { display: none; }
-	.navbar-toggle { display: block; }
-	html, body, div, span, h1, h2, h3, h4, h5, h6, footer, header { font-size: 1.025em; background-color: #eee; }
-	footer, #membername { display: none; }
-	.center, #right_col {  padding: 0; width: 100%; height: 100%; border:none; background-color: #eee; color: rgb(75,75,200); }
-	table { margin: 0; width: 100%; height:100%; }
-	td { text-align: center; }
-	td a { background-color: #dcc; border:none; text-align: center; }
-	input, select { border: .1em solid #ccc; background-color: #dde; }
-	#right_col > div.center.artwork > form > table > tbody > tr > td > input[type="checkbox"] { width:1.2em; height:1.2em; }
 }

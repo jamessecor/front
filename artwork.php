@@ -66,7 +66,7 @@ function printArtwork($where, $order, $artistName, $oddInd) {
 						//$total += $price;
 					// TODO: add link to upload on title
 					if($filename) {
-						$title = "<a href='../frontUploads/$filename' target='_blank'>$title</a>";
+						$title = "<a class='links' href='../frontUploads/$filename' target='_blank'>$title</a>";
 					}
 
 					// Add "$" to price
@@ -85,9 +85,9 @@ if(isLoggedIn()) {
 ?>
 	<table id="artworkLinks">	
 		<tr>
-			<td><a href='./newartwork.php'>Submit New Artwork</a></td>
-			<td><a href='./imageupload.php'>Upload Image(s)</a></td>
-			<td><a href='./editartwork.php'>Edit Artwork</a></td>
+			<td><a class="links" href='./newartwork.php'>Submit New Artwork</a></td>
+			<td><a class="links" href='./imageupload.php'>Upload Image(s)</a></td>
+			<td><a class="links" href='./editartwork.php'>Edit Artwork</a></td>
 		</tr>
 	</table>
 	

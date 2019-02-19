@@ -42,9 +42,10 @@ if(isLoggedIn()) {
 			}
 			print "</table>";
 			?>
+			<br>
 			<table>
 				<tr>
-					<td><a href='changecontact.php'>Click to Change Contact Info</a></td>
+					<td><a class="links" href='changecontact.php'>Click to Change Contact Info</a></td>
 				</tr>
 			</table>
 			<?php

@@ -12,59 +12,12 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
-
-
 <?php
 session_start();
 include "checkLogin.php";
 require "../../includes/frontConfig.php";
 require "../../includes/frontConnect.php";
-
-if(isLoggedIn()) {
-	print "<p id='membername'>[ Logged in as $_SESSION[username] ]</p>";
-} 
 ?>
-<script>
-$(document).ready(function() {
-	var getMore = true;
-/*
-	if($(window).width() < 1000) {
-		$(window).scroll(function() {
-			$(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
-			$(".navbar-item").fadeOut("fast");
-			getMore = true;
-		});
-	}
-
-	$(".navbar-toggle").on("click", function() {
-		$(".navbar-item").toggle();	
-		if(getMore) {
-			$(".navbar-toggle").html("<a href='#'>LESS&#x21FF;MENU</a>");
-			getMore = false;	
-		} else {
-			$(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
-			getMore = true;	
-		}
-		
-	});	
-	
-	// Show .navbar-item when large
-	/*$(window).resize(function() {
-		if($(window).width() > 1000) {
-			$(".navbar-item").show();
-			$(".navbar-toggle").html("<a href='#'>MORE&#x21FF;MENU</a>");
-			getMore = false;
-		} else {
-			$(".navbar-item").hide();
-			getMore = true;
-
-		}
-	});*/
-	
-
-});
-
-</script>
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 			<div class="navbar-header">
@@ -79,19 +32,19 @@ $(document).ready(function() {
 			</div>
 
 		<div id="nav-front" class="navbar-collapse collapse">
-	<ul class="nav navbar-nav">		
+			<ul class="nav navbar-nav">		
 		<?php 
 		if(isLoggedIn()) { 
 		?>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/artwork.php')) echo "class='active'";?> href="./artwork.php">Artwork</a>
-		</li>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberimages.php')) echo "class='active'";?> href="./memberimages.php">Images</a>
-		</li>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/contacts.php')) echo "class='active'";?> href="./contacts.php">Member Contacts</a>
-		</li>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/artwork.php')) echo "class='active'";?> href="./artwork.php">Artwork</a>
+				</li>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberimages.php')) echo "class='active'";?> href="./memberimages.php">Images</a>
+				</li>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/contacts.php')) echo "class='active'";?> href="./contacts.php">Member Contacts</a>
+				</li>
 		<?php // Only admin sees this link
 			if(adminIsUser()) {
 				?>
@@ -115,30 +68,34 @@ $(document).ready(function() {
 			<?php } 
 			// Only non-admin users see this link
 			if(!adminIsUser()) {?>
-			<li>
-				<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
-			</li>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/newpassword.php')) echo "class='active'";?> href="./newpassword.php">Change Password</a>
+				</li>
 			<?php
 			}
 			if(adminIsUser()) {
 				// These are not part of beta
 				?>
-			<li>
-				<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Info</a>
-			</li>			
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/memberinfo.php')) echo "class='active'";?> href="./memberinfo.php">Info</a>
+				</li>			
 			<?php
 			} ?>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
-		</li>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/logout.php')) echo "class='active'";?> href="./logout.php">Log Out</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="navbar-text"><?php echo "user: $_SESSION[username]";?></li>
+			</ul>
 		<?php
 		} else { 
 		?>
-		<li>
-			<a <?php if(strpos($_SERVER['REQUEST_URI'], '/login.php')) echo "class='active'";?> href="./login.php">Log In</a>
-		</li>
-		<?php } ?>		
-	</ul>
-	</div></div>
+				<li>
+					<a <?php if(strpos($_SERVER['REQUEST_URI'], '/login.php')) echo "class='active'";?> href="./login.php">Log In</a>
+				</li>
+			</ul>
+		<?php } ?>
+		</div>
 	</div>
 </nav>
