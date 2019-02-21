@@ -10,7 +10,6 @@ html, body, div, span, h1, h2, h3, h4, h5, h6, footer, header {
 	font-family:"Courier New", Courier, monospace;
 }
 
-
 :root {
 	--even-color:#e0c099;
 	--even-background-color:rgba(120, 80, 110, .9);
@@ -66,6 +65,7 @@ div.navbar-header > a.navbar-brand:hover,
 
 /* end navbar changes */
 
+.spacer { line-height:.5em; }
 
 p {
 	font-weight: bold;
@@ -163,8 +163,6 @@ table {
 
 #accordion > table { background-color: #cccccc; width:100%;}
 
-#artworkLinks { padding-top:0; } 
-
 input, select, button, input[type="file"] { 
 	background-color: #ccc;
 	color: rgba(100,100,200,.9);
@@ -199,6 +197,7 @@ div > a.links, td > a.links, div.links {
 	border: .1em solid #339;
 	padding:.25em;
 	overflow-wrap: none;
+	line-height:200%;
 }
 
 div > a:hover, td>a.links:hover, div.links:hover {

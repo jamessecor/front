@@ -67,51 +67,53 @@ if(isLoggedIn()) {
 } else {
 
 ?>
-
-<form class="center" id="login" method="post" action="">
-	<table>
-		<tr>
-			<td>Name</td>
-			<td><select name="username">
-				<option value=''>Choose Name</option>
-				<?php
-				
-				// Use query to get artists to populate username drop-down		
-				$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 ORDER BY username;";
-				$result = mysqli_query($db, $query);
-				if(!$result) {
-					$errors['username'] = "Error in SQL statement." . mysqli_error($db);
-				} else {
-					$numrows = mysqli_num_rows($result);
-					for($i = 0; $i < $numrows; $i++) {
-						$row = mysqli_fetch_assoc($result);
-						if($row) {
-							$username = $row['username'];
-							if(isset($_POST['username']) && $_POST['username']==$username)
-								echo "<option value='$username' selected ='selected'>$username</option>";
-							else
-								echo "<option value='$username'>$username</option>";
+<div class="container-fluid">
+	<form class="center" id="login" method="post" action="">
+		<div class="row">
+			<div class="col-md-2 col-md-offset-5">
+				<div class="form-label">Name</div>
+				<select name="username">
+					<option value=''>Choose Name</option>
+					<?php
+					
+					// Use query to get artists to populate username drop-down		
+					$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 ORDER BY username;";
+					$result = mysqli_query($db, $query);
+					if(!$result) {
+						$errors['username'] = "Error in SQL statement." . mysqli_error($db);
+					} else {
+						$numrows = mysqli_num_rows($result);
+						for($i = 0; $i < $numrows; $i++) {
+							$row = mysqli_fetch_assoc($result);
+							if($row) {
+								$username = $row['username'];
+								if(isset($_POST['username']) && $_POST['username']==$username)
+									echo "<option value='$username' selected ='selected'>$username</option>";
+								else
+									echo "<option value='$username'>$username</option>";
+							}
 						}
 					}
-				}
-				?>
-			</select></td>
-		</tr>
-		<tr>
-			<td colspan=2><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
-		</tr>
-		<tr>
-			<td>Password</td>
-			<td><input type="password" name="passwd"></td>
-		</tr>
-		<tr>
-			<td colspan=2><small class='errorText'><?php echo array_key_exists('passwd',$errors) ? $errors['passwd'] : ''; ?></small></td>
-		</tr>
-		<tr>
-			<td></td><td><input type="submit" name="login" value="Log In"></td>
-		</tr>
-	</table>
-</form>
+					?>
+				</select>
+				<small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-5">
+				<div class="form-label">Password</div>
+				<input type="password" name="passwd">
+				<small class='errorText'><?php echo array_key_exists('passwd',$errors) ? $errors['passwd'] : ''; ?></small>
+			</div>
+		</div>
+		<div class="spacer">&nbsp;</div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-5">
+				<input type="submit" name="login" value="Log In">
+			</div>
+		</div>
+	</form>
+</div>	
 
 </div>
 
