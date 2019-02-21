@@ -222,7 +222,7 @@ include "frontHeader.php";
 				</tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr>
-					<td><a href='./artwork.php'>Back to Artwork</a></td>
+					<td><a class="links" href='./artwork.php'>Back to Artwork</a></td>
 				</tr>
 			</table>
 			<script>
