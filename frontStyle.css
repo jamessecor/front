@@ -83,6 +83,7 @@ p {
 }
 
 .memberart, .memberartEven, .contacts { border: .2em solid #aaaadd; border-radius: .5em; }
+#right_col > div.center > table.contacts > tbody > tr > td { padding-right:1em; }
 
 /* Even Members Artwork Page */
 .artworkHeaderEven 
