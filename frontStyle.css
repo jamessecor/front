@@ -157,6 +157,8 @@ table {
 	border-radius: .5em;*/
 }
 
+#accordion > table > tbody > tr { border-bottom: .05em solid var(--nav-color); }
+
 #accordion { background-color: #cccccc; }
 
 #accordion > table { background-color: #cccccc; width:100%;}
@@ -190,15 +192,16 @@ td {
 	padding: .05em .5em .05em .5em;
 }
 
-div > a.links, td > a.links {
+div > a.links, td > a.links, div.links {
 	font-weight:bold;	
 	color:#339;
 	border-radius: .1em;
 	border: .1em solid #339;
 	padding:.25em;
+	overflow-wrap: none;
 }
 
-div > a:hover, td>a.links:hover {
+div > a:hover, td>a.links:hover, div.links:hover {
 	text-decoration:none;
 	background-color: #339;	
 	color: #aef;

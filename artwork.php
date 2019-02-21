@@ -46,7 +46,7 @@ function printArtwork($where, $order, $artistName, $oddInd) {
 		
 		// Artist's works
 		$tableClass = $oddInd ? "memberart" : "memberartEven";
-		print "<table class='$tableClass' rules='rows'>";
+		print "<table class='$tableClass artwork-table' >";
 
 			print "<tr><th>Title</th><th>Medium</th><th>Year</th><th>Price</th><th>Show</th></tr>";
 			for($i = 0; $i < $numrows; $i++) {
@@ -83,13 +83,15 @@ function printArtwork($where, $order, $artistName, $oddInd) {
 
 if(isLoggedIn()) {
 ?>
-	<table id="artworkLinks">	
-		<tr>
-			<td><a class="links" href='./newartwork.php'>Submit New Artwork</a></td>
-			<td><a class="links" href='./imageupload.php'>Upload Image(s)</a></td>
-			<td><a class="links" href='./editartwork.php'>Edit Artwork</a></td>
-		</tr>
-	</table>
+	<div class="container-fluid" id="artworkLinks">	
+		<div class="row">
+			<div class="col-sm-12 center-it">
+				<a class="links" href='./newartwork.php'>Submit New Artwork</a>
+				<a class="links" href='./imageupload.php'>Upload Image(s)</a>
+				<a class="links" href='./editartwork.php'>Edit Artwork</a>
+			</div>
+		</div>
+	</div>
 	
 	<?php
 	// Process/Validate Filter
@@ -112,8 +114,7 @@ if(isLoggedIn()) {
 	?>
 	
 	<!-- Filter by member -->
-	<form method='post' action=''>
-	<table>
+	<form method='post' action='artwork.php'>
 		<?php				
 		// Print Member Checkboxes
 		$query = "	SELECT DISTINCT CONCAT(firstname, ' ', lastname) AS 'username' FROM people p
@@ -124,7 +125,7 @@ if(isLoggedIn()) {
 			die("Error in SQL statement." . mysqli_error($db));
 		} else {
 			$numrows = mysqli_num_rows($result);
-			echo "<tr>";
+			echo "<div class=\"row\">";
 			// To create columns
 			$t = 1;
 			for($i = 0; $i < $numrows; $i++) {
@@ -141,22 +142,21 @@ if(isLoggedIn()) {
 						}
 					}
 					
-					echo "<td><input type='checkbox' class='membersCheckboxes' name='members[]' value='$username' $checked>$username</td>";
+					echo "<div class=\"col-sm-3\"><input type='checkbox' class='membersCheckboxes' name='members[]' value='$username' $checked>$username</div>";
 					// Creates 4 columns
-					if($t % 4 == 0) echo "</tr><tr>";
+					if($t % 4 == 0) echo "</div><div class=\"row\">";
 					$t++;
 				}
 			}
-			echo "</tr>";
+			echo "</div>";
 		}
 		?>
-	</table>
-	<table>
-		<tr>
-			<td colspan='4'><input type='submit' name='filterartwork' value='Filter Artwork'></td>
-			<td><input type="checkbox" id="allOrNone" name="allOrNone" <?php echo "$all"; ?>>All or None</td>	
-		</tr>
-	</table>
+		<div class="row">
+			<div class="col-md-12 center-it">				
+				<input type="checkbox" id="allOrNone" name="allOrNone" <?php echo "$all"; ?>>All or None
+				<input type='submit' name='filterartwork' value='Filter Artwork'>
+			</div>	
+		</div>
 	</form>
 	
 	<!-- End Filter by member -->
@@ -240,7 +240,7 @@ if(isLoggedIn()) {
 }
 
 ?>
-</div></div>
+</div>
 
 <?php
 include "frontFooter.php";
