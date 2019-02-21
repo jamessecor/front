@@ -123,13 +123,13 @@ include "frontHeader.php";
 				   </tr></table>";
 		} else {
 			?>
-			<form id="login" method="post" action="" autocomplete='off'>
-				<table>
-					<tr>
-						<td>Name</td>
+			<form id="new-work-form" method="post" action="" autocomplete='off'>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<div class="form-label">Name</div>
 						<?php 
 						if(labelCreatorIsUser()) { ?>
-							<td><select name="username">
+							<select name="username">
 							<?php
 							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 OR member = $currentShow ORDER BY member, username;";
 							$result = mysqli_query($db, $query);
@@ -149,85 +149,90 @@ include "frontHeader.php";
 								}
 							}
 							?>
-						</select></td>
-						<td><small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small></td>
+							</select>
+							<small class='errorText'><?php echo array_key_exists('username',$errors) ? $errors['username'] : ''; ?></small>
+					
 						<?php
 						} else {
-							print "<td>$_SESSION[username]</td>";
+							print "<div>$_SESSION[username]</div>";
 						}?>
 						
-					</tr>
-					<tr>
-						<td>Title</td>
-						<td><input type='text' name='title' value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';  ?>"></td>
-						<td><small class='errorText'><?php echo array_key_exists('title',$errors) ? $errors['title'] : ''; ?></small></td>
-					</tr>
-					<tr>
-						<td>Date</td>
-						<td><select name='year'>
-								<option value=''>Year Completed</option>
-								<?php
-								// Drop-down with 15 years back
-								for($i = 0, $y = date('Y'); $i < 25; $i++, $y--) {
-									if(isset($_POST['year']) && $_POST['year']==$y)
-										echo "<option value='$y' selected='selected'>$y</option>";
-									else
-										echo "<option value='$y'>$y</option>";
-								}
-								?>
-								
-							</select>
-						</td>
-					
-						<td>
-							<small class='errorText'>
-								<?php echo array_key_exists('year',$errors) ? $errors['year'] : ''; ?>
-							</small>
-						</td>
-					</tr>
-					<tr>
-						<td>Medium/Media</td>
-						<td><input type='text' name='media' value="<?php echo isset($_POST['media']) ? htmlspecialchars($_POST['media']) : '';  ?>" placeholder='ex: oil on canvas'></td>
-						<td><small class='errorText'><?php echo array_key_exists('media',$errors) ? $errors['media'] : ''; ?></small></td>
-					</tr>
-					<tr>
-						<td>Price</td>
-						<td><input type='text' name='price' value="<?php echo isset($_POST['price']) ? htmlspecialchars($_POST['price']) : '';  ?>"></td>
-						<td><small class='errorText'><?php echo array_key_exists('price',$errors) ? $errors['price'] : ''; ?></small></td>
-					</tr>
-					<tr>
-						<td>Show Number</td>
-						<td><?php // if(adminIsUser()) { ?>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<div class="form-label">Title</div>
+						<input type='text' name='title' value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';  ?>">
+						<small class='errorText'><?php echo array_key_exists('title',$errors) ? $errors['title'] : ''; ?></small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<div class="form-label">Date</div>
+						<select name='year'>
+							<option value=''>Year Completed</option>
+							<?php
+							// Drop-down with 15 years back
+							for($i = 0, $y = date('Y'); $i < 25; $i++, $y--) {
+								if(isset($_POST['year']) && $_POST['year']==$y)
+									echo "<option value='$y' selected='selected'>$y</option>";
+								else
+									echo "<option value='$y'>$y</option>";
+							}
+							?>								
+						</select>					
+						<small class='errorText'>
+							<?php echo array_key_exists('year',$errors) ? $errors['year'] : ''; ?>
+						</small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<div class="form-label">Medium/Media</div>
+						<input type='text' name='media' value="<?php echo isset($_POST['media']) ? htmlspecialchars($_POST['media']) : '';  ?>" placeholder='ex: oil on canvas'>
+						<small class='errorText'><?php echo array_key_exists('media',$errors) ? $errors['media'] : ''; ?></small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<div class="form-label">Price</div>
+						<input type='text' name='price' value="<?php echo isset($_POST['price']) ? htmlspecialchars($_POST['price']) : '';  ?>">
+						<small class='errorText'><?php echo array_key_exists('price',$errors) ? $errors['price'] : ''; ?></small>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<div class="form-label">Show Number</div>
+						<?php // if(adminIsUser()) { ?>
 							<input type='text' name='showNumber' value=<?php echo "\"$currentShow\" placeholder=\"current show: $currentShow\""; ?>>
-							<?php // } else { echo $currentShow; } ?>
-						</td>
-						<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
-					<tr>
-						<td class='errorText' colspan=2>Preview Label Before Submitting</td>
-					</tr>
-					<tr>
-						<td></td><td><input type="submit" name="newart" value="Submit Artwork" formnovalidate></td>
-					</tr>
-				</table>
+						<?php // } else { echo $currentShow; } ?>
+						<small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small>
+					</div>
+				</div>
+				<div class="spacer">&nbsp;</div>				
+				<div class="row">
+					<div class="col-md-2 col-md-offset-5">
+						<input type="submit" name="newart" value="Submit Artwork" formnovalidate>
+					</div>
+					<div class="col-md-5">
+						<div id="labelPreview"></div>
+					</div>
+				</div>
 			</form>
-			
-			<!-- New -->
-			<hr>
-			<table>
-				<tr>
-					<td><button id="previewButton">Preview Label</button></td>
-				</tr>
-				<tr>
-					<td id="labelPreview"></td>
-				</tr>
-				<tr><td>&nbsp;</td></tr>
-				<tr>
-					<td><a class="links" href='./artwork.php'>Back to Artwork</a></td>
-				</tr>
-			</table>
+			<div class="spacer">&nbsp;</div>
+			<div class="spacer">&nbsp;</div>
+			<div class="row">
+				<div class="col-md-12 center-it">
+					<a class="links" href='./artwork.php'>Back to Artwork</a>
+				</div>
+			</div>
 			<script>
 			$(document).ready(function() {
-				$("#previewButton").on("click", function() {
+				// Show Preview on form change
+				$("#new-work-form").on("change",showPreview);
+				
+				// Update Preview
+				function showPreview() {
 					// Get label info
 					var title  = document.getElementsByName("title")[0].value;
 					<?php if(labelCreatorIsUser()) { ?>
@@ -252,7 +257,7 @@ include "frontHeader.php";
 					}
 					labelText +=  price + "</p>";					
 					$("#labelPreview").html(labelText);
-				});
+				}
 			});
 			</script>
 			<!-- End New -->

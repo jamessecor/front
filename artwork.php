@@ -92,6 +92,7 @@ if(isLoggedIn()) {
 			</div>
 		</div>
 	</div>
+	<div class="spacer">&nbsp;</div>
 	
 	<?php
 	// Process/Validate Filter
