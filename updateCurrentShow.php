@@ -10,7 +10,7 @@ function updateCurrentShow($newNumber) {
 	// Open file
 	$filename = "currentShow.php";
 	$fileptr = fopen($filename, "w") or die("Unable to open file.");
-	$newFileText = "<?php $" . "currentShow = '$newNumber'; ?>";
+	$newFileText = "<?php $" . "currentShow = $newNumber; ?>";
 	
 	// Try to update the file
 	if(fwrite($fileptr, $newFileText)) {
@@ -52,8 +52,8 @@ if(labelCreatorIsUser()) {
 			$show = $_POST['showNumber'];
 			if(strlen($show) == 0)
 				$errors['showNumber'] = "Please Enter a show number.";
-			//elseif(!is_numeric($show))
-				//$errors['showNumber'] = "Show number must be a number.";
+			elseif(!is_numeric($show))
+				$errors['showNumber'] = "Show number must be a number.";
 		} else {
 			$errors['showNumber'] = "Enter a valid show number.";
 		}	
