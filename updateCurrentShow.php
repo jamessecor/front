@@ -10,7 +10,7 @@ function updateCurrentShow($newNumber) {
 	// Open file
 	$filename = "currentShow.php";
 	$fileptr = fopen($filename, "w") or die("Unable to open file.");
-	$newFileText = "<?php $" . "currentShow = $newNumber; ?>";
+	$newFileText = "<?php $" . "currentShow = '$newNumber'; ?>";
 	
 	// Try to update the file
 	if(fwrite($fileptr, $newFileText)) {
