@@ -55,8 +55,9 @@ if($go) {
 	if(!$result) {
 		die("INSERT error:" . mysqli_error($db));
 	} else {
-		echo "<table><tr><th>Update Successful</th></tr>";
-		echo "<tr><td><a href='./contacts.php'>Back to Contacts</a></td></tr></table>";
+		echo "<div class='row'><div class='col-md-12 form-label center-it'>Update Successful</div>";
+		echo "<div class='spacer'>&nbsp;</div>";
+		echo "<div class='col-md-12 center-it'><a class='links' href='./contacts.php'>Back to Contacts</a></div></div>";
 	}
 	
 	
@@ -64,32 +65,54 @@ if($go) {
 	
 ?>
 <form id="updateinfo" method="post" action="" autocomplete='off'>
-	<table>
-		<tr>
-			<td colspan=2><small class="errorText"><?php if($error) echo $error; ?> </small></td>
-		<tr>
-			<td>Name</td>
-			<td><?php echo $_SESSION['username']; ?>
-		</tr>
-		<tr>
-			<td>Website</td>
-			<td><input type="text" name="newwebsite"></td>
-		</tr>
-		<tr>
-			<td>Phone Number</td>
-			<td><input type="text" name="newphone"></td>
-		</tr>
-		<tr>
-			<td>Email</td>
-			<td><input type="email" name="newemail"></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input type="submit" name="submitNewInfo" value="Submit New Info"> </td>
-		</tr>
-		<tr><td>&nbsp;</td></tr>
-		<tr><td></td><td><a href="./contacts.php">Back to Contacts</a></td></tr>
-	</table>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<small class="errorText"><?php if($error) echo $error; ?> </small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5 form-label">Name</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5"><?php echo $_SESSION['username'];?></div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5 form-label">Website</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<input type="text" name="newwebsite">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5 form-label">Phone Number</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<input type="text" name="newphone">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5 form-label">Email</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<input type="email" name="newemail">
+		</div>
+	</div>
+	<div class="spacer">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<input type="submit" name="submitNewInfo" value="Submit New Info">
+		</div>
+	</div>
+	<div class="spacer">&nbsp;</div>
+	<div class="spacer">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-3 col-md-offset-5">
+			<a class="links" href="./contacts.php">Back to Contacts</a>
+		</div>
+	</div>
 </form>
 
 </div></div>

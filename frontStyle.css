@@ -145,7 +145,7 @@ body {
 	position:relative;
 	width:80%;
 	margin:.2em auto auto auto;
-	padding:3em;
+	padding:2em;
 	border: .4em solid rgba(100,100,200,.9);
 	border-radius:.5em;
 	background-color: #ccc;	
@@ -258,4 +258,17 @@ footer {
 	bottom:1em;
 	right:6em;
 	color:#66d;
+}
+
+@media only screen and (max-width: 600px) {
+	.center {
+		position:relative;
+		width:100%;
+		margin:.2em auto auto auto;
+		padding:.5em;
+		border: .15em solid rgba(100,100,200,.9);
+		border-radius:.5em;
+		background-color: #ccc;	
+		color: rgba(60,60,180,.9);
+	}
 }

@@ -11,6 +11,14 @@ print "<div class='center'>";
 if(isLoggedIn()) {
 	if(isset($_POST['updateinfo'])) {
 	} else {
+		?>	
+		<div class="row">
+			<div class="col-md-12 center-it">
+				<a class="links" href='changecontact.php'>Click to Change Contact Info</a>
+			</div>
+		</div>
+		<div class="spacer">&nbsp;</div>
+		<?php
 		$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'Name', phone, email, website FROM people WHERE member = 1 ORDER BY firstname;";
 		$result = mysqli_query($db, $query);
 		if(!$result)
@@ -41,14 +49,6 @@ if(isLoggedIn()) {
 				}
 			}
 			print "</table>";
-			?>
-			<br>
-			<table>
-				<tr>
-					<td><a class="links" href='changecontact.php'>Click to Change Contact Info</a></td>
-				</tr>
-			</table>
-			<?php
 		}
 	}
 } else {
