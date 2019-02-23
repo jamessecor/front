@@ -111,13 +111,16 @@ if(labelCreatorIsUser()) {
 			<div class="row">
 				<div class="col-md center-it"><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></div>
 			</div>
+			<div class="spacer">&nbsp;</div>
 			<div class="row">
 				<div class="col-md center-it"><input type='submit' name='showForm' value="Create Labels"></div>
 			</div>		
 	</form>
+	<div class="spacer">&nbsp;</div>
 	<div class="row">
 		<div class="col-md center-it"><a id="toggleMissingLabelInfo">Show Missing Artists</a></div>
 	</div>
+	<div class="spacer">&nbsp;</div>
 	<table style="display:none" id='missingLabelInfo'>
 		<div class="row"><th>Need Labels From...</th></tr>
 		<?php

@@ -25,17 +25,17 @@ function updateCurrentShow($newNumber) {
 	fclose($fileptr);
 	?>
 	<div class="row">
-		<div class="col-md-2 col-md-offset-5">
+		<div class="col-md-4 col-md-offset-4 form-label-header center-it">
 			<?php echo $heading; ?>
 		</div>
 	</div>		
 	<div class="row">
-		<div class="col-md-2 col-md-offset-5">
+		<div class="col-md-2 col-md-offset-5 center-it">
 			<?php echo $field; ?>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-2 col-md-offset-5">
+		<div class="col-md-2 col-md-offset-5 form-label center-it">
 			<?php echo $number; ?>
 		</div>		
 	</div>
@@ -70,34 +70,45 @@ if(labelCreatorIsUser()) {
 ?>
 	<div class='form'>
 	<form method="post" action="" autocomplete='off'>
-		<table>
-			<tr>
-				<th colspan='2'>Update Show Number</th>
-			</tr>
-			<tr>
-				<td>Current Show Number</td>
-				<td><?php echo $currentShow; ?></td>
-			</tr>
-			<tr>
-				<td>New Show Number</td>
-				<td><input type="text" name="showNumber"></td>
-			</tr>
-			<tr>
-				<td><small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small></td>
-			</tr>
-			<tr>
-				<td></td><td><input type='submit' name='updateShowNumber' value="Update Show Number"></td>
-			</tr>
-		</table>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4 center-it form-label-header">Update Show Number</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-md-offset-5 form-label">Current Show Number</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-5 center-it"><?php echo $currentShow; ?></div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-md-offset-5 form-label">New Show Number</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-5 center-it">
+				<input type="text" name="showNumber">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-md-offset-5">
+				<small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small>
+			</div>
+		</div>
+		<div class="spacer">&nbsp;</div>
+		<div class="row">
+			<div class="col-md-2 col-md-offset-5">
+				<input type='submit' name='updateShowNumber' value="Update Show Number">
+			</div>
+		</div>
 	</form>
 		<?php
 	}
 ?>
-	<table>
-		<tr>
-			<td><a href="./labels.php">Back to Labels</a></td>
-		</tr>		
-	</table>
+	<div class="spacer">&nbsp;</div>
+	<div class="spacer">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<a class="links" href="./labels.php">Back to Labels</a>
+		</div>		
+	</div>
 <?php
 } else {
 ?>

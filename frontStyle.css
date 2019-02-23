@@ -72,6 +72,7 @@ p {
 }
 
 .form-label { font-weight:bold;/*background-color: var(--even-background-color); color: var(--even-color); */}
+.form-label-header { font-weight:bold; font-size:1.2em; background-color: var(--odd-background-color); color: var(--odd-color); }
 
 .headings, .artworkHeader, .artworkHeaderEven {
 	position:relative;
