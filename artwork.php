@@ -115,7 +115,7 @@ if(isLoggedIn()) {
 	?>
 	
 	<!-- Filter by member -->
-	<form method='post' action='artwork.php'>
+	<form id="artwork-filter" method='post' action='artwork.php'>
 		<?php				
 		// Print Member Checkboxes
 		$query = "	SELECT DISTINCT CONCAT(firstname, ' ', lastname) AS 'username' FROM people p
