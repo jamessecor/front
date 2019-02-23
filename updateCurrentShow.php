@@ -24,15 +24,21 @@ function updateCurrentShow($newNumber) {
 	}
 	fclose($fileptr);
 	?>
-	<table>
-		<tr>
-			<th colspan='2'><?php echo $heading; ?></th>
-		</tr>		
-		<tr>
-			<td><?php echo $field; ?></td>
-			<td><?php echo $number; ?></td>
-		</tr>		
-	</table>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<?php echo $heading; ?>
+		</div>
+	</div>		
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<?php echo $field; ?>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2 col-md-offset-5">
+			<?php echo $number; ?>
+		</div>		
+	</div>
 	<?php	
 }
 
@@ -46,8 +52,8 @@ if(labelCreatorIsUser()) {
 			$show = $_POST['showNumber'];
 			if(strlen($show) == 0)
 				$errors['showNumber'] = "Please Enter a show number.";
-			elseif(!is_numeric($show))
-				$errors['showNumber'] = "Show number must be a number.";
+			//elseif(!is_numeric($show))
+				//$errors['showNumber'] = "Show number must be a number.";
 		} else {
 			$errors['showNumber'] = "Enter a valid show number.";
 		}	
