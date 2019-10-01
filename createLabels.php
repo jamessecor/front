@@ -34,7 +34,9 @@ function createLabels($showNumber) {
 			for($i = 0; $i < $numrows; $i++) {
 				$piece = mysqli_fetch_assoc($works);
 				if($piece) {
-					$label = "<strong>$piece[title]<br>$piece[artist]</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$piece[yearMade]<br>$piece[medium]<br>";
+					$artistx = mb_convert_encoding($piece['artist'], "Windows-1252", "UTF-8");
+					$titlex = mb_convert_encoding($piece['title'], "Windows-1252", "UTF-8");
+					$label = "<strong>$titlex<br>$artistx</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$piece[yearMade]<br>$piece[medium]<br>";
 					if(is_numeric($piece['price'])) {
 						$label = $label . "$";
 					}
