@@ -131,7 +131,7 @@ include "frontHeader.php";
 						if(labelCreatorIsUser()) { ?>
 							<select name="username">
 							<?php
-							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 OR member = $currentShow ORDER BY member, username;";
+							$query = "SELECT CONCAT(firstname, ' ', lastname) AS 'username' FROM people WHERE member = 1 OR member = $currentShowId ORDER BY member, username;";
 							$result = mysqli_query($db, $query);
 							if(!$result) {
 								$errors['username'] = "Error in SQL statement." . mysqli_error($db);
@@ -203,9 +203,18 @@ include "frontHeader.php";
 				<div class="row">
 					<div class="col-md-2 col-md-offset-5">
 						<div class="form-label">Show Number</div>
-						<?php // if(adminIsUser()) { ?>
-							<input type='text' name='showNumber' value=<?php echo "\"$currentShow\" placeholder=\"current show: $currentShow\""; ?>>
-						<?php // } else { echo $currentShow; } ?>
+							<select name='showNumber'>
+							<?php // get shows
+							$result = mysqli_query($db, "SELECT * from shows;");
+							while($show = mysqli_fetch_assoc($result)) {
+								if($currentShowId == $show['id']) {
+									echo "<option value='$show[id]' selected>$show[showName]</option>";
+								} else {
+									echo "<option value='$show[id]'>$show[showName]</option>";
+								}
+							}
+							?>
+							</select>
 						<small class='errorText'><?php echo array_key_exists('showNumber',$errors) ? $errors['showNumber'] : ''; ?></small>
 					</div>
 				</div>

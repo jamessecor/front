@@ -145,7 +145,21 @@ if(isLoggedIn()) {
 							</tr>
 							<tr>
 								<th>Show Number</th>
-								<td><input type="text" name="updateshownumber" value="<?php echo "$editWork[showNumber]";?>" <?php echo $disabled; ?>></td>
+								<td>
+								<select name='showNumber' <?php echo $disabled; ?>>
+								<?php // get shows
+								$result = mysqli_query($db, "SELECT * from shows;");
+								while($show = mysqli_fetch_assoc($result)) {
+									if($currentShowId == $editWork['showNumber']) {
+										echo "<option value='$show[id]' selected>$show[showName]</option>";
+									} else {
+										echo "<option value='$show[id]'>$show[showName]</option>";
+									}
+								}
+								?>
+								</select>
+								
+								</td>
 							</tr>
 							<?php 
 							$ok = "	<tr>
