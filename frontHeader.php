@@ -15,6 +15,7 @@
 <?php
 session_start();
 include "checkLogin.php";
+include "currentShow.php";
 require "../../includes/frontConfig.php";
 require "../../includes/frontConnect.php";
 ?>
