@@ -28,9 +28,10 @@ $(document).ready(function() {
 function printArtwork($where, $order, $artistName, $oddInd) {
 	global $db;
 	// Get member's artwork info from database
-	$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer'
+	$query = "SELECT a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename, CONCAT(p.firstname, ' ', p.lastname) AS 'buyer', s.showName AS 'showName'
 			  FROM artwork a 
 			  LEFT OUTER JOIN people p ON a.buyerID = p.personID
+			  INNER JOIN shows s ON a.showNumber = s.id
 			  $where
 			  $order
 			  ;";
@@ -56,7 +57,7 @@ function printArtwork($where, $order, $artistName, $oddInd) {
 					$media = $row['medium'];
 					$y     = $row['yearMade'];
 					$price = $row['price'];
-					$show  = $row['showNumber'];
+					$show  = $row['showName'];
 					$buyer = $row['buyer'];
 					$filename = $row['filename'];
 					

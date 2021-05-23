@@ -5,13 +5,13 @@ include "currentShow.php";
 print "<div class='headings'>Create Show Labels</div>";
 print "<div class='center'>";
 
-function createLabels($showNumber) {
+function createLabels($showId) {
 	global $db;
 
 	$query = "SELECT a.title, a.medium, a.yearMade, a.price, CONCAT(p.firstname, ' ', p.lastname) AS 'artist'
 			  FROM artwork a 
 			  JOIN people p ON a.artistID = p.personID
-			  WHERE showNumber = '$showNumber';";
+			  INNER JOIN shows s ON a.showNumber = $showId";
 	$works = mysqli_query($db, $query);
 	
 	if(!$works)
@@ -19,7 +19,7 @@ function createLabels($showNumber) {
 	else {
 		// Create or open file
 		$path = "labels";
-		$filename = "labels" . $showNumber . ".html";
+		$filename = "labels" . $showId . ".html";
 		$filepath = $path . "/" . $filename;
 		$fileptr = fopen($filepath, "w") or die("Unable to open file.");
 		
@@ -70,15 +70,15 @@ $errors = array();
 if(labelCreatorIsUser()) {
 	if(isset($_POST['showForm'])) {
 		if(!empty($_POST['showNumber'])) {
-			$show = $_POST['showNumber'];
-			if(strlen($show) == 0)
+			$showId = $_POST['showNumber'];
+			if(strlen($showId) == 0)
 					$errors['showNumber'] = "Please Enter a show number.";
 		} else {
 			$errors['showNumber'] = "Enter a valid show number.";
 		}	
 	
 		if(count($errors) == 0) {
-			createLabels($show);
+			createLabels($showId);
 		}
 	
 	// If no show clicked, error
@@ -132,7 +132,7 @@ if(labelCreatorIsUser()) {
 					where member = 1 AND lastname not in (
 						select distinct p.lastname FROM people p
 						left OUTER JOIN artwork a ON p.personID = a.artistID
-						where a.showNumber = ${currentShow}
+						where a.showNumber = $currentShowId
 						) ";
 		$result = mysqli_query($db, $query);
 		if(!$result)

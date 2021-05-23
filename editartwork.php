@@ -146,7 +146,7 @@ if(isLoggedIn()) {
 							<tr>
 								<th>Show Number</th>
 								<td>
-								<select name='showNumber' <?php echo $disabled; ?>>
+								<select name='updateshownumber' <?php echo $disabled; ?>>
 								<?php // get shows
 								$result = mysqli_query($db, "SELECT * from shows;");
 								while($show = mysqli_fetch_assoc($result)) {

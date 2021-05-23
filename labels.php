@@ -19,6 +19,9 @@ if(labelCreatorIsUser()) {
 		<div class="col-md-4 center-it">
 			<a class="links" href="./addShow.php">Add Show</a>
 		</div>
+		<form action="createShows.php">
+			<input type="submit" value="Create Shows"/>
+		</form>
 	</div>
 	<?php 
 	$result = mysqli_query($db, "SELECT * FROM shows");
