@@ -16,7 +16,6 @@ if(isLoggedIn()) {
 	$artist = $_SESSION['username'];
 	$query = "SELECT personID FROM people WHERE CONCAT(firstname, ' ', lastname) = '$artist';";
 	$personID = mysqli_query($db, $query);
-	$selected = "";
 	$selectedArray = "";
 	$selectedTitle = ""; 
 	$selectedShow = "";
@@ -30,8 +29,9 @@ if(isLoggedIn()) {
 		$id = $id_array[0];
 		
 		// Get member's artwork info from database
-		$query = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber
+		$query = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, s.id, s.showName
 				  FROM artwork a 
+				  INNER JOIN shows s on a.showNumber = s.id
 				  WHERE a.artistID = $id
 				  ORDER BY a.title;";
 		$artworkResult = mysqli_query($db, $query);
@@ -55,11 +55,9 @@ if(isLoggedIn()) {
 							if(!empty($_POST['workSelected'])) {	
 								global $selectedArtworkID;
 								$selectedArtworkID = $_POST['workSelected'];
-								$selected = addslashes(trim($_POST['workSelected']));
 							} else {
 								$errors['validwork'] = "Choose a work to edit or delete.";
 							}
-							
 						}
 						
 						// Work is selected 
@@ -68,7 +66,7 @@ if(isLoggedIn()) {
 						
 						while($work = mysqli_fetch_assoc($artworkResult)) {
 							$n = $work['title'];
-							$show = $work['showNumber'];
+							$show = $work['showName'];
 							$artworkID = $work['artworkID'];
 							// Correct Updated Artwork for dropdown and display
 							if(isset($_POST['updatework']) && ($n == $_POST['oldtitle'] )) { //|| $show == $_POST['oldshownumber']) {
@@ -77,7 +75,7 @@ if(isLoggedIn()) {
 							}						
 							// Only display on Dropdown menu if not deleted
 							if(!(isset($_POST['submitdeletion']) && $n == $_POST['oldtitle'])) {
-								if(isset($s) && $artworkID == $selectedArtworkID) {
+								if($artworkID == $selectedArtworkID) {
 									print "<option value=\"${artworkID}\" selected>$n (Show $show)</option>";
 								} else {
 									print "<option value=\"${artworkID}\">$n (Show $show)</option>";
@@ -99,10 +97,8 @@ if(isLoggedIn()) {
 			</form>
 			<?php 					
 			if($validWork && (isset($_POST['editwork']) || isset($_POST['updatework']) || isset($_POST['deletework']) || isset($_POST['submitdeletion']))) {
-				// TODO: validate entry
-				// include showNumber in where clause to be sure we have the correct piece
 				$editQuery = "SELECT a.artworkID, a.title, a.medium, a.yearMade, a.price, a.showNumber, a.filename
-						  FROM artwork a 
+						  FROM artwork a
 						  WHERE a.artworkID = '$selectedArtworkID';";
 				
 				$editResult = mysqli_query($db, $editQuery);
@@ -150,7 +146,7 @@ if(isLoggedIn()) {
 								<?php // get shows
 								$result = mysqli_query($db, "SELECT * from shows;");
 								while($show = mysqli_fetch_assoc($result)) {
-									if($currentShowId == $editWork['showNumber']) {
+									if($show['id'] == $editWork['showNumber']) {
 										echo "<option value='$show[id]' selected>$show[showName]</option>";
 									} else {
 										echo "<option value='$show[id]'>$show[showName]</option>";
@@ -181,8 +177,8 @@ if(isLoggedIn()) {
 								<td><input type="hidden" name="artworkid" value="<?php echo $workID; ?>" display="none">
 								<input type="hidden" name="oldtitle" value="<?php echo htmlspecialchars($editWork['title']); ?>">
 								<input type="hidden" name="filename" value="<?php echo $editWork['filename']; ?>">
+								<input type="hidden" name="showName" value="<?php echo $editWork['showName']; ?>">
 								</td>
-								
 							</tr>
 						</table>
 					</form>
